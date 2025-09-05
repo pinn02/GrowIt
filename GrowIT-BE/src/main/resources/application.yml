@@ -1,1 +1,25 @@
-spring.application.name=GrowIT-BE
+spring:
+  application:
+    name: GrowIT-BE
+  config:
+    import:
+      - optional:file:.env.local[.properties]
+
+---
+
+spring:
+  application:
+    name: GrowIT-BE
+  config:
+    activate:
+      on-profile: local
+    import: optional:file:.env.local[.properties]
+
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: prod
+    import: optional:file:.env.prod[.properties]
