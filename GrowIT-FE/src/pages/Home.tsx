@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-export default function HomePage() {
+export default function Home() {
   const [money, setMoney] = useState(1000)
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8">
