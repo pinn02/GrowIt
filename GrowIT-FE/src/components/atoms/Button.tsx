@@ -6,6 +6,5 @@ export default function Button(props: ButtonHTMLAttributes<HTMLButtonElement>) {
       className="px-3 py-2 rounded-md border hover:bg-gray-50 transition"
       {...props}
     />
-    
   )
 }
