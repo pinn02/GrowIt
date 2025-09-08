@@ -1,5 +1,26 @@
 @import "tailwindcss";
 
+@layer utilities {
+  @keyframes shine {
+    0%, 100% { transform: translateY(0); filter: brightness(100%); }
+    50% { transform: translateY(-10px); filter: brightness(130%); }
+  }
+
+  .animate-shine {
+    animation: shine 1.5s infinite;
+  }
+
+  @keyframes scrollX {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  .animate-scrollX {
+    animation: scrollX 50s linear infinite;
+  }
+}
+
+
 * {
   box-sizing: border-box;
 }
