@@ -1,6 +1,6 @@
-const ReportText = () => {
+const ReportText = ({ isModal = false }) => {
     return (
-    <div className="flex flex-col items-center justify-center h-full text-white text-2xl font-bold gap-4">
+    <div className="flex flex-col items-center justify-center h-full gap-4">
         <section className="flex">
             <p className="mr-4">기업 가치</p>
             <p>12 → 13</p>
