@@ -1,13 +1,14 @@
 type ActionButtonProps = {
   name: string
   actionImage: string
+  onClick: () => void
 };
 
-function ActionButton({ name, actionImage }: ActionButtonProps) {
+function ActionButton({ name, actionImage, onClick }: ActionButtonProps) {
   return (
     <div
       className="w-[25%] min-w-[100px] max-w-[200px] h-auto cursor-pointer mx-8 group"
-      onClick={() => console.log(`${name} 버튼 클릭`)} // 버튼 클릭 확인용 익명 함수(해당 부분을 수정하여 버튼 클릭 동작)
+      onClick={onClick}
     >
       <p
         className="
