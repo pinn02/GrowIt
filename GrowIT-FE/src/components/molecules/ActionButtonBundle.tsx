@@ -11,7 +11,11 @@ const actions = [
   { name: "프로젝트", actionImage: projectImage },
 ]
 
-function ActionButtonBundle() {
+type ActionButtonBundleProps = {
+  openModal: (index: number) => void;
+}
+
+function ActionButtonBundle({ openModal }: ActionButtonBundleProps) {
   return (
     <div className="flex w-full justify-center">
       {actions.map((action, index) => (
@@ -19,6 +23,7 @@ function ActionButtonBundle() {
           key={index}
           name={action.name}
           actionImage={action.actionImage}
+          onClick={() => openModal(index)}
         />
       ))}
     </div>
