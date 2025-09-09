@@ -1,4 +1,4 @@
-import Logo from "../atoms/logo"
+import Logo from "../atoms/Logo"
 import GameDataInformation from "../molecules/GameDataInformation"
 
 const logoHeight = 48;
