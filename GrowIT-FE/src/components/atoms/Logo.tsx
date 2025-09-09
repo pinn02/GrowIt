@@ -15,7 +15,14 @@ function Logo({ height }: LogoProps) {
       src={ logoImage }
       alt="GrowIT"
       style={{ height: `${height}px` }}
-      className="mx-3"
+      className="mx-3
+        transition
+        duration-300
+        ease-in-out
+        hover:-translate-y-0.5
+        hover:brightness-75
+        filter
+      "
       onClick={() => navigate('/')}
     />
   )
