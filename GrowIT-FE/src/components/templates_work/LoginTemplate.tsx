@@ -1,10 +1,12 @@
-import LoginButton from "../atoms/LoginButton";
+import LoginButton from "../atoms/Button";
 import loginPageBackgroundImage from "../../assets/background_images/login_page_background_image.png";
 import logo from "../../assets/images/logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faKakaoTalk } from "@fortawesome/free-brands-svg-icons";
 
 function LoginTemplate() {
+  const loginButtonSize = 400;
+
   return (
     <div className="relative w-screen h-screen overflow-hidden">
       <div className="absolute inset-0 flex w-[200%] h-full animate-scrollX">
@@ -26,7 +28,11 @@ function LoginTemplate() {
             alt="GrowIT"
             className="block w-full h-auto max-w-[600px] animate-shine mb-8"
           />
-          <LoginButton to="/main">
+          <LoginButton
+            to="/main"
+            maxSize={loginButtonSize}
+            className="bg-yellow-300 text-black px-2 py-2 rounded hover:bg-yellow-400 transition-colors"
+          >
             <FontAwesomeIcon icon={ faKakaoTalk } className="mr-2" />
             카카오 로그인
           </LoginButton>

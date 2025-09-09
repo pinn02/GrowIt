@@ -1,10 +1,33 @@
-import type { ButtonHTMLAttributes } from 'react'
+import { useNavigate } from "react-router-dom"
 
-export default function Button(props: ButtonHTMLAttributes<HTMLButtonElement>) {
+type ButtonProps = {
+  to?: string
+  maxSize: number
+  className?: string
+  onClick?: () => void
+  children: React.ReactNode
+}
+
+function Button({ to, maxSize, className = "", onClick, children }: ButtonProps) {
+  const navigate = useNavigate()
+  
+  const handleClick = () => {
+    if (to) {
+      navigate(to)
+    } else if (onClick) {
+      onClick()
+    }
+  }
+
   return (
     <button
-      className="px-3 py-2 rounded-md border hover:bg-gray-50 transition"
-      {...props}
-    />
+      style={{ maxWidth: `${maxSize}px` }}
+      className={`w-full whitespace-nowrap ${className}`}
+      onClick={ handleClick }
+    >
+      {children}
+    </button>
   )
 }
+
+export default Button

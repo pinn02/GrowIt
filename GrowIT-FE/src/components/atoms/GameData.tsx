@@ -6,7 +6,7 @@ type GameDataProps = {
 
 function GameDataInformation({ dataName, dataValue }: GameDataProps) {
 	return (
-		<p className="mx-3">
+		<p className="mx-3 whitespace-nowrap">
 			{ dataName }: { dataValue }
 		</p>
 	)
