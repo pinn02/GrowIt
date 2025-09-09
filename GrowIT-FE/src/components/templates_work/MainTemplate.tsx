@@ -1,8 +1,8 @@
-import mainPageBackgroundImage from "../assets/background_images/main_page_background_image.gif"
-import hiringImage from "../assets/actions/hiring.png"
-import marketingImage from "../assets/actions/marketing.png"
-import investmentImage from "../assets/actions/investment.png"
-import projectImage from "../assets/actions/project.png"
+import mainPageBackgroundImage from "../../assets/background_images/main_page_background_image.gif"
+import hiringImage from "../../assets/actions/hiring.png"
+import marketingImage from "../../assets/actions/marketing.png"
+import investmentImage from "../../assets/actions/investment.png"
+import projectImage from "../../assets/actions/project.png"
 
 function MainPage() {
   return (
