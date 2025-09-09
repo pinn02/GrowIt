@@ -15,7 +15,7 @@ function ReportModal({ onClose }: ReportModalProps) {
 
         <ReportButton onClose={onClose} />
 
-        <h2 className="text-2xl font-bold mb-4 text-center">게임 리포트</h2>
+        <h2 className="text-2xl font-bold mb-4 text-center">경제 리포트</h2>
         
         <div className="mt-6">
         <ReportText isModal={true} />
