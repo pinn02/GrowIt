@@ -1,28 +1,39 @@
-type HiringModalProps = {
+import monitorModalBackgroundImage from "../../assets/modals/monitor_modal_background.png"
+import InvestmentCard from "../molecules/InvestmentCard"
+
+type InvestmentModalProps = {
   onClose: () => void;
 }
 
-function HiringModal({ onClose }: HiringModalProps) {
+const InvestmentModal= ({ onClose }: InvestmentModalProps) => {
   return (
     <>
       <div
         className="fixed inset-0 flex justify-center items-center z-50 pointer-events-none"
       >
         <div
-          className="bg-white rounded-3xl p-8 w-11/12 max-w-xl relative pointer-events-auto"
+          className="mt-20 p-8 w-9/12 h-6/7 max-w-5xl relative pointer-events-auto"
+          style={{
+            backgroundImage: `url(${monitorModalBackgroundImage})`,
+            backgroundSize: "100% 100%",
+            backgroundPosition: "center"
+          }}
+
         >
           <button
-            className="absolute top-4 right-4 text-gray-500 hover:text-gray-800"
+            className="absolute top-5 right-8 text-gray-500 hover:text-gray-800"
             onClick={onClose}
           >
             ✕
           </button>
-          <h2 className="text-2xl font-bold mb-4">투자 모달</h2>
-          <p>여기에 투자 관련 컨텐츠를 넣으세요.</p>
+           <div className="flex mt-8 justify-center items-center">
+            <InvestmentCard />
+            <InvestmentCard />
+          </div>
         </div>
       </div>
     </>
   )
 }
 
-export default HiringModal
+export default InvestmentModal
