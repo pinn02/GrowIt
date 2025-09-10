@@ -21,7 +21,7 @@ const MypageModal= ({ onClose }: MypageModalProps) => {
 
         >
           <button
-            className="absolute top-5 right-8 text-gray-500 hover:text-gray-800"
+            className="absolute top-10 right-14 text-gray-500 hover:text-gray-800"
             onClick={onClose}
           >
             ✕
