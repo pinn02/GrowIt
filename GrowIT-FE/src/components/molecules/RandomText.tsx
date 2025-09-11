@@ -2,7 +2,7 @@
 const RandomText = () => {
     return (
     <div className="flex flex-col items-center justify-center h-full text-white text-2xl font-bold gap-4">
-        <section>
+        {/* <section>
             <p>직원 파업</p>
         </section>
 
@@ -21,7 +21,7 @@ const RandomText = () => {
                 <p className="mr-4">자본</p>
                 <p className="mr-4">13</p>
             </div>
-        </section>
+        </section> */}
     </div>
     )
 }
