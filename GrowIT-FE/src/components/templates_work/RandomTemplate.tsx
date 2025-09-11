@@ -4,8 +4,12 @@ import '../../index.css'
 
 const RandomTemplate = () => {
     return (
-    <div className="board-animation w-[40%] h-[40%]">
-        <img src={RandomImage} alt="랜덤 이미지" />
+    <div className="board-animation w-full max-w-lg h-auto flex justify-center items-center">
+        <img 
+            src={RandomImage} 
+            alt="랜덤 이미지" 
+            className="w-full h-auto object-contain" 
+        />
     </div>
     )
 }

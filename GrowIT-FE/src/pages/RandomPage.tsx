@@ -11,18 +11,10 @@ const RandomPage = () => {
     return (
         <div className="relative h-screen overflow-hidden">
             <div className="absolute inset-0 z-0 bg-cover bg-center board-animation" style={{ backgroundImage: `url(${Board})` }} />
-            <div className="absolute inset-0 z-10 flex flex-col justify-center items-center p-8">
-                <div className="w-full flex justify-center">
-                    <RandomTemplate />
-                </div>
-
-                <div className="w-full flex justify-center">
-                    <RandomText />
-                </div>
-
-                <div>
-                    <MainButton onClick={() => navigate("/main")} />
-                </div>
+            <div className="absolute inset-0 z-10 flex flex-col justify-center items-center p-8 gap-y-8">
+                <RandomTemplate />
+                <RandomText />
+                <MainButton onClick={() => navigate("/main")} />
             </div>
         </div>
     )
