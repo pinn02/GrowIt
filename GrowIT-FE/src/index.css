@@ -36,6 +36,18 @@
   }
 }
 
+@keyframes flicker-v3 {
+  0%, 100% {
+    filter: brightness(0.8) grayscale(50%);
+  }
+  50% {
+    filter: brightness(1) grayscale(0%);
+  }
+}
+
+.board-animation {
+  animation: flicker-v3 1.5s infinite alternate;
+}
 
 * {
   box-sizing: border-box;

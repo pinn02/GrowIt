@@ -1,25 +1,24 @@
-// 랜덤 페이지의 랜덤 텍스트를 띄우는 페이지
 const RandomText = () => {
     return (
-    <div className="flex flex-col items-center justify-center h-full text-white text-2xl font-bold gap-4">
+    <div className="flex flex-col items-center justify-center text-white text-2xl font-bold gap-8">
         <section>
             <p>직원 파업</p>
         </section>
 
-        <section>
-            <div className="flex">
-                <p className="mr-4">기업 가치</p>
-                <p className="mr-4">13</p>
+        <section className="flex flex-col gap-3">
+            <div className="flex justify-between w-64">
+                <p>기업 가치</p>
+                <p className="text-red-500 flicker-v3">13</p>
             </div>
 
-            <div className="flex">
-                <p className="mr-4">생산성</p>
-                <p className="mr-4">13</p>
+            <div className="flex justify-between w-64">
+                <p>생산성</p>
+                <p className="text-red-500 flicker-v3">13</p>
             </div>
             
-            <div className="flex">
-                <p className="mr-4">자본</p>
-                <p className="mr-4">13</p>
+            <div className="flex justify-between w-64">
+                <p>자본</p>
+                <p className="text-red-500 flicker-v3">13</p>
             </div>
         </section>
     </div>
