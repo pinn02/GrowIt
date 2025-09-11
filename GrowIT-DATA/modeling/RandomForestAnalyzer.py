@@ -116,7 +116,7 @@ class RandomForestAnalyzer:
         print(f"평균: {cv_scores.mean():.4f} (±{cv_scores.std() * 2:.4f})")
         return cv_scores
 
-    def train(self, use_best_params=False):
+    def train(self, use_best_params=False, **kwargs):
         params = {'random_state': 42, 'n_jobs': -1}
         if use_best_params and self.best_params:
             print("\n최적 하이퍼파라미터로 최종 모델을 학습합니다...")
