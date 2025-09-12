@@ -1,7 +1,6 @@
-import RandomForestAnalyzer  # 사용자 정의 모듈
 import pandas as pd
 import joblib
-import os
+import RandomForestAnalyzer
 
 if __name__ == '__main__':
     try:
