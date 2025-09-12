@@ -7,7 +7,7 @@ type GameDataProps = {
 function GameDataInformation({ dataName, dataValue }: GameDataProps) {
 	return (
 		<p className="mx-3 whitespace-nowrap">
-			{ dataName }: { dataValue }
+			{ dataName }: { dataValue.toLocaleString() }
 		</p>
 	)
 }
