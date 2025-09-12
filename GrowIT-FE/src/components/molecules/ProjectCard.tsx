@@ -25,7 +25,7 @@ function ProjectCard({ project }: ProjectCardProps) {
           className="w-full h-auto"
         />
         <div className="absolute left-[10%] top-[5%] w-[80%]">
-          <p className="font-bold text-clamp-title text-center ms-4">{project.name}</p>
+          <p className="font-bold text-clamp-title text-center ms-8">{project.name}</p>
         </div>
         <div className="absolute left-[10%] top-[40%] w-[80%]">
           <p className="text-clamp-base mb-6">턴: {project.turn}</p>

@@ -1,11 +1,11 @@
 import { useState } from "react"
-import MypageButtonClicked from "../../assets/buttons/button.png"
-import MypageButtonNotClicked from "../../assets/buttons/button_disabled.png"
+// import MypageButtonClicked from "../../assets/buttons/button.png"
+// import MypageButtonNotClicked from "../../assets/buttons/button_disabled.png"
 
-const MypageButton = () => {
+const MypageContent = () => {
 
   return (
-    <div>
+    <div className="absolute left-[10%] top-[20%]">
       <section className="flex">
         <p className="mr-2">직원 수</p>
         <p className="mr-2">00 명</p>
@@ -26,4 +26,4 @@ const MypageButton = () => {
   )
 }
 
-export default MypageButton
+export default MypageContent

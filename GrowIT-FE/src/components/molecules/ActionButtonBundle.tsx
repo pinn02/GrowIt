@@ -10,7 +10,7 @@ const actions = [
   { name: "마케팅", actionImage: marketingImage },
   { name: "투자", actionImage: investmentImage },
   { name: "프로젝트", actionImage: projectImage },
-  { name: "마이페이지", actionImage: mypageImage },
+  // { name: "마이페이지", actionImage: mypageImage },
 ]
 
 type ActionButtonBundleProps = {
