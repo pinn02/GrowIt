@@ -1,5 +1,5 @@
 import WindowCardImage from "../../assets/cards/window_card.png"
-import MypageText from "../atoms/MypageText"
+import MypageContent from "../atoms/MypageContent"
 
 function MypageCard() {
   return (
@@ -7,7 +7,7 @@ function MypageCard() {
       <img src={WindowCardImage} alt="모니터 카드" className="w-full h-[400px] object-contain" />
 
       <div className="absolute inset-0 flex items-center justify-center">
-        <MypageText />
+        <MypageContent />
       </div>
     </div>
   )

@@ -1,4 +1,5 @@
-import monitorModalBackgroundImage from "../../assets/background_images/board_page_background_image2.png"
+import mypageModalBackgroundImage from "../../assets/cards/window_card.png"
+import MypageContent from "../atoms/MypageContent";
 import MypageCard from "../molecules/MypageCard"
 
 type MypageModalProps = {
@@ -12,11 +13,11 @@ const MypageModal= ({ onClose }: MypageModalProps) => {
         className="fixed inset-0 flex justify-center items-center z-50 pointer-events-none"
       >
         <div
-          className="mt-20 p-8 w-9/12 h-6/7 max-w-5xl relative pointer-events-auto"
+          className="mt-0 p-8 w-[40%] h-[60%] mb-40 relative pointer-events-auto"
           style={{
-            backgroundImage: `url(${monitorModalBackgroundImage})`,
+            backgroundImage: `url(${mypageModalBackgroundImage})`,
             backgroundSize: "100% 100%",
-            backgroundPosition: "center"
+            backgroundPosition: ""
           }}
 
         >
@@ -27,7 +28,7 @@ const MypageModal= ({ onClose }: MypageModalProps) => {
             ✕
           </button>
            <div className="flex mt-8 justify-center items-center">
-            <MypageCard />
+            <MypageContent />
           </div>
         </div>
       </div>
