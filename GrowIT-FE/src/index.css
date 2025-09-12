@@ -34,6 +34,14 @@
   .animate-scrollX {
     animation: scrollX 50s linear infinite;
   }
+
+  .text-clamp-title {
+    font-size: clamp(0rem, 1.5vw, 3em);
+  }
+
+  .text-clamp-base {
+    font-size: clamp(0rem, 1.1vw, 3rem);
+  }
 }
 
 

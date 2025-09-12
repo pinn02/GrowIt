@@ -31,7 +31,7 @@ function LoginTemplate() {
           <LoginButton
             to="/main"
             maxSize={loginButtonSize}
-            className="bg-yellow-300 text-black px-2 py-2 rounded hover:bg-yellow-400 transition-colors"
+            className="w-full bg-yellow-300 text-black px-2 py-2 rounded hover:bg-yellow-400 transition-colors"
           >
             <FontAwesomeIcon icon={ faKakaoTalk } className="mr-2" />
             카카오 로그인
