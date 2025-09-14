@@ -25,6 +25,8 @@ public class Member {
 
     private String providerId;
 
+    private boolean isDeleted;
+
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
@@ -55,5 +57,9 @@ public class Member {
 
     public void updateRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
+    }
+
+    public void delete() {
+        this.isDeleted = true;
     }
 }

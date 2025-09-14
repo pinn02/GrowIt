@@ -19,8 +19,14 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping("/logout")
-    public ResponseEntity<?> logout(@AuthenticationPrincipal SecurityMember member) {
+    public ResponseEntity<Map<String, String>> logout(@AuthenticationPrincipal SecurityMember member) {
         memberService.logout(member.getEmail());
         return ResponseEntity.ok(Map.of("message", "로그아웃이 완료되었습니다."));
+    }
+
+    @PatchMapping("/withdraw")
+    public ResponseEntity<Map<String, String>> withdraw(@AuthenticationPrincipal SecurityMember member) {
+        memberService.withdraw(member.getEmail());
+        return ResponseEntity.ok(Map.of("message", "회원 탈퇴가 완료되었습니다."));
     }
 }
