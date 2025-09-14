@@ -19,7 +19,7 @@ type ActionButtonBundleProps = {
 
 function ActionButtonBundle({ openModal }: ActionButtonBundleProps) {
   return (
-    <div className="flex w-full justify-center">
+    <div className="flex flex-col space-y-4 absolute top-1/2 left-4 transform -translate-y-1/2">
       {actions.map((action, index) => (
         <ActionButton
           key={index}

@@ -7,7 +7,7 @@ type ActionButtonProps = {
 function ActionButton({ name, actionImage, onClick }: ActionButtonProps) {
   return (
     <div
-      className="w-[25%] min-w-[100px] max-w-[200px] h-auto cursor-pointer mx-8 group"
+      className="w-[25%] min-w-[100px] max-w-[400px] h-auto cursor-pointer mx-8 group"
       onClick={onClick}
     >
       <p 
