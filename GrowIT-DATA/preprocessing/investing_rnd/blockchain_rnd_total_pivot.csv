@@ -1,0 +1,5 @@
+﻿year,rnd_total_by_industry_virtual_asset,rnd_total_by_industry_consulting,rnd_total_by_industry_app_sw,rnd_total_by_industry_embedded_sw,rnd_total_by_industry_info_svc,rnd_total_by_industry_programming_svc,rnd_total_by_industry_system_sw,rnd_total,rnd_total_lag1,rnd_total_lag2
+2019,10100.0,2805.0,20644.0,60.0,507.0,11798.0,34577.0,80491.0,,
+2020,0.0,45.5,23.6,0.0,20.0,0.0,10.6,99.69999999999999,80491.0,
+2022,0.0,870.0,55779.0,247.0,2513.0,13781.0,33114.0,106304.0,99.69999999999999,80491.0
+2023,0.0,867.0,50273.0,90.0,5563.0,2787.0,49043.0,108623.0,106304.0,99.69999999999999

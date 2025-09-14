@@ -1,3 +1,4 @@
+# 파일 이름: create_marketing_dataset.py
 import pandas as pd
 import numpy as np
 import os
@@ -7,42 +8,34 @@ import warnings
 warnings.filterwarnings('ignore')
 
 
-def read_csv_robust(filepath):
-    try:
-        df = pd.read_csv(filepath, encoding='cp949')
-    except (UnicodeDecodeError, FileNotFoundError):
-        try:
-            df = pd.read_csv(filepath, encoding='utf-8')
-        except (UnicodeDecodeError, FileNotFoundError):
-            df = pd.read_csv(filepath, encoding='euc-kr')
-    df.columns = [str(col).strip() for col in df.columns]
-    return df
-
-
+# --- 위와 동일한 TimeAligner 클래스 및 find_best_arima_order 함수 ---
+# (코드 재사용을 위해 동일한 내용을 한 번 더 포함합니다)
 def find_best_arima_order(series):
-    best_aic, best_order = np.inf, None
-    for p, d, q in [(p, d, q) for p in range(2) for d in range(2) for q in range(2)]:
-        try:
-            model = ARIMA(series, order=(p, d, q)).fit()
-            if model.aic < best_aic:
-                best_aic, best_order = model.aic, (p, d, q)
-        except:
-            continue
+    best_aic = np.inf
+    best_order = None
+    p_values, d_values, q_values = range(2), range(2), range(2)
+    for p in p_values:
+        for d in d_values:
+            for q in q_values:
+                try:
+                    model = ARIMA(series, order=(p, d, q))
+                    model_fit = model.fit()
+                    if model_fit.aic < best_aic:
+                        best_aic = model_fit.aic
+                        best_order = (p, d, q)
+                except:
+                    continue
     return best_order or (1, 1, 1)
 
 
 class TimeAligner:
-    def __init__(self, start_date='1995-01', end_date='2025-12', freq='MS'):
+    def __init__(self, start_date: str = '1995-01', end_date: str = '2025-12', freq: str = 'MS'):
         self.start_date, self.end_date, self.freq = start_date, end_date, freq
         self.master_index = pd.date_range(start=self.start_date, end=self.end_date, freq=self.freq)
         self.datasets = {}
 
-    def add_df(self, df, dataset_name, data_type='monthly'):
+    def add_df(self, df, dataset_name, date_col, data_col, data_type='monthly'):
         if df is None or df.empty: return
-
-        date_col = df.columns[0]
-        data_col = df.columns[1]
-
         temp_df = df[[date_col, data_col]].copy()
         temp_df.rename(columns={date_col: 'date', data_col: dataset_name}, inplace=True)
         temp_df['date'] = pd.to_datetime(temp_df['date'], errors='coerce')
@@ -63,6 +56,7 @@ class TimeAligner:
         series = series.asfreq('MS').interpolate()
         print(f"\n'{series.name}' ARIMA 후방예측 수행...")
         order = find_best_arima_order(series)
+        print(f"   - 최적 ARIMA order: {order}")
         model = ARIMA(series, order=order, seasonal_order=(1, 1, 0, 12)).fit()
         start, end = self.master_index[0], series.index[0] - pd.DateOffset(months=1)
         return model.predict(start=start, end=end) if start <= end else None
@@ -80,102 +74,91 @@ class TimeAligner:
                     try:
                         backcast = self._backcast_with_arima(series)
                         if backcast is not None: master_df[col].update(backcast)
-                    except:
+                    except Exception as e:
+                        print(f"   ARIMA 오류 ({col}): {e}. 단순 보간법 적용.")
                         master_df[col].bfill(inplace=True)
                 elif not series.empty:
                     master_df[col].bfill(inplace=True)
-        master_df.ffill(inplace=True)
-        master_df.bfill(inplace=True)
+        master_df.ffill(inplace=True).bfill(inplace=True)
         return master_df
 
     def process_and_save(self, output_path):
         print("\n--- 데이터 병합 및 보간 시작 ---")
         final_data = self._merge_and_impute()
-        output_dir = os.path.dirname(output_path)
-        if output_dir:
-            os.makedirs(output_dir, exist_ok=True)
+        os.makedirs(os.path.dirname(output_path), exist_ok=True)
         final_data.to_csv(output_path)
         print(f"\n데이터를 '{output_path}' 경로에 저장했습니다.")
         return final_data
 
 
-def preprocess_quarterly(fp, val_col, cat_name):
-    df = read_csv_robust(fp)
-    df.rename(columns={df.columns[0]: 'Category'}, inplace=True)
-    df['Category'] = df['Category'].str.strip()
-    df_filtered = df[df['Category'] == cat_name]
-    if df_filtered.empty: return None
+def preprocess_ad_sentiment(filepath_old, filepath_new):
+    print("전처리: 광고경기 체감도")
+    df_old = pd.read_csv(filepath_old, encoding='euc-kr')
+    df_old.columns = [str(col).strip() for col in df_old.columns]
+    cat_cols = [df_old.columns[0], df_old.columns[2]]
+    for col in cat_cols: df_old[col] = df_old[col].str.strip()
+    filtered_old = df_old[(df_old.iloc[:, 0] == '전체') & (df_old.iloc[:, 2] == '광고경기전망지수')]
+    processed_old = filtered_old.iloc[:, 4:].melt(var_name='date', value_name='Ad_Sentiment_Index')
+    processed_old['date'] = pd.to_datetime(processed_old['date'], format='%Y')
+    processed_old['Ad_Sentiment_Index'] = pd.to_numeric(processed_old['Ad_Sentiment_Index'], errors='coerce')
+    processed_old.dropna(inplace=True)
 
-    df_long = df_filtered.melt(id_vars='Category', var_name='date_raw', value_name=val_col)
+    df_new = pd.read_csv(filepath_new, header=[0, 1], encoding='euc-kr')
+    df_new.columns = df_new.columns.set_levels(df_new.columns.levels[0].str.strip(), level=0)
+    df_new.columns = df_new.columns.set_levels(df_new.columns.levels[1].str.strip(), level=1)
+    total_row = df_new[df_new.iloc[:, 0] == '전체'].iloc[0]
 
-    # <<< 최종 수정: 데이터 컬럼을 강제로 숫자 형태로 변환 >>>
-    df_long[val_col] = pd.to_numeric(df_long[val_col], errors='coerce')
-    df_long.dropna(subset=[val_col], inplace=True)  # 변환 실패한 행 제거
+    di_scores = []
+    for year in range(2013, 2022):
+        year_str = str(year)
+        try:
+            p = (pd.to_numeric(total_row.get((year_str, '100점 이상')), 0)) + (
+                pd.to_numeric(total_row.get((year_str, '80~99점')), 0))
+            n = pd.to_numeric(total_row.get((year_str, '60점 미만')), 0)
+            p, n = np.nan_to_num([p, n])
+            di_scores.append({'date': pd.to_datetime(f'{year}-01-01'), 'Ad_Sentiment_DI': p - n})
+        except:
+            continue
+    processed_new = pd.DataFrame(di_scores)
 
-    df_long['date'] = pd.to_datetime(df_long['date_raw'].str.replace(r'.(\d)/\d', r'-Q\1', regex=True), errors='coerce')
-    df_long.dropna(subset=['date'], inplace=True)
+    last_old = processed_old.sort_values('date').iloc[-1]
+    first_new = processed_new.sort_values('date').iloc[0]
+    scale = first_new['Ad_Sentiment_DI'] / (last_old['Ad_Sentiment_Index'] - 100) if (last_old[
+                                                                                          'Ad_Sentiment_Index'] - 100) != 0 else 0
+    processed_old['Ad_Sentiment_DI'] = (processed_old['Ad_Sentiment_Index'] - 100) * scale
 
-    df_long.set_index('date', inplace=True)
-    df_monthly = df_long[[val_col]].resample('MS').interpolate()
-    return df_monthly.reset_index()
-
-
-def preprocess_ccsi(fp1, fp2):
-    df1, df2 = read_csv_robust(fp1), read_csv_robust(fp2)
-    df1['CSI코드별'], df2['CSI코드별'] = df1['CSI코드별'].str.strip(), df2['CSI코드별'].str.strip()
-
-    df_q = df2[df2['CSI코드별'] == '소비자심리지수'].iloc[:, 4:].T.rename(columns=lambda x: 'CCSI')
-    df_q.index = pd.to_datetime(df_q.index.str.replace(r'.(\d)/\d', r'-Q\1', regex=True), errors='coerce')
-    df_q.dropna(inplace=True)
-
-    df_m = df1[df1['CSI코드별'] == '소비자심리지수'].iloc[:, 4:].T.rename(columns=lambda x: 'CCSI')
-    df_m.index = pd.to_datetime(df_m.index.str.replace(' 월', ''), format='%Y.%m', errors='coerce')
-    df_m.dropna(inplace=True)
-
-    final_df = pd.concat([df_q.resample('MS').interpolate(), df_m])
-    return final_df[~final_df.index.duplicated(keep='last')].sort_index().reset_index().rename(
-        columns={'index': 'date'})
+    final_df = pd.concat([processed_old[['date', 'Ad_Sentiment_DI']], processed_new])
+    final_df.drop_duplicates(subset=['date'], keep='last', inplace=True)
+    return final_df.sort_values('date').reset_index(drop=True)
 
 
 if __name__ == '__main__':
     try:
         current_dir = '.'
+        master_data_path = os.path.join(current_dir, 'simulation_master_data_final.csv')
+        ad_old_path = os.path.join(current_dir, '사업체정보별_광고경기_체감도_20250910155647.csv')
+        ad_new_path = os.path.join(current_dir, '광고경기_체감도__업체정보별_20250910155622.csv')
+        retail_path = os.path.join(current_dir, '소매판매액지수(2020=100)_20250911014526.csv')
+        kospi_path = os.path.join(current_dir, 'kospi_1995_2025.csv')
 
-        df_gdp = preprocess_quarterly(os.path.join(current_dir, '경제활동별_GDP_및_GNI_계절조정__실질__분기__20250908011659.csv'),
-                                      'GDP', '국내총생산(시장가격, GDP)')
-        df_ict_prod = preprocess_quarterly(os.path.join(current_dir, '정보통신산업_계절조정__실질__분기__20250909152422.csv'),
-                                           'ICT_Production', '정보통신산업')
-        df_ict_inv = preprocess_quarterly(os.path.join(current_dir, '정보통신산업_계절조정__실질__분기__20250909152422.csv'),
-                                          'ICT_Investment', '정보통신부문 설비투자')
-        df_ccsi = preprocess_ccsi(os.path.join(current_dir, '소비자심리지수1.csv'), os.path.join(current_dir, '소비자심리지수2.csv'))
-
-        df_bsi = read_csv_robust(os.path.join(current_dir, 'BSI_long.csv'))
-        df_loans = read_csv_robust(os.path.join(current_dir, 'corporate_loans_long.csv'))
-        df_inv_raw = read_csv_robust(os.path.join(current_dir, 'investment_final_data_all_categories.csv'))
-        df_prod = read_csv_robust(os.path.join(current_dir, 'productivity_all_long.csv'))
-        df_ex = read_csv_robust(os.path.join(current_dir, 'korea_exchange_rate_long.csv'))
-
-        df_inv_raw['지수종류'] = df_inv_raw['지수종류'].str.strip()
-        df_inv = df_inv_raw[df_inv_raw['지수종류'] == '계절조정지수 (2020=100)'].copy()
-        inv_date_col = df_inv_raw.columns[1]
-        df_inv = df_inv.groupby(inv_date_col)['돈'].mean().reset_index()
+        df_master = pd.read_csv(master_data_path)
+        df_ad_sentiment = preprocess_ad_sentiment(ad_old_path, ad_new_path)
+        df_retail_sales = pd.read_csv(retail_path, encoding='euc-kr')
+        df_kospi = pd.read_csv(kospi_path)
 
         aligner = TimeAligner()
-        aligner.add_df(df_gdp, 'GDP')
-        aligner.add_df(df_ict_prod, 'ICT_Production')
-        aligner.add_df(df_ict_inv, 'ICT_Investment')
-        aligner.add_df(df_ccsi, 'CCSI')
-        aligner.add_df(df_bsi, 'BSI_Composite')
-        aligner.add_df(df_loans, 'Corporate_Loan_Rate')
-        aligner.add_df(df_inv, 'Equipment_Investment_Index')
-        aligner.add_df(df_prod, 'productivity_index')
-        aligner.add_df(df_ex, 'Exchange_Rate', 'yearly')
 
-        aligner.process_and_save('simulation_master_data_final.csv')
-        print("\n모든 데이터 생성을 성공적으로 완료했습니다.")
+        # Y값 추가
+        aligner.add_df(df_ad_sentiment, 'Ad_Sentiment', 'date', 'Ad_Sentiment_DI', 'yearly')
 
-    except FileNotFoundError as e:
-        print(f"\n[오류] 필수 파일을 찾을 수 없습니다: {e}")
+        # X값들 추가
+        for col in [c for c in df_master.columns if c != 'date']:
+            aligner.add_df(df_master, col, 'date', col, 'monthly')
+        aligner.add_df(df_retail_sales, 'Retail_Sales_Index', '시점', '계절조정지수')
+        aligner.add_df(df_kospi, 'KOSPI', 'Date', 'Close')
+
+        # 최종 파일 생성
+        aligner.process_and_save('marketing_model_dataset.csv')
+
     except Exception as e:
         print(f"\n[오류] 처리 중 문제가 발생했습니다: {e}")
-
