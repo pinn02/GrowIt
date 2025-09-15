@@ -12,7 +12,7 @@ import java.util.Map;
 
 @Slf4j
 @RestController
-@RequestMapping("/member")
+@RequestMapping("/api/v1/member")
 @RequiredArgsConstructor
 public class MemberController {
 
