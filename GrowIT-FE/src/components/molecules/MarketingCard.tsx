@@ -4,9 +4,9 @@ import SelectButton from "../atoms/Button";
 
 type Marketing = {
   name: string;
-  effect: string;
   cost: number;
   image: string;
+  actionName?: string; 
 };
 
 type MarketingCardProps = {
@@ -18,7 +18,6 @@ function MarketingCard({ marketing }: MarketingCardProps) {
   const [buttonText, setButtonText] = useState("선택");
 
   const handleSelect = () => {
-    // 여기에 마케팅 선택 시 필요한 로직 (예: 비용 차감, 효과 적용)을 추가합니다.
     console.log(`${marketing.name} 마케팅을 선택했습니다.`);
     setIsDisabled(true);
     setButtonText("선택 완료!");
@@ -47,7 +46,9 @@ function MarketingCard({ marketing }: MarketingCardProps) {
           </div>
 
           <div className="w-full flex flex-col items-center text-center">
-            <p className="text-clamp-base mb-2">효과: {marketing.effect}</p>
+            <p className="text-xs mb-2 leading-relaxed text-center px-1 font-medium text-gray-700 h-12 flex items-center justify-center">
+              {marketing.actionName}
+            </p>
             <p className="text-clamp-base">
               비용: {marketing.cost.toLocaleString()}G
             </p>

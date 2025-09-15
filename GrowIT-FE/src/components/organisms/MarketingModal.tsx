@@ -1,4 +1,10 @@
-import { useState } from "react";
+// 1. json 파일을 임포트 해오기
+// 2. 이미지와 채널(신문, sns, tv)와 매핑하기
+// 3. math.random 으로 랜덤하게 하나 선택하기
+// 4. 카드에 넣을 데이터 리턴하기
+// * 턴 종료 시에만 랜덤이 바뀌는 부분은 세이브 시스템 완성 후 수정 예정
+
+import { useState, useEffect } from "react";
 import CloseButton from "../atoms/Button";
 import marketingModalBackgroundImage from "../../assets/background_images/board_page_background_image2.png";
 import MarketingCard from "../molecules/MarketingCard";
@@ -7,17 +13,36 @@ import newspaperImage from "../../assets/icons/newspaper.png";
 import snsImage from "../../assets/icons/sns.png";
 import tvImage from "../../assets/icons/tv.png";
 
-const marketings = [
-  { name: "신문", effect: "Small", cost: 10000, image: newspaperImage },
-  { name: "SNS", effect: "Middle", cost: 100000, image: snsImage },
-  { name: "TV", effect: "Big", cost: 1000000, image: tvImage },
-];
+import marketingData from "../../assets/data/randomMarketing.json";
+
+const channelImages = {
+  "신문": newspaperImage,
+  "SNS": snsImage,
+  "TV": tvImage
+};
 
 type MarketingModalProps = {
   onClose: () => void;
 };
 
 function MarketingModal({ onClose }: MarketingModalProps) {
+  const [marketings, setMarketings] = useState([]);
+
+  useEffect(() => {
+    const randomMarketings = marketingData.map(channel => {
+      const randomIndex = Math.floor(Math.random() * channel.actions.length);
+      
+      return {
+        name: channel.name,
+        cost: channel.costs[randomIndex],
+        image: channelImages[channel.name],
+        actionName: channel.actions[randomIndex]
+      };
+    });
+    
+    setMarketings(randomMarketings);
+  }, []);
+
   return (
     <>
       <div className="fixed inset-0 flex justify-center items-center z-50 pointer-events-none" onClick={onClose}>
