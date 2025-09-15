@@ -8,7 +8,13 @@ import skyBackgroundImage from "../../assets/background_images/sky_page_backgrou
 const logoHeight = 48;
 const turnEndButtonSize = 100;
 
-function InformationBar() {
+const RANDOM_EVENT_PROBABILITY = 0.5
+
+type InformationBarProps = {
+  onRandomEvent: () => void
+}
+
+function InformationBar({ onRandomEvent }: InformationBarProps) {
   const [showReportModal, setShowReportModal] = useState(false)
 
   const handleTurnEnd = () => {
@@ -17,6 +23,11 @@ function InformationBar() {
 
   const handleCloseModal = () => {
    setShowReportModal(false)
+
+   const randomEventProbability = Math.random()
+   if (randomEventProbability < RANDOM_EVENT_PROBABILITY) {
+     onRandomEvent()
+   }
   }
 
   return (
