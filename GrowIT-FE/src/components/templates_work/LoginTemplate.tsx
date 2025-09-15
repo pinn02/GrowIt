@@ -58,14 +58,14 @@ function LoginTemplate({ onLogin }: LoginTemplateProps) {
         <img
           src={ logo }
           alt="GrowIT"
-          className="block w-full h-auto max-w-[600px] animate-shine mb-8"
+          className="block w-full h-auto max-w-[600px] animate-shine mb-12"
         />
         <LoginButton
           // to="/main"
           // onClick={handleLogin}
           onClick={onLogin}
           maxSize={loginButtonSize}
-          className="w-full bg-yellow-300 text-black px-2 py-2 my-3 rounded hover:bg-yellow-400 transition-colors"
+          className="w-2/3 bg-yellow-300 text-black font-bold px-5 py-5 my-3 rounded hover:bg-orange-500 transition-colors"
         >
           <FontAwesomeIcon icon={ faKakaoTalk } className="mr-2" />
           카카오 로그인
@@ -73,7 +73,7 @@ function LoginTemplate({ onLogin }: LoginTemplateProps) {
         <LoginButton
           onClick={onLoginModal}
           maxSize={loginButtonSize}
-          className="w-full bg-red-300 text-black px-2 py-2 my-3 rounded hover:bg-red-400 transition-colors"
+          className="w-2/3 bg-orange-400 font-bold text-white px-5 py-5 my-3 rounded hover:bg-orange-500 transition-colors"
         >
           로그인
         </LoginButton>
