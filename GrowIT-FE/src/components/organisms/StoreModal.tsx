@@ -4,7 +4,7 @@ import officeUpgradeImage from "../../assets/images/office_upgrade.png"
 import { useGameDataStore } from "../../stores/gameDataStore"
 
 
-const ENTERPRISE_VALUE_FOR_UPGRADE = 2000
+const ENTERPRISE_VALUE_FOR_UPGRADE = 1000
 const upgradePrise = 100000
 
 type StoreModalProps = {
@@ -13,6 +13,14 @@ type StoreModalProps = {
 
 function StoreModal({ onClose }: StoreModalProps) {
   const gameDataStore = useGameDataStore()
+
+  const upgradeOffice = () => {
+    if (gameDataStore.finance >= upgradePrise) {
+      gameDataStore.setFinance(gameDataStore.finance - upgradePrise)
+      gameDataStore.setOfficeLevel(gameDataStore.officeLevel + 1)
+      onClose()
+    }
+  }
 
   return (
     <>
@@ -50,16 +58,19 @@ function StoreModal({ onClose }: StoreModalProps) {
             />
             <p className="font-bold text-xl">사무실 업그레이드</p>
             {
-              gameDataStore.enterpriseValue >= ENTERPRISE_VALUE_FOR_UPGRADE
-              ? <div className="text-center">
-                  <UpgradeButton
-                  className="bg-red-300 text-black px-2 py-2 my-3 rounded hover:bg-red-400 transition-colors m-3"
-                  >
-                    Upgrade
-                  </UpgradeButton>
-                  <p>비용 {upgradePrise.toLocaleString()}이 소모됩니다.</p>
-              </div>
-              : `기업 가치가 ${(ENTERPRISE_VALUE_FOR_UPGRADE - gameDataStore.enterpriseValue).toLocaleString()} 모자랍니다.`
+              gameDataStore.officeLevel < 1
+              ? (gameDataStore.enterpriseValue >= ENTERPRISE_VALUE_FOR_UPGRADE
+                ? <div className="text-center">
+                    <UpgradeButton
+                    className="bg-red-300 text-black px-2 py-2 my-3 rounded hover:bg-red-400 transition-colors m-3"
+                    onClick={upgradeOffice}
+                    >
+                      Upgrade
+                    </UpgradeButton>
+                    <p>비용 {upgradePrise.toLocaleString()}이 소모됩니다.</p>
+                </div>
+                : `기업 가치가 ${(ENTERPRISE_VALUE_FOR_UPGRADE - gameDataStore.enterpriseValue).toLocaleString()} 모자랍니다.`)
+              : <p>최대 레벨입니다.</p>
               }
           </div>
         </div>

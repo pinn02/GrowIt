@@ -5,15 +5,16 @@ type buttonState = {
   hiringButton1: boolean
   hiringButton2: boolean
   hiringButton3: boolean
-  marketingButton1: boolean
-  marketingButton2: boolean
-  marketingButton3: boolean
-  investmentButton1: boolean
-  investmentButton2: boolean
-  investmentButton3: boolean
-  projectButton1: boolean
-  projectButton2: boolean
-  projectButton3: boolean
+  marketingButton: boolean
+  investmentButton: boolean
+  projectButton: boolean
+  
+  setHiringButton1: (value: boolean) => void
+  setHiringButton2: (value: boolean) => void
+  setHiringButton3: (value: boolean) => void
+  setMarketingButton: (value: boolean) => void
+  setInvestmentButton: (value: boolean) => void
+  setProjectButton: (value: boolean) => void
 }
 
 export const useButtonStore = create<buttonState>()(
@@ -22,15 +23,23 @@ export const useButtonStore = create<buttonState>()(
       hiringButton1: true,
       hiringButton2: true,
       hiringButton3: true,
-      marketingButton1: true,
-      marketingButton2: true,
-      marketingButton3: true,
-      investmentButton1: true,
-      investmentButton2: true,
-      investmentButton3: true,
-      projectButton1: true,
-      projectButton2: true,
-      projectButton3: true,
+      marketingButton: true,
+      investmentButton: true,
+      projectButton: true,
+
+      setHiringButton1: (value: boolean) =>
+        set(() => ({ hiringButton1: value })),
+      setHiringButton2: (value: boolean) =>
+        set(() => ({ hiringButton2: value })),
+      setHiringButton3: (value: boolean) =>
+        set(() => ({ hiringButton3: value })),
+      setMarketingButton: (value: boolean) =>
+        set(() => ({ marketingButton: value })),
+      setInvestmentButton: (value: boolean) =>
+        set(() => ({ investmentButton: value })),
+      setProjectButton: (value: boolean) =>
+        set(() => ({ projectButton: value })),
+
     }),
     {
       name: "button-storage"

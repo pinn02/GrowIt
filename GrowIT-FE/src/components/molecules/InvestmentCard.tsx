@@ -1,6 +1,8 @@
 import { useState } from "react"
 import investmentCardImage from "../../assets/cards/window_card.png"
 import SelectButton from "../atoms/Button"
+import { useButtonStore } from "../../stores/buttonStore"
+import { useGameDataStore } from "../../stores/gameDataStore"
 
 type Investment = {
   name: string
@@ -13,7 +15,24 @@ type InvestmentCardProps = {
 }
 
 function InvestmentCard({ investment }: InvestmentCardProps) {
-  const [isDisabled, setIsDisabled] = useState(false);
+  const investmentButton = useButtonStore((state) => state.investmentButton)
+  const setInvestmentButton = useButtonStore((state) => state.setInvestmentButton)
+  const gameDataStore = useGameDataStore()
+
+  const investmentSelected = () => {
+  
+    gameDataStore.setFinance(gameDataStore.finance - investment.cost)
+    
+    if (investment.effect === "Small") {
+      gameDataStore.setProductivity(gameDataStore.productivity + Math.round(10 * Math.random() * (1.25 - 0.75) + 0.75))
+    } else if (investment.effect === "Middle") {
+      gameDataStore.setProductivity(gameDataStore.productivity + Math.round(100 * Math.random() * (1.25 - 0.75) + 0.75))
+    } else if (investment.effect === "Big") {
+      gameDataStore.setProductivity(gameDataStore.productivity + Math.round(1000 * Math.random() * (1.25 - 0.75) + 0.75))
+    }
+
+    setInvestmentButton(false)
+  }
 
   return (
     <>
@@ -37,15 +56,15 @@ function InvestmentCard({ investment }: InvestmentCardProps) {
         
         <div className="absolute left-[10%] top-[75%] w-[80%] h-[15%] flex items-center justify-center">
           <SelectButton
-            disabled={isDisabled}
+            disabled={!investmentButton || gameDataStore.finance < investment.cost}
             className={`w-full py-2 rounded transition-colors ${
-              isDisabled 
-                ? "bg-gray-400 text-gray-700 cursor-not-allowed" 
-                : "bg-orange-400 text-black hover:bg-orange-500"
+              investmentButton
+                ? "bg-orange-400 text-black hover:bg-orange-500"
+                : "bg-gray-400 text-gray-700 cursor-not-allowed"
             }`}
-            onClick={() => setIsDisabled(true)}
+            onClick={() => investmentSelected()}
           >
-            {isDisabled ? "선택됨" : "선택"}
+            {investmentButton ? (gameDataStore.finance >= investment.cost ? "선택" : "자금 부족") : "선택 완료"}
           </SelectButton>
         </div>
       </div>
