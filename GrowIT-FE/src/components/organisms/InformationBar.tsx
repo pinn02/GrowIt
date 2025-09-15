@@ -5,6 +5,8 @@ import StoreButton from "../atoms/Button"
 import TurnEndButton from "../atoms/Button"
 import ReportModal from "./ReportModal"
 import skyBackgroundImage from "../../assets/background_images/sky_page_background_image.png"
+import { useGameDataStore } from '../../stores/gameDataStore'
+import { useButtonStore } from '../../stores/buttonStore'
 
 const logoHeight = 48;
 const storeButtonSize = 100;
@@ -18,9 +20,21 @@ type InformationBarProps = {
 }
 
 function InformationBar({ onRandomEvent, onStore }: InformationBarProps) {
+  const gameDataStore = useGameDataStore()
+  const buttonStore = useButtonStore()
+
   const [showReportModal, setShowReportModal] = useState(false)
 
   const handleTurnEnd = () => {
+    buttonStore.setHiringButton1(true)
+    buttonStore.setHiringButton2(true)
+    buttonStore.setHiringButton3(true)
+    buttonStore.setMarketingButton(true)
+    buttonStore.setInvestmentButton(true)
+    buttonStore.setProjectButton(true)
+
+    gameDataStore.setTurn(gameDataStore.turn + 1)
+
     setShowReportModal(true)
   }
 

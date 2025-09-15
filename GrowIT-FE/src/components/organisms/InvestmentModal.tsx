@@ -14,6 +14,7 @@ type InvestmentModalProps = {
 }
 
 function InvestmentModal({ onClose }: InvestmentModalProps) {
+  
 
   return (
     <>
