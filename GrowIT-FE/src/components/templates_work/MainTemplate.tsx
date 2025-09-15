@@ -1,5 +1,5 @@
 import ActionButtonBundle from "../molecules/ActionButtonBundle"
-import mainPageBackgroundImage from "../../assets/background_images/main_page_background_image.gif"
+import mainPageBackgroundImage from "../../assets/background_images/1.png"
 
 type MainTemplateProps = {
   openModal: (index: number) => void;

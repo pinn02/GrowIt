@@ -2,9 +2,9 @@ import { useState } from "react"
 import CloseButton from "../atoms/Button"
 import hiringModalBackgroundImage from "../../assets/modals/hiring_modal_background.png"
 import ApplicantCard from "../molecules/ApplicantCard"
-import applicantImage1 from "../../assets/applicants/applicant1.png"
-import applicantImage2 from "../../assets/applicants/applicant2.png"
-import applicantImage3 from "../../assets/applicants/applicant3.png"
+import applicantImage1 from "../../assets/applicants/applicant1.gif"
+import applicantImage2 from "../../assets/applicants/applicant2.gif"
+import applicantImage3 from "../../assets/applicants/applicant3.gif"
 
 
 const applicants = [
