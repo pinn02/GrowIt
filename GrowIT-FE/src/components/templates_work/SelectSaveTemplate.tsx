@@ -12,17 +12,17 @@ const saveList = [
 ]
 
 function SelectSaveTemplate({ onIsNewGame }: SelectSaveTemplateProps) {
-  const saveButtonSize = 400;
+  const saveButtonSize = 800;
   const navigate = useNavigate()
 
   return (
     <div className="flex items-center justify-center w-full h-full relative z-10 px-16">
-      <div className="text-center">
+      <div className="text-center w-1/2">
         {saveList.map((save, idx) => (
           <SaveButton
             key={idx}
             maxSize={saveButtonSize}
-            className="w-full bg-orange-300 text-black px-2 py-2 rounded hover:bg-orange-400 transition-colors my-3"
+            className="w-9/10 bg-orange-300 text-black px-6 py-6 rounded hover:bg-orange-400 transition-colors my-5 font-bold"
             onClick={() =>
               save.name != "" ? navigate("/main") : onIsNewGame()
             }
