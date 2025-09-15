@@ -7,10 +7,12 @@ import InvestmentModal from "../components/organisms/InvestmentModal"
 import ProjectModal from "../components/organisms/ProjectModal"
 import MypageModal from "../components/organisms/MypageModal"
 import RandomEventModal from "../components/organisms/RandomEventModal"
+import StoreModal from "../components/organisms/StoreModal"
 
 function MainPage() {
   const [activeModal, setActiveModal] = useState<number | null>(null);
   const [activeRandomEventModal, setActiveRandomEventModal] = useState(false)
+  const [activeStoreModal, setActiveStoreModal] = useState(false)
 
   const toggleModal = (index: number) => {
     setActiveModal(prev => (prev === index ? null : index));
@@ -20,9 +22,13 @@ function MainPage() {
     setActiveRandomEventModal(true)
   }
 
+  const handleStoreModal = () => {
+    setActiveStoreModal(true)
+  }
+
   return (
     <>
-      <InformationBar onRandomEvent={handleRandomEventModal} />
+      <InformationBar onRandomEvent={handleRandomEventModal} onStore={handleStoreModal} />
       <MainTemplate openModal={toggleModal} />
 
       {activeModal === 0 && <HiringModal onClose={() => setActiveModal(null)} />}
@@ -32,6 +38,7 @@ function MainPage() {
       {activeModal === 4 && <MypageModal onClose={() => setActiveModal(null)} />}
 
       {activeRandomEventModal && <RandomEventModal onClose={() => setActiveRandomEventModal(false)} />}
+      {activeStoreModal && <StoreModal onClose={() => setActiveStoreModal(false)} />}
     </>
   )
 }
