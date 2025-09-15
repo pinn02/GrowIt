@@ -16,7 +16,7 @@ function DifficultyTemplate() {
           <DifficultyButton
             key={idx}
             maxSize={difficultyButtonSize}
-            className="w-1/2 block bg-orange-300 text-black px-6 py-6 rounded hover:bg-orange-400 transition-colors my-3"
+            className="w-1/2 block bg-orange-300 font-extrabold text-black px-6 py-6 rounded hover:bg-orange-400 transition-colors my-3"
             to="/main"
           >
             {difficulty.name}
