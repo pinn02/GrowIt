@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom"
 
 type ButtonProps = {
+  type?: "button" | "submit" | "reset"
   to?: string
   disabled?: boolean
   maxSize?: number
@@ -9,7 +10,7 @@ type ButtonProps = {
   children: React.ReactNode
 }
 
-function Button({ to, disabled, maxSize, className = "", onClick, children }: ButtonProps) {
+function Button({ type="button", to, disabled, maxSize, className = "", onClick, children }: ButtonProps) {
   const navigate = useNavigate()
   
   const handleClick = () => {
@@ -23,6 +24,7 @@ function Button({ to, disabled, maxSize, className = "", onClick, children }: Bu
 
   return (
     <button
+      type={type}
       disabled={disabled}
       style={maxSize ? { maxWidth: `${maxSize}px` } : undefined}
       className={`
