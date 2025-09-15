@@ -6,5 +6,5 @@ import com.ricesnack.GrowIT_BE.saved.dto.SavedResponse;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 public interface GameService {
-    SavedResponse createNewSave(@AuthenticationPrincipal CustomOAuth2UserDetails userDetails, GameCreateRequest request);
+    SavedResponse createNewSave(GameCreateRequest request);
 }

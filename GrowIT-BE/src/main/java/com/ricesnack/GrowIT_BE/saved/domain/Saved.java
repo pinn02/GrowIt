@@ -51,9 +51,11 @@ public class Saved {
     @Column(nullable = false)
     private LocalDateTime saveDate;
 
+    @Builder.Default
     @OneToMany(mappedBy = "saved", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Hire> hires = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "saved", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Project> projects = new ArrayList<>();
 

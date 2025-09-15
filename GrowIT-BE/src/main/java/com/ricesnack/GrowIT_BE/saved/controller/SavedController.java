@@ -38,13 +38,10 @@ public class SavedController {
     }
 
     @PostMapping("/game")
-    public ResponseEntity<Void> createNewSave(
-            @RequestBody GameCreateRequest request,
-            @AuthenticationPrincipal CustomOAuth2UserDetails userDetails
-    ) {
+    public ResponseEntity<Void> createNewSave(@RequestBody GameCreateRequest request) {
         System.out.println("========= createNewSave 컨트롤러 메소드 실행됨! =========");
         System.out.println("요청 데이터: " + request.toString());
-        gameService.createNewSave(userDetails, request);
+        gameService.createNewSave(request);
         return ResponseEntity.ok().build();
     }
 }

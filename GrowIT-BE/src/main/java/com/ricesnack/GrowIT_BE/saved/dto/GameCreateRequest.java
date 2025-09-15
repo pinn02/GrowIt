@@ -10,6 +10,8 @@ public record GameCreateRequest(
 
         BigDecimal value,
 
+        BigDecimal monthlySalaryExpense,
+
         Integer turn,
 
         Integer productivity,
