@@ -12,7 +12,7 @@ const logoHeight = 48;
 const storeButtonSize = 100;
 const turnEndButtonSize = 100;
 
-const RANDOM_EVENT_PROBABILITY = 0.5
+const RANDOM_EVENT_PROBABILITY = 0.25
 
 type InformationBarProps = {
   onRandomEvent: () => void
