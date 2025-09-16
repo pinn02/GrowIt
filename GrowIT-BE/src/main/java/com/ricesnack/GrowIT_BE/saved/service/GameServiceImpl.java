@@ -30,11 +30,10 @@ public class GameServiceImpl implements GameService {
 
     @Override
     @Transactional
-    public SavedResponse createNewSave(GameCreateRequest request) { // 파라미터에서 userDetails 제거
+    public SavedResponse createNewSave(GameCreateRequest request) {
 
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
             String userEmail;
             Object principal = authentication.getPrincipal();
 
@@ -48,7 +47,6 @@ public class GameServiceImpl implements GameService {
                     .orElseThrow(() -> new IllegalStateException("인증된 사용자 정보를 DB에서 찾을 수 없습니다."));
 
             int employeeCount = (request.hire() != null ? request.hire().size() : 0) + 1;
-
             Saved newSave = Saved.builder()
                     .member(member)
                     .companyName(request.companyName())
@@ -78,8 +76,6 @@ public class GameServiceImpl implements GameService {
                     projectRepository.save(newProject);
                 }
             }
-
-            newSave.updateEmployeeCount(employeeCount);
 
             return SavedResponse.from(savedRepository.findById(newSave.getId()).get());
 

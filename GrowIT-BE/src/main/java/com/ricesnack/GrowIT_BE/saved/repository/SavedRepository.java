@@ -20,6 +20,10 @@ public interface SavedRepository extends JpaRepository<Saved, Long> {
             countQuery = "SELECT COUNT(DISTINCT s) FROM Saved s WHERE s.member.memberId = :memberId")
     Page<Saved> findAllWithDetails(@Param("memberId") Long memberId, Pageable pageable);
 
-    @Query("SELECT s FROM Saved s LEFT JOIN FETCH s.hires LEFT JOIN FETCH s.projects WHERE s.id = :id")
-    Optional<Saved> findByIdWithDetails(@Param("id") Long id);
+    @Query("SELECT s FROM Saved s WHERE s.id = :id AND s.member.memberId = :memberId")
+    Optional<Saved> findByIdWithDetailsAndMemberId(@Param("id") Long id, @Param("memberId") Long memberId);
+
+
+
+    Page<Saved> findByMember_MemberId(Long memberId, Pageable pageable);
 }

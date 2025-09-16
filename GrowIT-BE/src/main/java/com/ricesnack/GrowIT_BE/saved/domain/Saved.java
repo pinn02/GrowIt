@@ -4,6 +4,8 @@ import com.ricesnack.GrowIT_BE.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 
 import java.math.BigDecimal;
@@ -53,10 +55,12 @@ public class Saved {
 
     @Builder.Default
     @OneToMany(mappedBy = "saved", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Fetch(FetchMode.SUBSELECT)
     private List<Hire> hires = new ArrayList<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "saved", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Fetch(FetchMode.SUBSELECT)
     private List<Project> projects = new ArrayList<>();
 
     public void updateInfo(BigDecimal capital, BigDecimal companyValue, Integer productivity) {
