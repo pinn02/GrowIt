@@ -41,7 +41,7 @@ function InvestmentModal({ onClose }: InvestmentModalProps) {
           }}
         >
           <div className="flex justify-between items-center mt-8">
-            <p className="absolute top-12 left-1/2 -translate-x-1/2 font-bold text-white text-3xl">
+            <p className="absolute top-12 left-1/2 -translate-x-1/2 font-bold text-3xl">
               투자
             </p>
             <CloseButton

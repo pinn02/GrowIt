@@ -45,7 +45,7 @@ function StoreModal({ onClose }: StoreModalProps) {
           <div className="w-full flex justify-end">
             <CloseButton
               onClick={onClose}
-              className="bg-red-300 text-black px-2 py-2 my-3 rounded hover:bg-red-400 transition-colors m-3"
+              className="bg-red-300 text-black px-3 py-1 mt-3 me-3 rounded hover:bg-red-400 transition-colors"
             >
               X
             </CloseButton>
