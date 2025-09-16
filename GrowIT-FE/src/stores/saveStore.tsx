@@ -1,7 +1,21 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-type SaveData = Record<string, any>
+export type SaveData = {
+  enterpriseValue: number
+  productivity: number
+  finance: number
+  employeeCount: number
+  turn: number
+  currentProject: string
+  officeLevel: number
+  updatedAt: string
+
+  hiringArray: number[]
+  marketingArray: number[]
+  investmentArray: number[]
+  projectArray: number[]
+}
 
 type SaveState = {
     saves: SaveData[]
@@ -9,9 +23,15 @@ type SaveState = {
 
     setSave: (index: number, value: SaveData) => void
     setCurrentSaveIdx: (value: number) => void
+
+    setHiringArray: (arr: number[]) => void
+    setMarketingArray: (arr: number[]) => void
+    setInvestmentArray: (arr: number[]) => void
+    setProjectArray: (arr: number[]) => void
 }
 
-const defaultSave = {
+
+const defaultSave: SaveData = {
   enterpriseValue: 1000,
   productivity: 100,
   finance: 1000000,
@@ -20,6 +40,11 @@ const defaultSave = {
   currentProject: "",
   officeLevel: 0,
   updatedAt: new Date().toISOString().split("T")[0],
+
+  hiringArray: [0, 0, 0],
+  marketingArray: [0, 0, 0],
+  investmentArray: [0, 0],
+  projectArray: [0, 0, 0],
 }
 
 export const useSaveStore = create<SaveState>()(
@@ -36,6 +61,37 @@ export const useSaveStore = create<SaveState>()(
         }),
       setCurrentSaveIdx: (value: number) =>
         set(() => ({ currentSaveIdx: value })),
+            setHiringArray: (arr) =>
+        set((state) => {
+          const newSaves = [...state.saves]
+          const save = { ...newSaves[state.currentSaveIdx], hiringArray: arr }
+          newSaves[state.currentSaveIdx] = save
+          return { saves: newSaves }
+        }),
+
+      setMarketingArray: (arr) =>
+        set((state) => {
+          const newSaves = [...state.saves]
+          const save = { ...newSaves[state.currentSaveIdx], marketingArray: arr }
+          newSaves[state.currentSaveIdx] = save
+          return { saves: newSaves }
+        }),
+
+      setInvestmentArray: (arr) =>
+        set((state) => {
+          const newSaves = [...state.saves]
+          const save = { ...newSaves[state.currentSaveIdx], investmentArray: arr }
+          newSaves[state.currentSaveIdx] = save
+          return { saves: newSaves }
+        }),
+
+      setProjectArray: (arr) =>
+        set((state) => {
+          const newSaves = [...state.saves]
+          const save = { ...newSaves[state.currentSaveIdx], projectArray: arr }
+          newSaves[state.currentSaveIdx] = save
+          return { saves: newSaves }
+        }),
     }),
     {
       name: "save-storage",

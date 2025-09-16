@@ -4,12 +4,13 @@ import SaveButton from "../atoms/Button";
 import { useNavigate } from "react-router-dom";
 import { useGameDataStore } from "../../stores/gameDataStore";
 import { useButtonStore } from "../../stores/buttonStore";
+import type { SaveData } from "../../stores/saveStore"
 
 type SelectSaveTemplateProps = {
   onIsNewGame: (idx: number) => void
 }
 
-const defaultSave = {
+const defaultSave: SaveData = {
   enterpriseValue: 1000,
   productivity: 100,
   finance: 1000000,
@@ -18,13 +19,12 @@ const defaultSave = {
   currentProject: "",
   officeLevel: 0,
   updatedAt: new Date().toISOString().split("T")[0],
-}
 
-const saveList = [
-  { name: "Save 1", enterpriseValue: 1000, updatedAt: "2025-01-01" },
-  { name: "Save 2", enterpriseValue: 2000, updatedAt: "2025-02-02" },
-  { name: "", enterpriseValue: 0, updatedAt: "" }
-]
+  hiringArray: [0, 0, 0],
+  marketingArray: [0, 0, 0],
+  investmentArray: [0, 0],
+  projectArray: [0, 0, 0],
+}
 
 function SelectSaveTemplate({ onIsNewGame }: SelectSaveTemplateProps) {
   const saveButtonSize = 800;
@@ -34,7 +34,7 @@ function SelectSaveTemplate({ onIsNewGame }: SelectSaveTemplateProps) {
   const gameDataStore = useGameDataStore()
   const buttonStore = useButtonStore()
 
-  const onDeleteSave = (idx: number, value: object) => {
+  const onDeleteSave = (idx: number, value: SaveData) => {
     saveStore.setSave(idx, value)
   }
 
@@ -64,6 +64,12 @@ function SelectSaveTemplate({ onIsNewGame }: SelectSaveTemplateProps) {
                   gameDataStore.setTurn(currentSave.turn)
                   gameDataStore.setCurrentProject(currentSave.currentProject)
                   gameDataStore.setOfficeLevel(currentSave.officeLevel)
+
+                  gameDataStore.setHiringArray(currentSave.hiringArray)
+                  gameDataStore.setMarketingArray(currentSave.marketingArray)
+                  gameDataStore.setInvestmentArray(currentSave.investmentArray)
+                  gameDataStore.setProjectArray(currentSave.projectArray)
+                  
                   navigate("/main")
                 } else {
                   onIsNewGame(idx)
@@ -75,7 +81,9 @@ function SelectSaveTemplate({ onIsNewGame }: SelectSaveTemplateProps) {
               save.turn > 0
               ? (
                 <div className="w-full flex items-center justify-center">
-                  <p className="text-center w-full">{save.turn}턴 | 기업가치: {save.enterpriseValue} | 생산성: {save.productivity} | 자금: {save.finance} | {save.updatedAt}</p>
+                  <p className="text-center w-full truncate">
+                    {save.turn}턴 | 기업가치: {save.enterpriseValue} | 생산성: {save.productivity} | 자금: {save.finance} | {save.updatedAt}
+                  </p>
                   <div className="flex items-center justify-end">
                     <DeleteButton
                       onClick={(e) => {
