@@ -16,6 +16,24 @@ const newSave = {
   currentProject: "",
   officeLevel: 0,
   updatedAt: new Date().toISOString().split("T")[0],
+
+  hiringArray: [0, 0, 0],
+  marketingArray: [0, 0, 0],
+  investmentArray: [0, 0],
+  projectArray: [0, 0, 0],
+}
+
+function getRandomUniqueArray(length: number, min: number, max: number): number[] {
+  const numbers = Array.from({ length: max - min + 1 }, (_, i) => i + min)
+  const result: number[] = []
+
+  for (let i = 0; i < length; i++) {
+    const idx = Math.floor(Math.random() * numbers.length)
+    result.push(numbers[idx])
+    numbers.splice(idx, 1)
+  }
+
+  return result
 }
 
 function StartPage() {
@@ -44,7 +62,25 @@ function StartPage() {
     gameDataStore.setCurrentProject(currentSave.currentProject)
     gameDataStore.setOfficeLevel(currentSave.officeLevel)
 
-    saveStore.setSave(idx, newSave)
+    const newHiringArray = getRandomUniqueArray(3, 0, 5)
+    const newMarketingArray = getRandomUniqueArray(3, 0, 4)
+    const newInvestmentArray = getRandomUniqueArray(2, 0, 14)
+    const newProjectArray = getRandomUniqueArray(3, 0, 5)
+
+    gameDataStore.setHiringArray(newHiringArray)
+    gameDataStore.setMarketingArray(newMarketingArray)
+    gameDataStore.setInvestmentArray(newInvestmentArray)
+    gameDataStore.setProjectArray(newProjectArray)
+
+    const randomSave = {
+      ...newSave,
+      hiringArray: newHiringArray,
+      marketingArray: newMarketingArray,
+      investmentArray: newInvestmentArray,
+      projectArray: newProjectArray,
+    }
+
+    saveStore.setSave(idx, randomSave)
   }
   
 
@@ -69,8 +105,8 @@ function StartPage() {
           <SelectSaveTemplate
             onIsNewGame={
               (idx: number) => {
-                setIsNewGame(true)
                 newGame(idx)
+                setIsNewGame(true)
               }
             }
           />

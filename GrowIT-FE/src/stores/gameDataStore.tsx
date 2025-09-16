@@ -8,7 +8,12 @@ type gameDataState = {
   employeeCount: number;
   turn: number;
   currentProject: string;
-  officeLevel: number
+  officeLevel: number;
+
+  hiringArray: number[],
+  marketingArray: number[],
+  investmentArray: number[],
+  projectArray: number[],
 
   setEnterpriseValue: (value: number) => void
   setProductivity: (value: number) => void
@@ -17,6 +22,11 @@ type gameDataState = {
   setTurn: (value: number) => void
   setCurrentProject: (value: string) => void
   setOfficeLevel: (value: number) => void
+
+  setHiringArray: (value: number[]) => void
+  setMarketingArray: (value: number[]) => void
+  setInvestmentArray: (value: number[]) => void
+  setProjectArray: (value: number[]) => void
 }
 
 export const useGameDataStore = create<gameDataState>()(
@@ -29,6 +39,11 @@ export const useGameDataStore = create<gameDataState>()(
       turn: 1,
       currentProject: "",
       officeLevel: 0,
+
+      hiringArray: [0, 0, 0],
+      marketingArray: [0, 0, 0],
+      investmentArray: [0, 0],
+      projectArray: [0, 0, 0],
 
       setEnterpriseValue: (value: number) =>
         set(() => ({ enterpriseValue: value })),
@@ -44,6 +59,15 @@ export const useGameDataStore = create<gameDataState>()(
         set(() => ({ currentProject: value })),
       setOfficeLevel: (value: number) =>
         set(() => ({ officeLevel: value })),
+
+      setHiringArray: (value: number[]) =>
+        set(() => ({ hiringArray: value })),
+      setMarketingArray: (value: number[]) =>
+        set(() => ({ marketingArray: value })),
+      setInvestmentArray: (value: number[]) =>
+        set(() => ({ investmentArray: value })),
+      setProjectArray: (value: number[]) =>
+        set(() => ({ projectArray: value })),
     }),
     {
       name: "game-data-storage",

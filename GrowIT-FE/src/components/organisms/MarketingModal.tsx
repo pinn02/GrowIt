@@ -14,34 +14,65 @@ import snsImage from "../../assets/icons/sns.png";
 import tvImage from "../../assets/icons/tv.png";
 
 import marketingData from "../../assets/data/randomMarketing.json";
+import { useSaveStore } from "../../stores/saveStore";
+import { useGameDataStore } from "../../stores/gameDataStore";
 
-const channelImages = {
-  "신문": newspaperImage,
-  "SNS": snsImage,
-  "TV": tvImage
+const channelImages = [
+  newspaperImage,
+  snsImage,
+  tvImage,
+]
+
+type Marketing = {
+  name: string;
+  action: string;
+  cost: number;
+  image: string;
 };
+
 
 type MarketingModalProps = {
   onClose: () => void;
 };
 
 function MarketingModal({ onClose }: MarketingModalProps) {
-  const [marketings, setMarketings] = useState([]);
+  // const [marketings, setMarketings] = useState([]);
+  const [marketings, setMarketings] = useState<Marketing[]>([]);
+
+
+  const currentSaveIdx = useSaveStore(state => state.currentSaveIdx)
+  const marketingArray = useGameDataStore(state => state.marketingArray)
+
+  // useEffect(() => {
+  //   const randomMarketings = marketingData.map(channel => {
+  //     const randomIndex = Math.floor(Math.random() * channel.actions.length);
+      
+  //     return {
+  //       name: channel.name,
+  //       cost: channel.costs[randomIndex],
+  //       image: channelImages[channel.name],
+  //       actionName: channel.actions[randomIndex]
+  //     };
+  //   });
+    
+  //   setMarketings(randomMarketings);
+  // }, []);
 
   useEffect(() => {
-    const randomMarketings = marketingData.map(channel => {
-      const randomIndex = Math.floor(Math.random() * channel.actions.length);
-      
-      return {
-        name: channel.name,
-        cost: channel.costs[randomIndex],
-        image: channelImages[channel.name],
-        actionName: channel.actions[randomIndex]
-      };
-    });
+    if (!marketingArray) return
     
-    setMarketings(randomMarketings);
-  }, []);
+    const newMarketings = marketingData.map((mar, idx) => {
+      const selectedIndex = marketingArray[idx]
+      return {
+        name: mar.name,
+        action: mar.actions[selectedIndex],
+        cost: mar.costs[selectedIndex],
+        image: channelImages[idx]
+      }
+    })
+
+    setMarketings(newMarketings)
+  }, [marketingArray, currentSaveIdx])
 
   return (
     <>

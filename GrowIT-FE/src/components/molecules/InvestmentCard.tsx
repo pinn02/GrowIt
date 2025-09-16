@@ -22,11 +22,10 @@ function InvestmentCard({ investment }: InvestmentCardProps) {
   const investmentSelected = () => {
     gameDataStore.setFinance(gameDataStore.finance - investment.cost)
     
-    // 투자 타입에 따른 생산성 증가 (추후 백의 api를 불러와서 곱하는 것으로 수정 예정)
     if (investment.name === "설비 투자") {
-      gameDataStore.setProductivity(gameDataStore.productivity + Math.round(10 * Math.random() * (1.25 - 0.75) + 0.75))
+      gameDataStore.setProductivity(gameDataStore.productivity + Math.round(investment.cost / 1000 * (Math.random() * (1.25 - 0.75) + 0.75)))
     } else if (investment.name === "R&D 투자") {
-      gameDataStore.setProductivity(gameDataStore.productivity + Math.round(1000 * Math.random() * (1.25 - 0.75) + 0.75))
+      gameDataStore.setProductivity(gameDataStore.productivity + Math.round(investment.cost / 1000 * (Math.random() * (1.25 - 0.75) + 0.75)))
     }
 
     setInvestmentButton(false)

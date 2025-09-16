@@ -26,11 +26,29 @@ const defaultSave = {
   currentProject: "",
   officeLevel: 0,
   updatedAt: new Date().toISOString().split("T")[0],
+
+  hiringArray: [0, 0, 0],
+  marketingArray: [0, 0, 0],
+  investmentArray: [0, 0],
+  projectArray: [0, 0, 0],
 }
 
 type InformationBarProps = {
   onRandomEvent: () => void
   onStore: () => void
+}
+
+function getRandomUniqueArray(length: number, min: number, max: number): number[] {
+  const numbers = Array.from({ length: max - min + 1 }, (_, i) => i + min)
+  const result: number[] = []
+
+  for (let i = 0; i < length; i++) {
+    const idx = Math.floor(Math.random() * numbers.length)
+    result.push(numbers[idx])
+    numbers.splice(idx, 1) // 뽑은 숫자는 제거
+  }
+
+  return result
 }
 
 function InformationBar({ onRandomEvent, onStore }: InformationBarProps) {
@@ -51,6 +69,11 @@ function InformationBar({ onRandomEvent, onStore }: InformationBarProps) {
     buttonStore.setInvestmentButton(true)
     buttonStore.setProjectButton(true)
 
+    gameDataStore.setHiringArray(getRandomUniqueArray(3, 0, 5))
+    gameDataStore.setMarketingArray(getRandomUniqueArray(3, 0, 4))
+    gameDataStore.setInvestmentArray(getRandomUniqueArray(2, 0, 14))
+    gameDataStore.setProjectArray(getRandomUniqueArray(3, 0, 5))
+
     const latestData = {
       enterpriseValue: gameDataStore.enterpriseValue,
       productivity: gameDataStore.productivity,
@@ -60,6 +83,11 @@ function InformationBar({ onRandomEvent, onStore }: InformationBarProps) {
       currentProject: gameDataStore.currentProject,
       officeLevel: gameDataStore.officeLevel,
       updatedAt: new Date().toISOString().split("T")[0],
+
+      hiringArray: gameDataStore.hiringArray,
+      marketingArray: gameDataStore.marketingArray,
+      investmentArray: gameDataStore.investmentArray,
+      projectArray: gameDataStore.projectArray,
     }
 
     
