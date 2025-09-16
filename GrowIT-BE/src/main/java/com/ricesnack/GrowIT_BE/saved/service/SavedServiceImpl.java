@@ -1,5 +1,7 @@
 package com.ricesnack.GrowIT_BE.saved.service;
 
+import com.ricesnack.GrowIT_BE.error.CustomException;
+import com.ricesnack.GrowIT_BE.error.ErrorCode;
 import com.ricesnack.GrowIT_BE.member.domain.Member;
 import com.ricesnack.GrowIT_BE.member.repository.MemberRepository;
 import com.ricesnack.GrowIT_BE.saved.domain.Saved;
@@ -34,12 +36,9 @@ public class SavedServiceImpl implements SavedService {
             Pageable pageRequest = PageRequest.of(0, 3, Sort.by(Sort.Direction.DESC, "saveDate"));
             Page<Saved> savedPage = savedRepository.findByMember_MemberId(memberId, pageRequest); // findByMember_MemberId 사용
 
-
-            List<SavedResponse> responseList = savedPage.getContent().stream()
+            return savedPage.getContent().stream()
                     .map(SavedResponse::from)
                     .toList();
-
-            return responseList;
     }
 
 
@@ -47,7 +46,7 @@ public class SavedServiceImpl implements SavedService {
     public void deleteSavedById(Long saveId, Long memberId) {
 
         Saved saved = savedRepository.findByIdWithDetailsAndMemberId(saveId, memberId)
-                .orElseThrow(() -> new SecurityException("세이브가 존재하지 않거나 삭제 권한이 없습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.SAVE_NOT_FOUND_OR_NO_PERMISSION));
 
         savedRepository.delete(saved);
     }

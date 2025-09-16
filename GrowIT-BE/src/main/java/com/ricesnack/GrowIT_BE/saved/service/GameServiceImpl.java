@@ -1,7 +1,10 @@
 package com.ricesnack.GrowIT_BE.saved.service;
 
+import com.ricesnack.GrowIT_BE.error.CustomException;
+import com.ricesnack.GrowIT_BE.error.ErrorCode;
 import com.ricesnack.GrowIT_BE.member.domain.CustomOAuth2UserDetails;
 import com.ricesnack.GrowIT_BE.member.domain.Member;
+import com.ricesnack.GrowIT_BE.member.domain.SecurityMember;
 import com.ricesnack.GrowIT_BE.member.repository.MemberRepository;
 import com.ricesnack.GrowIT_BE.saved.domain.*;
 import com.ricesnack.GrowIT_BE.saved.dto.*;
@@ -30,58 +33,45 @@ public class GameServiceImpl implements GameService {
 
     @Override
     @Transactional
-    public SavedResponse createNewSave(GameCreateRequest request) {
+    public SavedResponse createNewSave(GameCreateRequest request, SecurityMember securityMember) {
 
-        try {
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            String userEmail;
-            Object principal = authentication.getPrincipal();
+        Long memberId = securityMember.getMemberId();
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
 
-            if (principal instanceof UserDetails) {
-                userEmail = ((UserDetails) principal).getUsername();
-            } else {
-                userEmail = principal.toString();
+        int employeeCount = (request.hire() != null ? request.hire().size() : 0) + 1;
+        Saved newSave = Saved.builder()
+                .member(member)
+                .companyName(request.companyName())
+                .currentTurn(request.turn())
+                .capital(request.money())
+                .companyValue(request.value())
+                .productivity(request.productivity())
+                .employeeCount(employeeCount)
+                .monthlySalaryExpense(request.monthlySalaryExpense())
+                .build();
+
+        savedRepository.save(newSave);
+
+        if (request.hire() != null && !request.hire().isEmpty()) {
+            for (HireRequest hireInfo : request.hire()) {
+                Staff newStaff = new Staff(hireInfo.name(), hireInfo.productivity());
+                staffRepository.save(newStaff);
+                Hire newHire = new Hire(newSave, newStaff);
+                hireRepository.save(newHire);
             }
+        }
 
-            Member member = memberRepository.findByEmail(userEmail)
-                    .orElseThrow(() -> new IllegalStateException("인증된 사용자 정보를 DB에서 찾을 수 없습니다."));
-
-            int employeeCount = (request.hire() != null ? request.hire().size() : 0) + 1;
-            Saved newSave = Saved.builder()
-                    .member(member)
-                    .companyName(request.companyName())
-                    .currentTurn(request.turn())
-                    .capital(request.money())
-                    .companyValue(request.value())
-                    .productivity(request.productivity())
-                    .employeeCount(employeeCount)
-                    .monthlySalaryExpense(request.monthlySalaryExpense())
-                    .build();
-
-            savedRepository.save(newSave);
-
-            if (request.hire() != null && !request.hire().isEmpty()) {
-                for (HireRequest hireInfo : request.hire()) {
-                    Staff newStaff = new Staff(hireInfo.name(), hireInfo.productivity());
-                    staffRepository.save(newStaff);
-                    Hire newHire = new Hire(newSave, newStaff);
-                    hireRepository.save(newHire);
-                }
+        if (request.project() != null && !request.project().isEmpty()) {
+            for (ProjectRequest projectInfo : request.project()) {
+                ProjectType type = ProjectType.valueOf(projectInfo.type());
+                Project newProject = new Project(newSave, type, projectInfo.endTurn());
+                projectRepository.save(newProject);
             }
+        }
 
-            if (request.project() != null && !request.project().isEmpty()) {
-                for (ProjectRequest projectInfo : request.project()) {
-                    ProjectType type = ProjectType.valueOf(projectInfo.type());
-                    Project newProject = new Project(newSave, type, projectInfo.endTurn());
-                    projectRepository.save(newProject);
-                }
-            }
+        return SavedResponse.from(savedRepository.findById(newSave.getId())
+                .orElseThrow(() -> new CustomException(ErrorCode.SAVE_CREATION_FAILED)));
 
-            return SavedResponse.from(savedRepository.findById(newSave.getId()).get());
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw e;
         }
     }
-}

@@ -44,8 +44,7 @@ public class SavedController {
             @RequestBody GameCreateRequest request,
             @AuthenticationPrincipal SecurityMember member
     ) {
-        Long memeberId = member.getMemberId();
-        gameService.createNewSave(request);
+        gameService.createNewSave(request, member);
         return ResponseEntity.ok().build();
     }
 }
