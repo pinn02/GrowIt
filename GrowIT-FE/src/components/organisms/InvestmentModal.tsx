@@ -17,13 +17,13 @@ function InvestmentModal({ onClose }: InvestmentModalProps) {
   const [investments, setInvestments] = useState<any[]>([])
 
   const currentSaveIdx = useSaveStore(state => state.currentSaveIdx)
-  const hiringArray = useGameDataStore(state => state.hiringArray)
+  const investmentArray = useGameDataStore(state => state.investmentArray)
 
   useEffect(() => {
-    if (!hiringArray) return
+    if (!investmentArray) return
 
     const newInvestments = investmentData.map((inv, idx) => {
-      const selectedIndex = hiringArray[idx]
+      const selectedIndex = investmentArray[idx]
       return {
         name: inv.name,
         cost: inv.costs[selectedIndex],
@@ -32,7 +32,7 @@ function InvestmentModal({ onClose }: InvestmentModalProps) {
     })
 
     setInvestments(newInvestments)
-  }, [hiringArray, currentSaveIdx])
+  }, [investmentArray, currentSaveIdx])
 
   return (
     <>

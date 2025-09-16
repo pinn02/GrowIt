@@ -15,6 +15,8 @@ export type SaveData = {
   marketingArray: number[]
   investmentArray: number[]
   projectArray: number[]
+
+  hiredPerson: number[]
 }
 
 type SaveState = {
@@ -28,6 +30,8 @@ type SaveState = {
     setMarketingArray: (arr: number[]) => void
     setInvestmentArray: (arr: number[]) => void
     setProjectArray: (arr: number[]) => void
+
+    setHiredPerson: (value: number[]) => void
 }
 
 
@@ -45,6 +49,8 @@ const defaultSave: SaveData = {
   marketingArray: [0, 0, 0],
   investmentArray: [0, 0],
   projectArray: [0, 0, 0],
+  
+  hiredPerson: [],
 }
 
 export const useSaveStore = create<SaveState>()(
@@ -89,6 +95,14 @@ export const useSaveStore = create<SaveState>()(
         set((state) => {
           const newSaves = [...state.saves]
           const save = { ...newSaves[state.currentSaveIdx], projectArray: arr }
+          newSaves[state.currentSaveIdx] = save
+          return { saves: newSaves }
+        }),
+
+      setHiredPerson: (value) =>
+        set((state) => {
+          const newSaves = [...state.saves]
+          const save = { ...newSaves[state.currentSaveIdx], hiredPerson: value }
           newSaves[state.currentSaveIdx] = save
           return { saves: newSaves }
         }),

@@ -24,6 +24,8 @@ const defaultSave: SaveData = {
   marketingArray: [0, 0, 0],
   investmentArray: [0, 0],
   projectArray: [0, 0, 0],
+
+  hiredPerson: [],
 }
 
 function SelectSaveTemplate({ onIsNewGame }: SelectSaveTemplateProps) {
@@ -70,6 +72,8 @@ function SelectSaveTemplate({ onIsNewGame }: SelectSaveTemplateProps) {
                   gameDataStore.setInvestmentArray(currentSave.investmentArray)
                   gameDataStore.setProjectArray(currentSave.projectArray)
                   
+                  gameDataStore.setHiredPerson(currentSave.hiredPerson)
+
                   navigate("/main")
                 } else {
                   onIsNewGame(idx)

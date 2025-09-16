@@ -21,6 +21,8 @@ const newSave = {
   marketingArray: [0, 0, 0],
   investmentArray: [0, 0],
   projectArray: [0, 0, 0],
+
+  hiredPerson: [],
 }
 
 function getRandomUniqueArray(length: number, min: number, max: number): number[] {
@@ -62,7 +64,7 @@ function StartPage() {
     gameDataStore.setCurrentProject(currentSave.currentProject)
     gameDataStore.setOfficeLevel(currentSave.officeLevel)
 
-    const newHiringArray = getRandomUniqueArray(3, 0, 5)
+    const newHiringArray = getRandomUniqueArray(3, 0, 14)
     const newMarketingArray = getRandomUniqueArray(3, 0, 4)
     const newInvestmentArray = getRandomUniqueArray(2, 0, 14)
     const newProjectArray = getRandomUniqueArray(3, 0, 5)
@@ -71,6 +73,8 @@ function StartPage() {
     gameDataStore.setMarketingArray(newMarketingArray)
     gameDataStore.setInvestmentArray(newInvestmentArray)
     gameDataStore.setProjectArray(newProjectArray)
+
+    gameDataStore.setHiredPerson([])
 
     const randomSave = {
       ...newSave,
