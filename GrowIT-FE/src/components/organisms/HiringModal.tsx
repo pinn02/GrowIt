@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import CloseButton from "../atoms/Button"
 import hiringModalBackgroundImage from "../../assets/modals/hiring_modal_background.png"
 import ApplicantCard from "../molecules/ApplicantCard"
@@ -6,18 +6,64 @@ import applicantImage1 from "../../assets/applicants/applicant1.gif"
 import applicantImage2 from "../../assets/applicants/applicant2.gif"
 import applicantImage3 from "../../assets/applicants/applicant3.gif"
 
+import applicantData from "../../assets/data/randomApplicants.json"
+import { useSaveStore } from "../../stores/saveStore"
+import { useGameDataStore } from "../../stores/gameDataStore"
 
-const applicants = [
-  { applicantName: "Wirtz", position: "Programmer", salary: 70000, productivity: 7, applicantImage: applicantImage1 },
-  { applicantName: "Salah", position: "Art Disigner", salary: 110000, productivity: 11, applicantImage: applicantImage2 },
-  { applicantName: "Mac Alister", position: "Project Manager", salary: 100000, productivity: 10, applicantImage: applicantImage3 }
-]
+// const applicants = [
+//   { name: "Wirtz", position: "Programmer", salary: 70000, productivity: 7, applicantImage: applicantImage1 },
+//   { name: "Salah", position: "Art Disigner", salary: 110000, productivity: 11, applicantImage: applicantImage2 },
+//   { name: "Mac Alister", position: "Project Manager", salary: 100000, productivity: 10, applicantImage: applicantImage3 }
+// ]
 
 type HiringModalProps = {
   onClose: () => void
 }
 
 function HiringModal({ onClose }: HiringModalProps) {
+
+  const gameDataStore = useGameDataStore()
+  const [applicants, setApplicants] = useState<any[]>([])
+  const currentSaveIdx = useSaveStore(state => state.currentSaveIdx)
+  const hiringArray = useGameDataStore(state => state.hiringArray)
+
+  // useEffect(() => {
+  //   if (!hiringArray) return
+    
+  //   const newHirings = applicantData.map((hir, idx) => {
+  //     const seletedIndex = hiringArray[idx]
+  //     return {
+  //       name: hir.name,
+  //       position: hir.position,
+  //       productivity: hir.productivity,
+  //       imageIndex: hir.imageIndex,
+  //       salary: hir.salary
+  //     }
+  //   })
+
+  //   setApplicants(newHirings)
+  // }, [hiringArray, currentSaveIdx])
+
+  useEffect(() => {
+    if (!hiringArray) return;
+
+    const newHirings: any[] = [];
+    for (let i = 0; i < 3; i++) {
+      const selectedIndex = gameDataStore.hiringArray[i];
+      const hir = applicantData[selectedIndex];
+
+      newHirings.push({
+        id: hir.id,
+        name: hir.name,
+        position: hir.position,
+        productivity: hir.productivity,
+        imageIndex: hir.imageIndex,
+        salary: hir.salary
+      });
+    }
+
+    setApplicants(newHirings);
+  }, [hiringArray, currentSaveIdx]);
 
   return (
     <>

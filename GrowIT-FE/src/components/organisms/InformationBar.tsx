@@ -31,6 +31,8 @@ const defaultSave = {
   marketingArray: [0, 0, 0],
   investmentArray: [0, 0],
   projectArray: [0, 0, 0],
+
+  hiredPerson: [],
 }
 
 type InformationBarProps = {
@@ -51,6 +53,28 @@ function getRandomUniqueArray(length: number, min: number, max: number): number[
   return result
 }
 
+function getRandomHiringArray(hiredPerson: number[], length: number, min: number, max: number): number[] {
+  const numbers = Array.from({ length: max - min + 1 }, (_, i) => i + min);
+  const result: number[] = [];
+
+  hiredPerson.forEach((hp) => {
+    const index = numbers.indexOf(hp);
+    if (index !== -1) numbers.splice(index, 1);
+  });
+
+  // const len = Math.max(0, length - hiredPerson.length);
+
+  for (let i = 0; i < 3; i++) {
+    if (numbers.length === 0) break;
+    const idx = Math.floor(Math.random() * numbers.length);
+    result.push(numbers[idx]);
+    numbers.splice(idx, 1);
+  }
+
+  return result;
+}
+
+
 function InformationBar({ onRandomEvent, onStore }: InformationBarProps) {
   const navigate = useNavigate()
   const saveStore = useSaveStore()
@@ -69,7 +93,7 @@ function InformationBar({ onRandomEvent, onStore }: InformationBarProps) {
     buttonStore.setInvestmentButton(true)
     buttonStore.setProjectButton(true)
 
-    gameDataStore.setHiringArray(getRandomUniqueArray(3, 0, 5))
+    gameDataStore.setHiringArray(getRandomHiringArray(gameDataStore.hiringArray, 3, 0, 14))
     gameDataStore.setMarketingArray(getRandomUniqueArray(3, 0, 4))
     gameDataStore.setInvestmentArray(getRandomUniqueArray(2, 0, 14))
     gameDataStore.setProjectArray(getRandomUniqueArray(3, 0, 5))
@@ -88,6 +112,8 @@ function InformationBar({ onRandomEvent, onStore }: InformationBarProps) {
       marketingArray: gameDataStore.marketingArray,
       investmentArray: gameDataStore.investmentArray,
       projectArray: gameDataStore.projectArray,
+      
+      hiredPerson: gameDataStore.hiredPerson,
     }
 
     

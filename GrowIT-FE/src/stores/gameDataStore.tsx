@@ -15,6 +15,8 @@ type gameDataState = {
   investmentArray: number[],
   projectArray: number[],
 
+  hiredPerson: number[],
+
   setEnterpriseValue: (value: number) => void
   setProductivity: (value: number) => void
   setFinance: (value: number) => void
@@ -27,6 +29,8 @@ type gameDataState = {
   setMarketingArray: (value: number[]) => void
   setInvestmentArray: (value: number[]) => void
   setProjectArray: (value: number[]) => void
+
+  setHiredPerson: (value: number[]) => void
 }
 
 export const useGameDataStore = create<gameDataState>()(
@@ -44,6 +48,8 @@ export const useGameDataStore = create<gameDataState>()(
       marketingArray: [0, 0, 0],
       investmentArray: [0, 0],
       projectArray: [0, 0, 0],
+
+      hiredPerson: [],
 
       setEnterpriseValue: (value: number) =>
         set(() => ({ enterpriseValue: value })),
@@ -68,6 +74,8 @@ export const useGameDataStore = create<gameDataState>()(
         set(() => ({ investmentArray: value })),
       setProjectArray: (value: number[]) =>
         set(() => ({ projectArray: value })),
+      setHiredPerson: (value: number[]) =>
+        set(() => ({ hiredPerson: value }))
     }),
     {
       name: "game-data-storage",
