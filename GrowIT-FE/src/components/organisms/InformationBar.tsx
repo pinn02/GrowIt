@@ -85,8 +85,8 @@ function InformationBar({ onRandomEvent, onStore }: InformationBarProps) {
   return (
     <>
       <header
-        className="h-16 flex items-center justify-between px-4 bg-cover bg-center"
-        style={{ backgroundImage: `url(${skyBackgroundImage})` }}
+        className="h-16 flex items-center justify-between px-4 bg-cover bg-center bg-zinc-300"
+        // style={{ backgroundImage: `url(${skyBackgroundImage})` }}
       >
         <Logo height={logoHeight} />
         <div className="flex items-center space-x-4">
