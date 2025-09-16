@@ -132,12 +132,14 @@ function RandomEventModal({ onClose }: RandomEventModalProps) {
           {eventResultType === "positive" && !isLoading && <div className="crowd-cheer-overlay"></div>}
 
           <div className="w-full flex justify-end absolute top-2 right-2 z-10">
-            <CloseButton
+            {!isLoading &&
+              <CloseButton
               onClick={effectApply}
               className="bg-red-500 text-white p-2 rounded-full w-8 h-8 flex items-center justify-center font-bold shadow-md hover:bg-red-600 transition-colors transform hover:scale-110"
             >
               X
             </CloseButton>
+            }
           </div>
 
           {isLoading ? (

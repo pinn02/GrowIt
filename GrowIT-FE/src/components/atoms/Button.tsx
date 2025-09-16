@@ -6,19 +6,19 @@ type ButtonProps = {
   disabled?: boolean
   maxSize?: number
   className?: string
-  onClick?: () => void
+  onClick?: React.MouseEventHandler<HTMLButtonElement>
   children: React.ReactNode
 }
 
 function Button({ type="button", to, disabled, maxSize, className = "", onClick, children }: ButtonProps) {
   const navigate = useNavigate()
   
-  const handleClick = () => {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (disabled) return
     if (to) {
       navigate(to)
     } else if (onClick) {
-      onClick()
+      onClick(e)
     }
   }
 

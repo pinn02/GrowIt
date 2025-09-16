@@ -21,7 +21,7 @@ function GameData({ dataName, dataValue, dataMax, fillColor = "bg-gray-700", ico
 				{icon && <img src={icon} alt={dataName} className="w-10 h-10" />}
         <span className="font-pixel text-white text-sm">{dataName}</span>
         <span className="font-pixel text-white text-lg">
-          {dataValue.toLocaleString()}
+          {(dataValue ?? 0).toLocaleString()}
         </span>
       </div>
     </div>

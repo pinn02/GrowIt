@@ -5,15 +5,30 @@ import loginPageBackgroundImage from "../assets/background_images/start_page_bac
 import DifficultyTemplate from "../components/templates_work/DifficultyTemplate"
 import { useButtonStore } from "../stores/buttonStore"
 import { useGameDataStore } from "../stores/gameDataStore"
+import { useSaveStore } from "../stores/saveStore"
+
+const newSave = {
+  enterpriseValue: 1000,
+  productivity: 100,
+  finance: 1000000,
+  employeeCount: 0,
+  turn: 1,
+  currentProject: "",
+  officeLevel: 0,
+  updatedAt: new Date().toISOString().split("T")[0],
+}
 
 function StartPage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [isNewGame, setIsNewGame] = useState(false)
 
   const buttonStore = useButtonStore()
-  const gameDataState = useGameDataStore()
+  const gameDataStore = useGameDataStore()
+  const saveStore = useSaveStore()
 
-  const newGame = () => {
+  const newGame = (idx: number) => {
+    const currentSave = saveStore.saves[idx]
+
     buttonStore.setHiringButton1(true)
     buttonStore.setHiringButton2(true)
     buttonStore.setHiringButton3(true)
@@ -21,13 +36,15 @@ function StartPage() {
     buttonStore.setInvestmentButton(true)
     buttonStore.setProjectButton(true)
     
-    gameDataState.setCurrentProject("")
-    gameDataState.setEmployeeCount(0)
-    gameDataState.setEnterpriseValue(1000)
-    gameDataState.setFinance(1000000)
-    gameDataState.setProductivity(10)
-    gameDataState.setTurn(1)
-    gameDataState.setOfficeLevel(0)
+    gameDataStore.setEnterpriseValue(currentSave.enterpriseValue)
+    gameDataStore.setProductivity(currentSave.productivity)
+    gameDataStore.setFinance(currentSave.finance)
+    gameDataStore.setEmployeeCount(currentSave.employeeCount)
+    gameDataStore.setTurn(1)
+    gameDataStore.setCurrentProject(currentSave.currentProject)
+    gameDataStore.setOfficeLevel(currentSave.officeLevel)
+
+    saveStore.setSave(idx, newSave)
   }
   
 
@@ -51,9 +68,9 @@ function StartPage() {
         ) : !isNewGame ? (
           <SelectSaveTemplate
             onIsNewGame={
-              () => {
+              (idx: number) => {
                 setIsNewGame(true)
-                newGame()
+                newGame(idx)
               }
             }
           />
