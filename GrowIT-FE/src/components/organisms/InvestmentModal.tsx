@@ -1,20 +1,31 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import CloseButton from "../atoms/Button"
 import investmentModalBackgroundImage from "../../assets/modals/investment_modal_background.png"
 import InvestmentCard from "../molecules/InvestmentCard"
 
-const investments = [
-  { name: "Enhancing Welfare", effect: "Small", cost: 10000 },
-  { name: "Utility Reinforce", effect: "Middle", cost: 100000 },
-  { name: "Research & Development", effect: "Big", cost: 1000000 }
-]
+import investmentData from "../../assets/data/randomInvestment.json";
 
 type InvestmentModalProps = {
   onClose: () => void
 }
 
 function InvestmentModal({ onClose }: InvestmentModalProps) {
-  
+  const [investments, setInvestments] = useState([]);
+
+  useEffect(() => {
+    // JSON 데이터에서 각 투자 타입별로 랜덤하게 선택
+    const randomInvestments = investmentData.map(investmentType => {
+      const randomIndex = Math.floor(Math.random() * investmentType.actions.length);
+      
+      return {
+        name: investmentType.name,
+        cost: investmentType.costs[randomIndex],
+        content: investmentType.actions[randomIndex]
+      };
+    });
+    
+    setInvestments(randomInvestments);
+  }, []);
 
   return (
     <>
@@ -41,7 +52,7 @@ function InvestmentModal({ onClose }: InvestmentModalProps) {
             </CloseButton>
             </div>
             <div className="flex justify-center items-center p-0">
-              { investments.map((investment, idx) => (
+              {investments.map((investment, idx) => (
                   <InvestmentCard key={idx} investment={investment} />
               ))}
           </div>

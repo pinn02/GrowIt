@@ -4,9 +4,9 @@ import SelectButton from "../atoms/Button"
 
 type Project = {
   name: string
-  turn: number
-  reward: number
+  cost: number
   image: string
+  actionName?: string
 }
 
 type ProjectCardProps = {
@@ -31,12 +31,12 @@ function ProjectCard({ project }: ProjectCardProps) {
         className="w-full h-auto"
       />
 
-      <div className="absolute inset-0 flex flex-col items-center justify-center p-5 space-y-4 translate-y-8">
+      <div className="absolute inset-0 flex flex-col items-center justify-between p-4 pt-10">
         <p className="font-bold text-clamp-title text-center">
           {project.name}
         </p>
 
-        <div className="w-3/4 h-20 flex justify-center">
+        <div className="w-1/2 flex justify-center">
           <img
             src={project.image}
             alt={`${project.name} 아이콘`}
@@ -44,12 +44,14 @@ function ProjectCard({ project }: ProjectCardProps) {
           />
         </div>
 
-        <div className="w-full flex flex-col items-center text-center space-y-3">
-          <p className="text-clamp-base">턴: {project.turn}</p>
-          <p className="text-clamp-base">
-            비용: {project.reward.toLocaleString()}G
+        <div className="w-full flex flex-col items-center text-center">
+          <p className="text-xs mb-2 leading-relaxed text-center px-1 font-medium text-gray-700 h-12 flex items-center justify-center">
+            {project.actionName}
           </p>
-          <div className="mt-2 w-full">
+          <p className="text-clamp-base">
+            비용: {project.cost.toLocaleString()}G
+          </p>
+          <div className="mt-4 w-full">
             <SelectButton
               disabled={isDisabled}
               className={`w-full py-2 rounded transition-colors ${
