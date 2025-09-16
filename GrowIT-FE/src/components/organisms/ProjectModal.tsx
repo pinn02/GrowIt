@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import CloseButton from "../atoms/Button"
 import projectModalBackgroundImage from "../../assets/modals/project_modal_background.png"
 import ProjectCard from "../molecules/ProjectCard"
@@ -7,17 +7,35 @@ import publicImage from "../../assets/icons/public.png";
 import insideImage from "../../assets/icons/inside.png";
 import globalImage from "../../assets/icons/global.png";
 
-const projects = [
-  { name: "정부/공공 프로젝트", turn: 5, reward: 1000000, image: publicImage },
-  { name: "사내 프로젝트", turn: 7, reward: 2000000, image: insideImage },
-  { name: "글로벌 프로젝트", turn: 10, reward: 3000000, image: globalImage }
-]
+import projectData from "../../assets/data/randomProject.json";
+
+const channelImages = {
+  "공공/정부 프로젝트": publicImage,
+  "사내 프로젝트": insideImage,
+  "글로벌 프로젝트": globalImage
+};
 
 type ProjectModalProps = {
   onClose: () => void
 }
 
 function ProjectModal({ onClose }: ProjectModalProps) {
+  const [projects, setProjects] = useState([]);
+
+  useEffect(() => {
+    const randomProjects = projectData.map(category => {
+      const randomIndex = Math.floor(Math.random() * category.actions.length);
+      
+      return {
+        name: category.name,
+        cost: category.costs[randomIndex],
+        image: channelImages[category.name],
+        actionName: category.actions[randomIndex]
+      };
+    });
+    
+    setProjects(randomProjects);
+  }, []);
 
   return (
     <>
@@ -42,10 +60,11 @@ function ProjectModal({ onClose }: ProjectModalProps) {
           <h2 className="absolute top-14 left-1/2 -translate-x-1/2 text-center text-4xl font-extrabold text-white drop-shadow-lg">
             프로젝트
           </h2>
-          <div className="flex flex-col md:flex-row justify-center items-center gap-6 p-2">
+          <div className="flex flex-col md:flex-row justify-center items-center gap-6 p-4">
             {projects.map((project, idx) => (
               <ProjectCard key={idx} project={project} />
-            ))}</div>
+            ))}
+          </div>
         </div>
       </div>
     </>
