@@ -54,6 +54,29 @@ if __name__ == '__main__':
 
         print(f"\n학습된 AI 모델을 '{model_filename}' 파일로 저장했습니다.")
 
+        try:
+            from skl2onnx import convert_sklearn
+            from skl2onnx.common.data_types import FloatTensorType
+
+            sklearn_model = analyzer.model
+
+            n_features = analyzer.X.shape[1]
+            initial_type = [('float_input', FloatTensorType([None, n_features]))]
+
+            onnx_model = convert_sklearn(sklearn_model, initial_types=initial_type)
+
+            onnx_filename = 'facility_investment_model.onnx'
+            with open(onnx_filename, 'wb') as f:
+                f.write(onnx_model.SerializeToString())
+
+        except ImportError:
+            print("\n[오류] ONNX 변환에 필요한 라이브러리가 설치되지 않았습니다.")
+            print("터미널에서 'pip install skl2onnx onnx onnxruntime' 명령어를 실행해주세요.")
+        except Exception as e:
+            print(f"\n[오류] ONNX 변환 중 문제가 발생했습니다: {e}")
+
+
+
     except FileNotFoundError:
         print(f"\n[오류] 파일 없음: '{data_filepath}' 파일을 찾을 수 없습니다.")
     except KeyError as e:

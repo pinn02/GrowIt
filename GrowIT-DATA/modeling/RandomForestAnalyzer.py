@@ -5,6 +5,7 @@ from sklearn.metrics import r2_score, accuracy_score, classification_report, con
 import numpy as np
 import optuna
 from imblearn.over_sampling import SMOTE
+import joblib
 
 
 class RandomForestAnalyzer:
@@ -15,12 +16,10 @@ class RandomForestAnalyzer:
     def __init__(self, clean_dataframe, config):
         self.data = clean_dataframe
         self.config = config
-        # --- 수정: 'regression' -> 'regressor' 오타 수정 ---
         self.model_type = self.config.get('model_type', 'regressor')
         self.model = None
         self.features = self.config['features']
         self.target = self.config['target']
-        # --- 수정: 변수명을 표준 컨벤션에 맞게 소문자로 통일 ---
         self.X_train, self.X_test, self.y_train, self.y_test = [None] * 4
         self.best_params = None
         self.X, self.y = [None] * 2
@@ -52,9 +51,7 @@ class RandomForestAnalyzer:
         self.X = model_df[self.features]
         self.y = model_df[self.target]
 
-
         stratify_option = self.y if self.model_type == 'classifier' else None
-        # --- 수정: 변수명을 소문자로 통일 ---
         self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(
             self.X, self.y, test_size=0.3, random_state=42, stratify=stratify_option
         )
@@ -148,7 +145,6 @@ class RandomForestAnalyzer:
                 print(confusion_matrix(self.y_test, y_pred))
             return accuracy
 
-    # --- 수정: 중복된 메서드 제거 ---
     def get_feature_importances(self):
         importances = self.model.feature_importances_
         return pd.DataFrame(
@@ -162,13 +158,13 @@ class RandomForestAnalyzer:
         probabilities = self.model.predict_proba(new_df)
         return pd.DataFrame(probabilities, columns=self.model.classes_, index=['Predicted Probability'])
 
+
 if __name__ == '__main__':
     try:
         data_filepath = "../preprocessing/hiring/final_analytical_data_advanced_featured.csv"
         clean_data = pd.read_csv(data_filepath)
         print(f"'{data_filepath}' 파일을 성공적으로 불러왔습니다.\n")
 
-        # --- 분석 모드 선택 ---
         CHOSEN_MODE = 'classifier'
 
         if CHOSEN_MODE == 'classifier':
@@ -177,39 +173,47 @@ if __name__ == '__main__':
                 'target': 'talent_tier',
                 'tier_quantiles': {'S': 0.85, 'A': 0.60, 'B': 0.30},
                 'features': [
-                    # 기본 변수
-                    'unemployment_rate',
-                    'BSI_Composite',
-                    'real_wage_growth',
-                    'growth_rate_qoq_lag1',
-                    'population',
-                    'GFCF_ICT_Real',  # GFCF 변수 추가
-
-                    # 단기 추세 변수
-                    'unemployment_rate_MA3',
-                    'BSI_Composite_MA3',
-                    'unemployment_rate_change3',
-                    'BSI_Composite_change3',
-
-                    # 고급 특성 변수 (중장기 추세 및 변동성)
-                    'unemployment_rate_MA6',
-                    'BSI_Composite_MA12',
-                    'real_wage_growth_change12',
-                    'unemployment_rate_std3',
-                    'BSI_Composite_std6'
+                    'unemployment_rate', 'BSI_Composite', 'real_wage_growth',
+                    'growth_rate_qoq_lag1', 'population', 'GFCF_ICT_Real',
+                    'unemployment_rate_MA3', 'BSI_Composite_MA3',
+                    'unemployment_rate_change3', 'BSI_Composite_change3',
+                    'unemployment_rate_MA6', 'BSI_Composite_MA12',
+                    'real_wage_growth_change12', 'unemployment_rate_std3', 'BSI_Composite_std6'
                 ]
             }
             analyzer = RandomForestAnalyzer(clean_data, config)
             analyzer.prepare_modeling_data('growth_rate_qoq')
 
-            # --- 여기가 핵심 실행 흐름 ---
-            # 1. 하이퍼파라미터 튜닝 실행
             analyzer.hyperparameter_tuning(n_trials=50)
-
-            # 2. 튜닝으로 찾은 최적의 파라미터로 최종 모델 학습
             analyzer.train(use_best_params=True)
 
-            # 3. 최종 모델 평가 및 결과 확인
+            # --- [모델 저장 파트 시작] ---
+            # 1. Pickle 파일로 저장
+            pkl_filename = 'hiring_tier_model.pkl'
+            joblib.dump(analyzer, pkl_filename)
+            print(f"\n[저장 완료] Pickle 모델을 '{pkl_filename}' 파일로 저장했습니다.")
+
+            # 2. ONNX 파일로 저장
+            try:
+                from skl2onnx import convert_sklearn
+                from skl2onnx.common.data_types import FloatTensorType
+
+                sklearn_model = analyzer.model
+                n_features = analyzer.X.shape[1]
+                initial_type = [('float_input', FloatTensorType([None, n_features]))]
+                onnx_model = convert_sklearn(sklearn_model, initial_types=initial_type)
+
+                onnx_filename = 'hiring_tier_model.onnx'
+                with open(onnx_filename, "wb") as f:
+                    f.write(onnx_model.SerializeToString())
+                print(f"[저장 완료] ONNX 모델을 '{onnx_filename}' 파일로 저장했습니다.")
+
+            except ImportError:
+                print("\n[오류] ONNX 변환 라이브러리가 없습니다. 'pip install skl2onnx onnx'를 실행해주세요.")
+            except Exception as e:
+                print(f"\n[오류] ONNX 변환 중 문제가 발생했습니다: {e}")
+            # --- [모델 저장 파트 끝] ---
+
             score = analyzer.evaluate()
             importances = analyzer.get_feature_importances()
 
@@ -219,8 +223,6 @@ if __name__ == '__main__':
             print(f"\n## 모델 평가 결과 (튜닝 후 정확도) ##\n{score:.4f}")
             print("\n## 변수별 영향력 (Feature Importance) ##")
             print(importances)
-
-        # (회귀 모드 실행 부분은 생략)
 
     except FileNotFoundError:
         print(f"\n[오류] 파일 없음: '{data_filepath}' 파일을 찾을 수 없습니다.")

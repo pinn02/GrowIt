@@ -43,6 +43,36 @@ if __name__ == '__main__':
         print("=" * 40)
         print(f"\n학습된 AI 모델을 '{model_filename}' 파일로 성공적으로 저장했습니다.")
 
+        # --- [ONNX 변환 파트 시작] ---
+        print("\n" + "=" * 50)
+        print("         ONNX 모델 변환 시작")
+        print("=" * 50)
+
+        try:
+            from skl2onnx import convert_sklearn
+            from skl2onnx.common.data_types import FloatTensorType
+
+            sklearn_model = analyzer.model
+
+            n_features = analyzer.X.shape[1]
+            initial_type = [('float_input', FloatTensorType([None, n_features]))]
+
+            onnx_model = convert_sklearn(sklearn_model, initial_types=initial_type)
+
+            onnx_filename = 'talent_tier_model.onnx'
+            with open(onnx_filename, "wb") as f:
+                f.write(onnx_model.SerializeToString())
+
+            print(f"ONNX 모델을 '{onnx_filename}' 파일로 성공적으로 저장했습니다.")
+            print(f"이제 이 '{onnx_filename}' 파일을 Java 프로젝트에서 사용하면 됩니다.")
+
+        except ImportError:
+            print("\n[오류] ONNX 변환에 필요한 라이브러리가 설치되지 않았습니다.")
+            print("터미널에서 'pip install skl2onnx onnx onnxruntime' 명령어를 실행해주세요.")
+        except Exception as e:
+            print(f"\n[오류] ONNX 변환 중 문제가 발생했습니다: {e}")
+        # --- [ONNX 변환 파트 끝] ---
+
         # --- (선택) 최종 모델 성능 확인 ---
         score = analyzer.evaluate()
         importances = analyzer.get_feature_importances()
