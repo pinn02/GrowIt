@@ -6,8 +6,8 @@ import { useGameDataStore } from "../../stores/gameDataStore"
 
 type Investment = {
   name: string
-  effect: string
   cost: number
+  content: string
 }
 
 type InvestmentCardProps = {
@@ -20,14 +20,12 @@ function InvestmentCard({ investment }: InvestmentCardProps) {
   const gameDataStore = useGameDataStore()
 
   const investmentSelected = () => {
-  
     gameDataStore.setFinance(gameDataStore.finance - investment.cost)
     
-    if (investment.effect === "Small") {
+    // 투자 타입에 따른 생산성 증가 (추후 백의 api를 불러와서 곱하는 것으로 수정 예정)
+    if (investment.name === "설비 투자") {
       gameDataStore.setProductivity(gameDataStore.productivity + Math.round(10 * Math.random() * (1.25 - 0.75) + 0.75))
-    } else if (investment.effect === "Middle") {
-      gameDataStore.setProductivity(gameDataStore.productivity + Math.round(100 * Math.random() * (1.25 - 0.75) + 0.75))
-    } else if (investment.effect === "Big") {
+    } else if (investment.name === "R&D 투자") {
       gameDataStore.setProductivity(gameDataStore.productivity + Math.round(1000 * Math.random() * (1.25 - 0.75) + 0.75))
     }
 
@@ -49,9 +47,13 @@ function InvestmentCard({ investment }: InvestmentCardProps) {
           </p>
         </div>
         
-        <div className="absolute left-[15%] top-[50%] w-[80%] h-[20%] flex flex-col justify-center">
-          <p className="text-clamp-base mb-1">효과: {investment.effect}</p>
-          <p className="text-clamp-base">비용: {investment.cost.toLocaleString()}G</p>
+        <div className="absolute left-[15%] top-[45%] w-[70%] h-[25%] flex flex-col justify-start">
+          <p className="text-clamp-base mb-2 leading-relaxed text-center px-1 font-medium text-gray-700">
+            {investment.content}
+          </p>
+          <p className="text-clamp-base text-center">
+            비용: {investment.cost.toLocaleString()}G
+          </p>
         </div>
         
         <div className="absolute left-[10%] top-[75%] w-[80%] h-[15%] flex items-center justify-center">
