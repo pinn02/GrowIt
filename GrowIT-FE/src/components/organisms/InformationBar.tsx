@@ -7,6 +7,7 @@ import ReportModal from "./ReportModal"
 import skyBackgroundImage from "../../assets/background_images/sky_page_background_image.png"
 import { useGameDataStore } from '../../stores/gameDataStore'
 import { useButtonStore } from '../../stores/buttonStore'
+import { useSaveStore } from '../../stores/saveStore'
 
 const logoHeight = 48;
 const storeButtonSize = 100;
@@ -20,8 +21,11 @@ type InformationBarProps = {
 }
 
 function InformationBar({ onRandomEvent, onStore }: InformationBarProps) {
+  const saveStore = useSaveStore()
   const gameDataStore = useGameDataStore()
   const buttonStore = useButtonStore()
+
+  const currentSaveIdx = saveStore.currentSaveIdx
 
   const [showReportModal, setShowReportModal] = useState(false)
 
@@ -33,7 +37,21 @@ function InformationBar({ onRandomEvent, onStore }: InformationBarProps) {
     buttonStore.setInvestmentButton(true)
     buttonStore.setProjectButton(true)
 
+    
+    const latestData = {
+      enterpriseValue: gameDataStore.enterpriseValue,
+      productivity: gameDataStore.productivity,
+      finance: gameDataStore.finance,
+      employeeCount: gameDataStore.employeeCount,
+      turn: gameDataStore.turn + 1,
+      currentProject: gameDataStore.currentProject,
+      officeLevel: gameDataStore.officeLevel,
+      updatedAt: new Date().toISOString().split("T")[0],
+    }
+
     gameDataStore.setTurn(gameDataStore.turn + 1)
+
+    saveStore.setSave(currentSaveIdx, latestData)
 
     setShowReportModal(true)
   }
