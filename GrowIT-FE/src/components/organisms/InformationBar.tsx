@@ -8,12 +8,25 @@ import skyBackgroundImage from "../../assets/background_images/sky_page_backgrou
 import { useGameDataStore } from '../../stores/gameDataStore'
 import { useButtonStore } from '../../stores/buttonStore'
 import { useSaveStore } from '../../stores/saveStore'
+import { useNavigate } from 'react-router-dom'
 
 const logoHeight = 48;
 const storeButtonSize = 100;
 const turnEndButtonSize = 100;
 
 const RANDOM_EVENT_PROBABILITY = 0.25
+const MAX_TURN = 3
+
+const defaultSave = {
+  enterpriseValue: 1000,
+  productivity: 100,
+  finance: 1000000,
+  employeeCount: 0,
+  turn: 0,
+  currentProject: "",
+  officeLevel: 0,
+  updatedAt: new Date().toISOString().split("T")[0],
+}
 
 type InformationBarProps = {
   onRandomEvent: () => void
@@ -21,6 +34,7 @@ type InformationBarProps = {
 }
 
 function InformationBar({ onRandomEvent, onStore }: InformationBarProps) {
+  const navigate = useNavigate()
   const saveStore = useSaveStore()
   const gameDataStore = useGameDataStore()
   const buttonStore = useButtonStore()
@@ -37,7 +51,6 @@ function InformationBar({ onRandomEvent, onStore }: InformationBarProps) {
     buttonStore.setInvestmentButton(true)
     buttonStore.setProjectButton(true)
 
-    
     const latestData = {
       enterpriseValue: gameDataStore.enterpriseValue,
       productivity: gameDataStore.productivity,
@@ -49,11 +62,15 @@ function InformationBar({ onRandomEvent, onStore }: InformationBarProps) {
       updatedAt: new Date().toISOString().split("T")[0],
     }
 
-    gameDataStore.setTurn(gameDataStore.turn + 1)
-
-    saveStore.setSave(currentSaveIdx, latestData)
-
-    setShowReportModal(true)
+    
+    if (gameDataStore.turn === MAX_TURN) {
+      saveStore.setSave(currentSaveIdx, defaultSave)
+      navigate("/ending")
+    } else {
+      gameDataStore.setTurn(gameDataStore.turn + 1)
+      saveStore.setSave(currentSaveIdx, latestData)
+      setShowReportModal(true)
+    }
   }
 
   const handleCloseModal = () => {

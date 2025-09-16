@@ -7,7 +7,7 @@ type ButtonProps = {
   maxSize?: number
   className?: string
   onClick?: React.MouseEventHandler<HTMLButtonElement>
-  children: React.ReactNode
+  children?: React.ReactNode
 }
 
 function Button({ type="button", to, disabled, maxSize, className = "", onClick, children }: ButtonProps) {
