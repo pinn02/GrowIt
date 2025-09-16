@@ -11,16 +11,39 @@ function ActionButton({ name, actionImage, onClick }: ActionButtonProps) {
       onClick={onClick}
     >
       <p 
-        className="bg-sky-400 text-white transition duration-300 ease-in-out group-hover:-translate-y-1 group-hover:brightness-75 filter"
+        className="
+        bg-zinc-500/70
+        rounded-t-3xl
+        pt-1
+        text-white
+        transition
+        duration-300
+        ease-in-out
+        group-hover:-translate-y-[8px]
+        group-hover:brightness-75
+        filter
+        "
       >
         { name }
       </p>
-      <div className="w-full aspect-square">
+      <div
+        className="
+          w-full
+          aspect-square
+          border-8
+          border-zinc-500/60
+          bg-zinc-500/30
+          rounded-b-3xl
+          group-hover:-translate-y-[8px]
+          group-hover:brightness-75
+          duration-300
+          ease-in-out
+        "
+      >
         <img
           src={ actionImage }
           alt={`${name} 버튼`}
-          className="w-full h-full rounded-3xl border-8 border-sky-400
-            object-contain transition duration-300 ease-in-out group-hover:-translate-y-1 group-hover:brightness-75 filter"
+          className="w-full h-full rounded-b-3xl object-contain"
         />
       </div>
     </div>
