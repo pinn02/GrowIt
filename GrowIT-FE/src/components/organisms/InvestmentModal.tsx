@@ -12,8 +12,6 @@ type InvestmentModalProps = {
 }
 
 function InvestmentModal({ onClose }: InvestmentModalProps) {
-  // const gameDataStore = useGameDataStore()
-
   const [investments, setInvestments] = useState<any[]>([])
 
   const currentSaveIdx = useSaveStore(state => state.currentSaveIdx)

@@ -1,27 +1,36 @@
 import { useState } from "react"
 import projectCardImage from "../../assets/cards/paper_card.png"
 import SelectButton from "../atoms/Button"
+import { useGameDataStore } from "../../stores/gameDataStore"
+import { useButtonStore } from "../../stores/buttonStore"
 
 type Project = {
   name: string
-  cost: number
+  reward: number
   image: string
-  actionName?: string
+  action?: string
+  turn: number
 }
 
 type ProjectCardProps = {
   project: Project
 }
 
-function ProjectCard({ project }: ProjectCardProps) {
-  const [isDisabled, setIsDisabled] = useState(false);
-  const [buttonText, setButtonText] = useState("선택");
+const selectButtonSize = 200
 
-  const handleSelect = () => {
-    console.log(`${project.name} 프로젝트를 선택했습니다.`);
-    setIsDisabled(true);
-    setButtonText("선택 완료!");
-  };
+function ProjectCard({ project }: ProjectCardProps) {
+  const projectButton = useButtonStore((state) => state.projectButton)
+  const setProjectButton = useButtonStore((state) => state.setProjectButton)
+  const gameDataStore = useGameDataStore()
+
+  const projectSelected = (pName: string, pTurn: number, pReward: number) => {
+    gameDataStore.setCurrentProject({
+      name: pName,
+      turn: pTurn,
+      reward: pReward,
+    })
+    setProjectButton(false)
+  }
 
   return (
     <div className="relative w-[30%] h-auto mx-3 my-3">
@@ -30,12 +39,10 @@ function ProjectCard({ project }: ProjectCardProps) {
         alt="프로젝트 카드"
         className="w-full h-auto"
       />
-
-      <div className="absolute inset-0 flex flex-col items-center justify-between p-4 pt-10">
-        <p className="font-bold text-clamp-title text-center">
+      <div className="absolute inset-0 flex flex-col items-center justify-between p-4 h-[90%]">
+        <p className="font-bold text-2xl text-clamp-title text-center w-[80%] ps-8">
           {project.name}
         </p>
-
         <div className="w-1/2 flex justify-center">
           <img
             src={project.image}
@@ -43,25 +50,25 @@ function ProjectCard({ project }: ProjectCardProps) {
             className="w-full h-auto object-contain"
           />
         </div>
-
         <div className="w-full flex flex-col items-center text-center">
-          <p className="text-xs mb-2 leading-relaxed text-center px-1 font-medium text-gray-700 h-12 flex items-center justify-center">
-            {project.actionName}
+          <p className="text-xs text-clamp-base leading-relaxed text-center px-1 font-medium text-gray-700 flex items-center justify-center">
+            {project.action}
           </p>
           <p className="text-clamp-base">
-            비용: {project.cost.toLocaleString()}G
+            보수: {project.reward.toLocaleString()}G
           </p>
           <div className="mt-4 w-full">
             <SelectButton
-              disabled={isDisabled}
-              className={`w-full py-2 rounded transition-colors ${
-                isDisabled
-                  ? "bg-gray-400 text-gray-700 cursor-not-allowed"
-                  : "bg-orange-400 text-black hover:bg-orange-500"
+              disabled={!projectButton}
+              maxSize={selectButtonSize}
+              className={`w-[80%] rounded transition-colors mx-3 truncate ${
+                !projectButton
+                ? "bg-gray-400 text-gray-700 cursor-not-allowed"
+                : "bg-orange-400 text-black hover:bg-orange-500"
               }`}
-              onClick={handleSelect}
+              onClick={() => projectSelected(project.name, project.turn, project.reward)}
             >
-              {buttonText}
+              {projectButton ? "선택" : "프로젝트 진행 중"}
             </SelectButton>
           </div>
         </div>

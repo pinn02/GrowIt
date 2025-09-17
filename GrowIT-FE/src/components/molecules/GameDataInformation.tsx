@@ -14,8 +14,8 @@ function GameDataInformation() {
       <div className='flex items-center gap-6 mx-3'>
         <p className='text-2xl font-bold text-nowrap'>{turn} / {MAX_TURN} 턴</p>
         <div className='w-full flex flex-col'>
-          <p className='text-nowrap'>진행 프로젝트: </p>
-          <p className='text-nowrap'>{currentProject ? currentProject : "없음"}</p>
+          <p className='text-nowrap'>진행 프로젝트: {currentProject.turn > 0 ? currentProject.name : "없음"}</p>
+          <p className='text-nowrap'>{currentProject.turn > 0 ? `보수: ${currentProject.reward} | ${currentProject.turn} 턴 남음` : ""}</p>
         </div>
       </div>     
       <div className='flex items-center h-full'>

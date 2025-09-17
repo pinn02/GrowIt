@@ -7,13 +7,19 @@ import { useButtonStore } from "../stores/buttonStore"
 import { useGameDataStore } from "../stores/gameDataStore"
 import { useSaveStore } from "../stores/saveStore"
 
+import type { Project } from "../stores/gameDataStore"
+
 const newSave = {
   enterpriseValue: 1000,
   productivity: 100,
   finance: 1000000,
   employeeCount: 0,
   turn: 1,
-  currentProject: "",
+  currentProject: {
+    name: "",
+    turn: 0,
+    reward: 0,
+  },
   officeLevel: 0,
   updatedAt: new Date().toISOString().split("T")[0],
 
@@ -67,7 +73,7 @@ function StartPage() {
     const newHiringArray = getRandomUniqueArray(3, 0, 14)
     const newMarketingArray = getRandomUniqueArray(3, 0, 4)
     const newInvestmentArray = getRandomUniqueArray(2, 0, 14)
-    const newProjectArray = getRandomUniqueArray(3, 0, 5)
+    const newProjectArray = getRandomUniqueArray(3, 0, 7)
 
     gameDataStore.setHiringArray(newHiringArray)
     gameDataStore.setMarketingArray(newMarketingArray)
