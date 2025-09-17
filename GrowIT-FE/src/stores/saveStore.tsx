@@ -1,13 +1,19 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
+export type Project = {
+  name: string
+  turn: number
+  reward: number
+}
+
 export type SaveData = {
   enterpriseValue: number
   productivity: number
   finance: number
   employeeCount: number
   turn: number
-  currentProject: string
+  currentProject: Project
   officeLevel: number
   updatedAt: string
 
@@ -41,7 +47,11 @@ const defaultSave: SaveData = {
   finance: 1000000,
   employeeCount: 0,
   turn: 0,
-  currentProject: "",
+  currentProject: {
+    name: "",
+    turn: 0,
+    reward: 0,
+  },
   officeLevel: 0,
   updatedAt: new Date().toISOString().split("T")[0],
 

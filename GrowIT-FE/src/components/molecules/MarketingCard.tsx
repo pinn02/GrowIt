@@ -29,15 +29,6 @@ function MarketingCard({ marketing }: MarketingCardProps) {
     setMarketingButton(false)
   }
 
-  const [isDisabled, setIsDisabled] = useState(false);
-  const [buttonText, setButtonText] = useState("선택");
-
-  const handleSelect = () => {
-    console.log(`${marketing.name} 마케팅을 선택했습니다.`);
-    setIsDisabled(true);
-    setButtonText("선택 완료!");
-  };
-
   return (
     <>
       <div className="relative w-[30%] h-auto mx-3 my-3">
@@ -58,7 +49,7 @@ function MarketingCard({ marketing }: MarketingCardProps) {
             />
           </div>
           <div className="w-full flex flex-col items-center text-center">
-            <p className="text-sm leading-relaxed text-center px-3 font-medium text-gray-700 h-12 flex items-center justify-center">
+            <p className="text-sm text-clamp-base leading-relaxed text-center px-3 font-medium text-gray-700 h-12 flex items-center justify-center">
               {marketing.action}
             </p>
             <p className="text-clamp-base mb-1">
@@ -68,7 +59,7 @@ function MarketingCard({ marketing }: MarketingCardProps) {
               <SelectButton
                 disabled={!marketingButton || gameDataStore.finance < marketing.cost}
                 maxSize={selectButtonSize}
-                className={`w-[80%] rounded transition-colors mx-3 ${
+                className={`w-[80%] rounded transition-colors mx-3 text-clamp-base ${
                   !marketingButton
                   ? "bg-gray-400 text-gray-700 cursor-not-allowed"
                   : "bg-orange-400 text-black hover:bg-orange-500"

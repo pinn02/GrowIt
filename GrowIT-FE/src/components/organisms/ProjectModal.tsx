@@ -2,40 +2,53 @@ import { useState, useEffect } from "react"
 import CloseButton from "../atoms/Button"
 import projectModalBackgroundImage from "../../assets/modals/project_modal_background.png"
 import ProjectCard from "../molecules/ProjectCard"
-
 import publicImage from "../../assets/icons/public.png";
 import insideImage from "../../assets/icons/inside.png";
 import globalImage from "../../assets/icons/global.png";
-
 import projectData from "../../assets/data/randomProject.json";
+import { useSaveStore } from "../../stores/saveStore";
+import { useGameDataStore } from "../../stores/gameDataStore";
 
-const channelImages = {
-  "공공/정부 프로젝트": publicImage,
-  "사내 프로젝트": insideImage,
-  "글로벌 프로젝트": globalImage
-};
+const channelImages = [
+  publicImage,
+  insideImage,
+  globalImage,
+]
+
+type Project = {
+  name: string,
+  reward: number,
+  action: string,
+  turn: number,
+  image: string,
+}
 
 type ProjectModalProps = {
   onClose: () => void
 }
 
 function ProjectModal({ onClose }: ProjectModalProps) {
-  const [projects, setProjects] = useState([]);
+  const [projects, setProjects] = useState<Project[]>([]);
+
+  const currentSaveIdx = useSaveStore(state => state.currentSaveIdx)
+  const projectArray = useGameDataStore(state => state.projectArray)
 
   useEffect(() => {
-    const randomProjects = projectData.map(category => {
-      const randomIndex = Math.floor(Math.random() * category.actions.length);
-      
-      return {
-        name: category.name,
-        cost: category.costs[randomIndex],
-        image: channelImages[category.name],
-        actionName: category.actions[randomIndex]
-      };
-    });
+    if (!projectArray) return
     
-    setProjects(randomProjects);
-  }, []);
+    const newProjects = projectData.map((pro, idx) => {
+      const selectedIndex = projectArray[idx]
+      return {
+        name: pro.name,
+        reward: pro.rewards[selectedIndex],
+        action: pro.actions[selectedIndex],
+        image: channelImages[idx],
+        turn: pro.turn[selectedIndex]
+      }
+    })
+    
+    setProjects(newProjects);
+  }, [projectArray, currentSaveIdx]);
 
   return (
     <>

@@ -4,7 +4,6 @@ import GameDataInformation from "../molecules/GameDataInformation"
 import StoreButton from "../atoms/Button"
 import TurnEndButton from "../atoms/Button"
 import ReportModal from "./ReportModal"
-import skyBackgroundImage from "../../assets/background_images/sky_page_background_image.png"
 import { useGameDataStore } from '../../stores/gameDataStore'
 import { useButtonStore } from '../../stores/buttonStore'
 import { useSaveStore } from '../../stores/saveStore'
@@ -23,7 +22,11 @@ const defaultSave = {
   finance: 1000000,
   employeeCount: 0,
   turn: 0,
-  currentProject: "",
+  currentProject: {
+    name: "",
+    turn: 0,
+    reward: 0,
+  },
   officeLevel: 0,
   updatedAt: new Date().toISOString().split("T")[0],
 
@@ -47,7 +50,7 @@ function getRandomUniqueArray(length: number, min: number, max: number): number[
   for (let i = 0; i < length; i++) {
     const idx = Math.floor(Math.random() * numbers.length)
     result.push(numbers[idx])
-    numbers.splice(idx, 1) // 뽑은 숫자는 제거
+    numbers.splice(idx, 1)
   }
 
   return result
@@ -61,8 +64,6 @@ function getRandomHiringArray(hiredPerson: number[], length: number, min: number
     const index = numbers.indexOf(hp);
     if (index !== -1) numbers.splice(index, 1);
   });
-
-  // const len = Math.max(0, length - hiredPerson.length);
 
   for (let i = 0; i < 3; i++) {
     if (numbers.length === 0) break;
@@ -86,17 +87,36 @@ function InformationBar({ onRandomEvent, onStore }: InformationBarProps) {
   const [showReportModal, setShowReportModal] = useState(false)
 
   const handleTurnEnd = () => {
+    const projectNextTurn = gameDataStore.currentProject.turn - 1
+
     buttonStore.setHiringButton1(true)
     buttonStore.setHiringButton2(true)
     buttonStore.setHiringButton3(true)
     buttonStore.setMarketingButton(true)
     buttonStore.setInvestmentButton(true)
-    buttonStore.setProjectButton(true)
+
+    if (projectNextTurn === 0) {
+      gameDataStore.setFinance(gameDataStore.finance + gameDataStore.currentProject.reward)
+      const newProject = {
+        name: "",
+        turn: 0,
+        reward: 0,
+      }
+      gameDataStore.setCurrentProject(newProject)
+      buttonStore.setProjectButton(true)
+    } else {
+      const newProject = {
+        name: gameDataStore.currentProject.name,
+        turn: gameDataStore.currentProject.turn - 1,
+        reward: gameDataStore.currentProject.reward
+      }
+      gameDataStore.setCurrentProject(newProject)
+    }
 
     gameDataStore.setHiringArray(getRandomHiringArray(gameDataStore.hiringArray, 3, 0, 14))
     gameDataStore.setMarketingArray(getRandomUniqueArray(3, 0, 4))
     gameDataStore.setInvestmentArray(getRandomUniqueArray(2, 0, 14))
-    gameDataStore.setProjectArray(getRandomUniqueArray(3, 0, 5))
+    gameDataStore.setProjectArray(getRandomUniqueArray(3, 0, 7))
 
     const latestData = {
       enterpriseValue: gameDataStore.enterpriseValue,
@@ -128,20 +148,16 @@ function InformationBar({ onRandomEvent, onStore }: InformationBarProps) {
   }
 
   const handleCloseModal = () => {
-   setShowReportModal(false)
-
-   const randomEventProbability = Math.random()
-   if (randomEventProbability < RANDOM_EVENT_PROBABILITY) {
-     onRandomEvent()
-   }
+    setShowReportModal(false)
+    const randomEventProbability = Math.random()
+    if (randomEventProbability < RANDOM_EVENT_PROBABILITY) {
+      onRandomEvent()
+    }
   }
 
   return (
     <>
-      <header
-        className="h-16 flex items-center justify-between px-4 bg-cover bg-center bg-zinc-300"
-        // style={{ backgroundImage: `url(${skyBackgroundImage})` }}
-      >
+      <header className="h-16 flex items-center justify-between px-4 bg-cover bg-center bg-zinc-300">
         <Logo height={logoHeight} />
         <div className="flex items-center space-x-4">
           <GameDataInformation />

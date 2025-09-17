@@ -1,13 +1,19 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-type gameDataState = {
+export type Project = {
+  name: string
+  turn: number,
+  reward: number,
+}
+
+type GameDataState = {
   enterpriseValue: number;
   productivity: number;
   finance: number;
   employeeCount: number;
   turn: number;
-  currentProject: string;
+  currentProject: Project;
   officeLevel: number;
 
   hiringArray: number[],
@@ -22,7 +28,7 @@ type gameDataState = {
   setFinance: (value: number) => void
   setEmployeeCount: (value: number) => void
   setTurn: (value: number) => void
-  setCurrentProject: (value: string) => void
+  setCurrentProject: (value: Project) => void
   setOfficeLevel: (value: number) => void
 
   setHiringArray: (value: number[]) => void
@@ -33,7 +39,7 @@ type gameDataState = {
   setHiredPerson: (value: number[]) => void
 }
 
-export const useGameDataStore = create<gameDataState>()(
+export const useGameDataStore = create<GameDataState>()(
   persist(
     (set) => ({
       enterpriseValue: 1000,
@@ -41,7 +47,11 @@ export const useGameDataStore = create<gameDataState>()(
       finance: 1000000,
       employeeCount: 0,
       turn: 1,
-      currentProject: "",
+      currentProject: {
+        name: "",
+        turn: 0,
+        reward: 0,
+      },
       officeLevel: 0,
 
       hiringArray: [0, 0, 0],
@@ -61,7 +71,7 @@ export const useGameDataStore = create<gameDataState>()(
         set(() => ({ employeeCount: value })),
       setTurn: (value: number) =>
         set(() => ({ turn: value })),
-      setCurrentProject: (value: string) =>
+      setCurrentProject: (value: Project) =>
         set(() => ({ currentProject: value })),
       setOfficeLevel: (value: number) =>
         set(() => ({ officeLevel: value })),

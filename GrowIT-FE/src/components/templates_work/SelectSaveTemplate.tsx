@@ -16,7 +16,11 @@ const defaultSave: SaveData = {
   finance: 1000000,
   employeeCount: 0,
   turn: 0,
-  currentProject: "",
+  currentProject: {
+    name: "",
+    turn: 0,
+    reward: 0,
+  },
   officeLevel: 0,
   updatedAt: new Date().toISOString().split("T")[0],
 
@@ -89,7 +93,7 @@ function SelectSaveTemplate({ onIsNewGame }: SelectSaveTemplateProps) {
                     {save.turn}턴 | 기업가치: {save.enterpriseValue} | 생산성: {save.productivity} | 자금: {save.finance} | {save.updatedAt}
                   </p>
                   <div className="flex items-center justify-end">
-                    <DeleteButton
+                    <div
                       onClick={(e) => {
                         e.stopPropagation()
                         onDeleteSave(idx, defaultSave)
@@ -97,7 +101,7 @@ function SelectSaveTemplate({ onIsNewGame }: SelectSaveTemplateProps) {
                       className="bg-red-300 text-white px-3 py-0 rounded hover:bg-red-400 transition-colors"
                     >
                       X
-                    </DeleteButton>
+                    </div>
                   </div>
                 </div>
                 )
