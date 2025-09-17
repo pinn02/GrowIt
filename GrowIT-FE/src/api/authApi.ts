@@ -19,8 +19,14 @@ export const authApi = {
   },
 
   logout: async () => {
-    const response = await apiClient.get('api/v1/member/logout');
-    return response.data;
+    try {
+      const response = await apiClient.get('/api/v1/member/logout');
+      return response.data;
+    } catch (error) {
+      console.error('로그아웃 API 오류:', error);
+      // API 오류가 발생해도 클라이언트에서는 로그아웃 처리
+      throw error;
+    }
   },
 };
 
