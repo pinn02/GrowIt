@@ -40,11 +40,33 @@ if __name__ == '__main__':
             print(f"\n## 모델 평가 결과 (튜닝 후 정확도) ##\n{score:.4f}")
             print("\n## 변수별 영향력 (Feature Importance) ##")
             print(importances)
-            
+
             # 모델 저장
+            model_name = "rnd_tier_classifier"
             model_path = analyzer.save_model(model_name="rnd_tier_classifier")
             print(f"\n모델이 저장되었습니다: {model_path}")
-            
+
+            try:
+                from skl2onnx import convert_sklearn
+                from skl2onnx.common.data_types import FloatTensorType
+
+                sklearn_model = analyzer.model
+
+                n_features = analyzer.X.shape[1]
+                initial_type = [('float_input', FloatTensorType([None, n_features]))]
+
+                onnx_model = convert_sklearn(sklearn_model, initial_types=initial_type)
+
+                onnx_filename = f'{model_name}.onnx'
+                with open(onnx_filename, 'wb') as f:
+                    f.write(onnx_model.SerializeToString())
+
+            except Exception as e:
+                print("\n[오류] ONNX 변환 라이브러리가 없습니다. 'pip install skl2onnx onnx'를 실행하세요.")
+            except Exception as e:
+                print(f"\n[오류] ONNX 변환 중 문제가 발생했습니다: {e}")
+
+
             # 저장된 모델로 예측 테스트
             print("\n=== 저장된 모델로 예측 테스트 ===")
             print("모델 정보:")

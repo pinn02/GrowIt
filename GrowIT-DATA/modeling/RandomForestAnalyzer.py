@@ -203,7 +203,7 @@ if __name__ == '__main__':
                 initial_type = [('float_input', FloatTensorType([None, n_features]))]
                 onnx_model = convert_sklearn(sklearn_model, initial_types=initial_type)
 
-                onnx_filename = 'hiring_tier_model.onnx'
+                onnx_filename = '../../GrowIT-BE/src/main/resources/models/hiring_tier_model.onnx'
                 with open(onnx_filename, "wb") as f:
                     f.write(onnx_model.SerializeToString())
                 print(f"[저장 완료] ONNX 모델을 '{onnx_filename}' 파일로 저장했습니다.")
