@@ -1,3 +1,5 @@
+// 로그아웃 버튼: 로컬이나 세션에서 토큰 삭제
+// 회원탈퇴 버튼: 카카오 자동 연결 해제 api는 아니므로 수동 해제하도록 안내 (카카오 연결 화면으로 이동)
 import { useState } from 'react'
 import Logo from "../atoms/Logo"
 import GameDataInformation from "../molecules/GameDataInformation"
@@ -55,20 +57,39 @@ function InformationBar({ onRandomEvent, onStore }: InformationBarProps) {
     try {
       await authApi.logout()
       clearUser()
-      
-      // localStorage에서 다른 저장소들도 정리
       localStorage.removeItem('growit-auth-data')
       localStorage.removeItem('growit-user-storage')
       
-      alert('로그아웃되었습니다.')
-      window.location.href = '/' // 메인 페이지로 리다이렉트
+      alert('로그아웃 되었습니다.')
+      window.location.href = '/' 
     } catch (error) {
       console.error('로그아웃 오류:', error)
-      // 로그아웃 API 실패해도 로컬 데이터는 정리
       clearUser()
       localStorage.removeItem('growit-auth-data')
       localStorage.removeItem('growit-user-storage')
-      alert('로그아웃되었습니다.')
+      alert('로그아웃 되었습니다.')
+      window.location.href = '/'
+    }
+  }
+
+  const handleWithdraw = async () => {
+    const confirmWithdraw = confirm('정말 회원탈퇴하시겠습니까?')
+    
+    if (!confirmWithdraw) return
+    
+    try {
+      await authApi.withdraw()
+      clearUser()
+      localStorage.clear()
+      
+      alert('회원탈퇴가 완료되었습니다.')
+      window.location.href = '/'
+    } catch (error) {
+      console.error('회원탈퇴 오류:', error)
+      clearUser()
+      localStorage.clear()
+      
+      alert('회원탈퇴 처리 중 오류가 발생했지만, 로컬 데이터는 삭제되었습니다.')
       window.location.href = '/'
     }
   }
@@ -98,7 +119,7 @@ function InformationBar({ onRandomEvent, onStore }: InformationBarProps) {
               턴 종료
             </TurnEndButton>
             
-            {/* 로그인 상태일 때만 로그아웃 버튼 표시 */}
+            {/* 로그인 상태일 때만 로그아웃/회원탈퇴 버튼 표시 */}
             {isLoggedIn && (
               <div className="flex items-center gap-2">
                 <span className="text-white text-sm">
@@ -106,10 +127,17 @@ function InformationBar({ onRandomEvent, onStore }: InformationBarProps) {
                 </span>
                 <TurnEndButton
                   maxSize={logoutButtonSize}
-                  className="bg-transparent border-2 border-red-500 text-red-500 px-4 py-2 rounded-lg font-semibold shadow-md hover:bg-red-700 hover:text-white transition-colors"
+                  className="bg-transparent border-2 border-red-500 text-red-500 px-3 py-2 rounded-lg font-semibold shadow-md hover:bg-red-700 hover:text-white transition-colors"
                   onClick={handleLogout}
                 >
                   로그아웃
+                </TurnEndButton>
+                <TurnEndButton
+                  maxSize={logoutButtonSize}
+                  className="bg-transparent border-2 border-orange-500 text-orange-500 px-3 py-2 rounded-lg font-semibold shadow-md hover:bg-orange-700 hover:text-white transition-colors"
+                  onClick={handleWithdraw}
+                >
+                  회원탈퇴
                 </TurnEndButton>
               </div>
             )}

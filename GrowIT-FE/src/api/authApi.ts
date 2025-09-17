@@ -24,7 +24,29 @@ export const authApi = {
       return response.data;
     } catch (error) {
       console.error('로그아웃 API 오류:', error);
-      // API 오류가 발생해도 클라이언트에서는 로그아웃 처리
+      throw error;
+    }
+  },
+
+  withdraw: async () => {
+    try {
+      // localStorage에서 토큰 가져오기
+      const userData = JSON.parse(localStorage.getItem('user-storage') || '{}');
+      const token = userData.state?.token;
+      
+      if (!token) {
+        throw new Error('인증 토큰이 없습니다.');
+      }
+      
+      const response = await apiClient.patch('/api/v1/member/withdraw', {}, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      return response.data;
+    } catch (error) {
+      console.error('회원탈퇴 API 오류:', error);
       throw error;
     }
   },
