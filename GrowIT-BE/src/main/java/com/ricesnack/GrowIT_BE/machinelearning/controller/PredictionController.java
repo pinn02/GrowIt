@@ -17,7 +17,7 @@ public class PredictionController {
 
     private final PredictionService predictionService;
 
-    @GetMapping("/{turn}/{modelType}")
+    @GetMapping("/data/{turn}/{modelType}")
     public ResponseEntity<PredictionResponse> predictByModel(
             @PathVariable int turn,
             @PathVariable ModelType modelType) {
