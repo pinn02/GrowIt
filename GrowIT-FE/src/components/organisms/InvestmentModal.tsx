@@ -4,28 +4,33 @@ import investmentModalBackgroundImage from "../../assets/modals/investment_modal
 import InvestmentCard from "../molecules/InvestmentCard"
 
 import investmentData from "../../assets/data/randomInvestment.json";
+import { useGameDataStore } from "../../stores/gameDataStore";
+import { useSaveStore } from "../../stores/saveStore";
 
 type InvestmentModalProps = {
   onClose: () => void
 }
 
 function InvestmentModal({ onClose }: InvestmentModalProps) {
-  const [investments, setInvestments] = useState([]);
+  const [investments, setInvestments] = useState<any[]>([])
+
+  const currentSaveIdx = useSaveStore(state => state.currentSaveIdx)
+  const investmentArray = useGameDataStore(state => state.investmentArray)
 
   useEffect(() => {
-    // JSON 데이터에서 각 투자 타입별로 랜덤하게 선택
-    const randomInvestments = investmentData.map(investmentType => {
-      const randomIndex = Math.floor(Math.random() * investmentType.actions.length);
-      
+    if (!investmentArray) return
+
+    const newInvestments = investmentData.map((inv, idx) => {
+      const selectedIndex = investmentArray[idx]
       return {
-        name: investmentType.name,
-        cost: investmentType.costs[randomIndex],
-        content: investmentType.actions[randomIndex]
-      };
-    });
-    
-    setInvestments(randomInvestments);
-  }, []);
+        name: inv.name,
+        cost: inv.costs[selectedIndex],
+        content: inv.actions[selectedIndex],
+      }
+    })
+
+    setInvestments(newInvestments)
+  }, [investmentArray, currentSaveIdx])
 
   return (
     <>
@@ -41,7 +46,7 @@ function InvestmentModal({ onClose }: InvestmentModalProps) {
           }}
         >
           <div className="flex justify-between items-center mt-8">
-            <p className="absolute top-12 left-1/2 -translate-x-1/2 font-bold text-white text-3xl">
+            <p className="absolute top-12 left-1/2 -translate-x-1/2 font-bold text-3xl">
               투자
             </p>
             <CloseButton

@@ -17,6 +17,7 @@
 }
 
 @layer utilities {
+
   @keyframes shine {
     0%, 100% { transform: translateY(0); filter: brightness(100%); }
     50% { transform: translateY(-10px); filter: brightness(130%); }
@@ -42,100 +43,110 @@
   .text-clamp-base {
     font-size: clamp(0rem, 1.1vw, 3rem);
   }
-}
 
-@keyframes flicker-v3 {
-  0%, 100% {
-    filter: brightness(0.8) grayscale(50%);
+  @keyframes flicker-v3 {
+    0%, 100% {
+      filter: brightness(0.8) grayscale(50%);
+    }
+    50% {
+      filter: brightness(1) grayscale(0%);
+    }
   }
-  50% {
-    filter: brightness(1) grayscale(0%);
-  }
-}
 
-@keyframes bounceIn {
-  0% {
-    opacity: 0;
-    transform: scale(0.5);
+  @keyframes bounceIn {
+    0% {
+      opacity: 0;
+      transform: scale(0.5);
+    }
+    70% {
+      opacity: 1;
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1);
+    }
   }
-  70% {
-    opacity: 1;
-    transform: scale(1.1);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
 
-@keyframes slideInUp {
-  0% {
-    opacity: 0;
-    transform: translateY(20px);
+  @keyframes slideInUp {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
   }
-}
 
-@keyframes popIn {
-  0% {
-    opacity: 0;
-    transform: scale(0);
+  @keyframes popIn {
+    0% { opacity: 0; transform: scale(0); }
+    50% { opacity: 1; transform: scale(1.1); }
+    100% { transform: scale(1); }
   }
-  50% { opacity: 1; transform: scale(1.1); }
-  70% { transform: scale(0.95); }
-  80% {
-    opacity: 1;
-    transform: scale(1.1);
+
+  @keyframes bounce-slow {
+    0%, 100% { transform: translateY(-5%); animation-timing-function: cubic-bezier(0.8, 0, 1, 1); }
+    50% { transform: translateY(0); animation-timing-function: cubic-bezier(0, 0, 0.2, 1); }
   }
-  100% {
-    transform: scale(1);
+  
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-5px); }
+    40%, 80% { transform: translateX(5px); }
   }
-}
 
-@keyframes typewriter {
-  0% {
-    width: 0;
+  @keyframes typewriter {
+    0% { width: 0; }
+    100% { width: 100%; }
   }
-  100% {
-    width: 100%;
+
+  @keyframes flash {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 1; }
   }
-}
-
-@keyframes pulse {
-  0%, 100% {
-    opacity: 1;
+  
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
   }
-  50% {
-    opacity: 0.5;
+
+  @keyframes pulse-slow {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
   }
-}
 
-.animate-bounceIn {
-  animation: bounceIn 0.4s ease-out forwards;
-}
+  @keyframes zoomIn {
+    from { transform: scale(0.5); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+  
+  @keyframes flicker {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; }
+  }
 
-.animate-slideInUp {
-  animation: slideInUp 0.3s ease-out forwards;
-}
+  .animate-fadeIn { animation: fadeIn 0.5s ease-out forwards; }
+  .animate-popIn { animation: popIn 0.5s ease-out forwards; }
+  .animate-bounce-slow { animation: bounce-slow 4s infinite; }
+  .animate-shake { animation: shake 0.5s ease-in-out infinite; }
+  .animate-typewriter { overflow: hidden; white-space: nowrap; animation: typewriter 1s steps(20, end) forwards; }
+  .animate-flash { animation: flash 0.5s steps(1) forwards; }
+  .animate-pulse { animation: pulse 1.5s infinite ease-in-out; }
+  .animate-pulse-slow { animation: pulse-slow 2s infinite ease-in-out; }
+  .animate-zoomIn { animation: zoomIn 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards; }
+  .animate-flicker { animation: flicker 1s infinite ease-in-out; }
 
-.animate-popIn {
-  animation: popIn 0.5s ease-out forwards;
-}
-
-.animate-typewriter {
-  overflow: hidden;
-  white-space: nowrap;
-  animation: typewriter 1s steps(20, end) forwards;
-}
-
-.animate-pulse {
-  animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-.board-animation {
-  animation: flicker-v3 1.5s infinite alternate;
+  .pixelated-effect {
+    image-rendering: optimizeSpeed;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: pixelated;
+  }
 }
 
 * {
@@ -149,155 +160,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-@keyframes thunder {
-  0%, 100% {
-    opacity: 0;
-  }
-  10%, 30%, 50%, 70% {
-    opacity: 0.8; 
-  }
-}
-
-@keyframes rain {
-  0% {
-    background-position: 0% 0%;
-  }
-  100% {
-    background-position: 20% 100%;  
-  }
-}
-
-.pixelated-effect {
-  image-rendering: optimizeSpeed; 
-  image-rendering: -webkit-optimize-contrast; 
-  image-rendering: -moz-crisp-edges; 
-  image-rendering: pixelated; 
- 
-}
-
-.rain-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url('data:image/svg+xml;utf8,<svg width="10" height="10" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="1" height="3" fill="%23a0aec0" opacity="0.5" /><rect x="2" y="4" width="1" height="3" fill="%23a0aec0" opacity="0.5" /><rect x="5" y="1" width="1" height="3" fill="%23a0aec0" opacity="0.5" /></svg>'); /* 작은 빗방울 패턴 */
-  background-size: 10px 10px;
-  animation: rain 1s linear infinite;
-  opacity: 0.5;
-  pointer-events: none; 
-}
-
-.thunder-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(255, 255, 255, 0.7); 
-  animation: thunder 2s linear infinite;
-  pointer-events: none;
-}
-
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  20%, 60% { transform: translateX(-5px); }
-  40%, 80% { transform: translateX(5px); }
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-.animate-shake {
-  animation: shake 0.5s ease-in-out infinite;
-}
-
-.animate-spin-fast {
-  animation: spin 0.3s linear infinite;
-}
-
-@keyframes fireworks {
-  0% { transform: translateY(0) scale(0.2) rotate(0deg); opacity: 0; }
-  25% { transform: translateY(-80px) scale(1) rotate(30deg); opacity: 1; }
-  50% { transform: translateY(-160px) scale(0.8) rotate(60deg); opacity: 0.8; }
-  75% { transform: translateY(-240px) scale(0.5) rotate(90deg); opacity: 0.5; }
-  100% { transform: translateY(-300px) scale(0) rotate(120deg); opacity: 0; }
-}
-
-@keyframes flash {
-  0%, 100% { opacity: 0; }
-  50% { opacity: 1; }
-}
-
-.fireworks-overlay {
-  position: absolute;
-  top: 100%; 
+.upgrade-success-animation {
+  position: fixed;
+  top: 50%;
   left: 50%;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background-color: yellow;
-  transform: translateX(-50%);
-  animation: fireworks 1.5s ease-out infinite;
-  pointer-events: none;
-}
-
-.fireworks-overlay.blue {
-  background-color: #3498db;
-  animation-delay: 0.5s;
-}
-
-.fireworks-overlay.green {
-  background-color: #2ecc71;
-  animation-delay: 1s;
-}
-
-@keyframes confetti-pop {
-  0% { transform: translateY(0) rotate(0deg) scale(0); opacity: 0; }
-  10% { opacity: 1; transform: translateY(-50px) rotate(30deg) scale(1); }
-  100% { transform: translateY(-200px) rotate(180deg) scale(0.5); opacity: 0; }
-}
-
-@keyframes flash {
-  0%, 100% { opacity: 0; }
-  50% { opacity: 1; }
-}
-
-.fireworks-overlay {
-  position: absolute;
-  top: 100%;
-  left: var(--left-pos); 
-  width: 8px;
-  height: 8px;
-  background-color: var(--fireworks-color);
-  animation: confetti-pop 1.5s ease-out infinite;
-  animation-delay: var(--delay);
-  pointer-events: none;
-}
-
-
-.fireworks-wrapper {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  top: 0;
-  left: 0;
-}
-
-@keyframes modal-flash {
-  0%, 100% {
-    border-color: #8b5cf6; 
-    box-shadow: 0 0 10px #8b5cf6;
-  }
-  50% {
-    border-color: #f59e0b; 
-    box-shadow: 0 0 20px #f59e0b;
-  }
-}
-
-.animate-modal-flash {
-  animation: modal-flash 1s infinite;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 100;
 }

@@ -19,9 +19,9 @@ function GameData({ dataName, dataValue, dataMax, fillColor = "bg-gray-700", ico
       {/* 내용 */}
       <div className="relative z-10 flex items-center gap-2">
 				{icon && <img src={icon} alt={dataName} className="w-10 h-10" />}
-        <span className="font-pixel text-white text-sm">{dataName}</span>
-        <span className="font-pixel text-white text-lg">
-          {dataValue.toLocaleString()}
+        <span className="font-pixel text-sm">{dataName}</span>
+        <span className="font-pixel text-lg">
+          {(dataValue ?? 0).toLocaleString()}
         </span>
       </div>
     </div>
