@@ -16,6 +16,16 @@ type GameDataState = {
   currentProject: Project;
   officeLevel: number;
 
+  // 업그레이드 레벨들
+  commuteBusLevel: number;
+  dormitoryLevel: number;
+  gymLevel: number;
+  cafeteriaLevel: number;
+  hospitalLevel: number;
+  daycareLevel: number;
+  bookCafeLevel: number;
+  buildingLevel: number;
+
   hiringArray: number[],
   marketingArray: number[],
   investmentArray: number[],
@@ -30,6 +40,16 @@ type GameDataState = {
   setTurn: (value: number) => void
   setCurrentProject: (value: Project) => void
   setOfficeLevel: (value: number) => void
+
+  // 업그레이드 레벨 설정 함수들
+  setCommuteBusLevel: (value: number) => void
+  setDormitoryLevel: (value: number) => void
+  setGymLevel: (value: number) => void
+  setCafeteriaLevel: (value: number) => void
+  setHospitalLevel: (value: number) => void
+  setDaycareLevel: (value: number) => void
+  setBookCafeLevel: (value: number) => void
+  setBuildingLevel: (value: number) => void
 
   setHiringArray: (value: number[]) => void
   setMarketingArray: (value: number[]) => void
