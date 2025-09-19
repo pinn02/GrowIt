@@ -1,6 +1,5 @@
 import { useState } from "react"
-import CloseButton from "../atoms/Button"
-import LoginButton from "../atoms/Button"
+import Button from "../atoms/Button"
 
 type LoginModalProps = {
   onClose: () => void
@@ -11,6 +10,7 @@ function LoginModal({ onClose, onSubmit }: LoginModalProps) {
   const [id, setId] = useState("")
   const [pw, setPw] = useState("")
 
+  // 로그인 데이터 제출 기능
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     onSubmit(id, pw)
@@ -37,12 +37,13 @@ function LoginModal({ onClose, onSubmit }: LoginModalProps) {
         onClick={(e) => e.stopPropagation()}
       >
         <div className="w-full flex justify-end">
-          <CloseButton
+          {/* 닫기 버튼 */}
+          <Button
             onClick={onClose}
             className="bg-orange-400 text-white px-4 py-2 my-3 rounded hover:bg-orange-500 transition-colors m-3"
           >
             X
-          </CloseButton>
+          </Button>
         </div>
         <form
           onSubmit={handleSubmit}
@@ -62,12 +63,13 @@ function LoginModal({ onClose, onSubmit }: LoginModalProps) {
             placeholder="비밀번호를 입력해주세요"
             className="bg-white block w-[80%] mx-3 p-3 my-4 text-lg rounded-md border border-orange-300 focus:outline-none focus:ring-2 focus:ring-orange-500"
           />
-          <LoginButton
+          {/* 로그인 버튼 */}
+          <Button
             type="submit"
             className="w-[80%] bg-orange-400 text-white px-4 py-3 my-3 rounded hover:bg-orange-500 transition-colors text-lg font-bold"
           >
             로그인
-          </LoginButton>
+          </Button>
         </form>
       </div>
     </div>

@@ -1,41 +1,20 @@
-import DeleteButton from "../atoms/Button"
-import { useSaveStore } from "../../stores/saveStore";
-import SaveButton from "../atoms/Button";
 import { useNavigate } from "react-router-dom";
-import { useGameDataStore } from "../../stores/gameDataStore";
+import { useSaveStore } from "../../stores/saveStore";
 import { useButtonStore } from "../../stores/buttonStore";
+import { useGameDataStore } from "../../stores/gameDataStore";
+import  { defaultSave } from "../../stores/saveStore"
 import type { SaveData } from "../../stores/saveStore"
+import SaveButton from "../atoms/Button";
+
+const saveButtonSize = 800; // 세이브 버튼 최대 사이즈
 
 type SelectSaveTemplateProps = {
   onIsNewGame: (idx: number) => void
 }
 
-const defaultSave: SaveData = {
-  enterpriseValue: 1000,
-  productivity: 100,
-  finance: 1000000,
-  employeeCount: 0,
-  turn: 0,
-  currentProject: {
-    name: "",
-    turn: 0,
-    reward: 0,
-  },
-  officeLevel: 0,
-  updatedAt: new Date().toISOString().split("T")[0],
-
-  hiringArray: [0, 0, 0],
-  marketingArray: [0, 0, 0],
-  investmentArray: [0, 0],
-  projectArray: [0, 0, 0],
-
-  hiredPerson: [],
-}
-
+// 세이브 선택 템플릿
 function SelectSaveTemplate({ onIsNewGame }: SelectSaveTemplateProps) {
-  const saveButtonSize = 800;
   const navigate = useNavigate()
-
   const saveStore = useSaveStore()
   const gameDataStore = useGameDataStore()
   const buttonStore = useButtonStore()
@@ -57,12 +36,9 @@ function SelectSaveTemplate({ onIsNewGame }: SelectSaveTemplateProps) {
                 saveStore.setCurrentSaveIdx(idx)
                 const currentSave = saveStore.saves[idx]
                 if (save.turn > 0) {
-                  buttonStore.setHiringButton2(true)
-                  buttonStore.setHiringButton3(true)
                   buttonStore.setMarketingButton(true)
                   buttonStore.setInvestmentButton(true)
                   buttonStore.setProjectButton(true)
-                  
                   gameDataStore.setEnterpriseValue(currentSave.enterpriseValue)
                   gameDataStore.setProductivity(currentSave.productivity)
                   gameDataStore.setFinance(currentSave.finance)
@@ -70,14 +46,11 @@ function SelectSaveTemplate({ onIsNewGame }: SelectSaveTemplateProps) {
                   gameDataStore.setTurn(currentSave.turn)
                   gameDataStore.setCurrentProject(currentSave.currentProject)
                   gameDataStore.setOfficeLevel(currentSave.officeLevel)
-
                   gameDataStore.setHiringArray(currentSave.hiringArray)
                   gameDataStore.setMarketingArray(currentSave.marketingArray)
                   gameDataStore.setInvestmentArray(currentSave.investmentArray)
                   gameDataStore.setProjectArray(currentSave.projectArray)
-                  
                   gameDataStore.setHiredPerson(currentSave.hiredPerson)
-
                   navigate("/main")
                 } else {
                   onIsNewGame(idx)

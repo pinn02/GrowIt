@@ -1,12 +1,11 @@
 import { useNavigate } from "react-router-dom"
 import logoImage from "../../assets/images/logo.png"
 
-
 type LogoProps = {
 	height: number
-	// children: React.ReactNode
 }
 
+// 클릭 시 메인 페이지로 이동하는 로고 이미지
 function Logo({ height }: LogoProps) {
   const navigate = useNavigate()
 

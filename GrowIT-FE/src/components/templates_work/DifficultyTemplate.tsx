@@ -7,7 +7,7 @@ function DifficultyTemplate() {
     { name: "Hard" }
   ]
   
-  const difficultyButtonSize = 800
+  const difficultyButtonSize = 800  // 난이도 버튼 최대 사이즈
 
   return (
     <div className="flex items-center justify-center w-full h-full relative z-10 px-6">
