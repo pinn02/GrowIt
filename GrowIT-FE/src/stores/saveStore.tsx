@@ -40,7 +40,6 @@ type SaveState = {
     setHiredPerson: (value: number[]) => void
 }
 
-
 export const defaultSave: SaveData = {
   enterpriseValue: 1000,
   productivity: 100,
