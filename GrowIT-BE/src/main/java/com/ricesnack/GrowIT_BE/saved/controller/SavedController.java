@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/saved")
 @RequiredArgsConstructor
 public class SavedController {
 
     private final SavedService savedService;
 
-    @GetMapping("/saved")
+    @GetMapping()
     public ResponseEntity<List<SavedResponse>> getRecentSaves(@AuthenticationPrincipal SecurityMember member) {
         Long memberId = member.getMemberId();
         List<SavedResponse> recentSaves = savedService.findRecentSaves(memberId);
@@ -25,7 +25,7 @@ public class SavedController {
 
     }
 
-    @DeleteMapping("/saved/{saveId}")
+    @DeleteMapping("/{saveId}")
     public ResponseEntity<Void> deleteSave(
             @PathVariable Long saveId,
             @AuthenticationPrincipal SecurityMember member) {
@@ -34,7 +34,7 @@ public class SavedController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/saved/{companyName}")
+    @PostMapping("/{companyName}")
     public ResponseEntity<Void> createNewSave(
             @PathVariable String companyName,
             @AuthenticationPrincipal SecurityMember securityMember) {
