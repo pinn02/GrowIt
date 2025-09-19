@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { authApi } from '../../api/authApi'
+import { authApi } from '../../apis/authApi'
 import { useUserStore } from '../../stores/userStore'
-import { useSaveStore } from '../../stores/saveStore'
+// import { useSaveStore } from '../../stores/saveStore'
 import { useButtonStore } from '../../stores/buttonStore'
 import { useGameDataStore } from '../../stores/gameDataStore'
-import { defaultSave } from '../../stores/saveStore'
+// import { defaultSave } from '../../stores/saveStore'
 import { getRandomHiringArray, getRandomUniqueArray } from '../../hooks/CreateRandomArray'  // 랜덤 배열 함수
 import Logo from "../atoms/Logo"
 import GameDataInformation from "../molecules/GameDataInformation"
@@ -28,34 +28,34 @@ type InformationBarProps = {
 // 정보 바
 function InformationBar({ onRandomEvent, onStore }: InformationBarProps) {
   const navigate = useNavigate()
-  const saveStore = useSaveStore()
+  // const saveStore = useSaveStore()
   const buttonStore = useButtonStore()
   const gameDataStore = useGameDataStore()
   const { isLoggedIn, user, clearUser } = useUserStore()
   const [showReportModal, setShowReportModal] = useState(false)
-  const currentSaveIdx = saveStore.currentSaveIdx
+  // const currentSaveIdx = saveStore.currentSaveIdx
 
   // 턴 종료 버튼 누를 시 이벤트
   const handleTurnEnd = () => {
-    const projectNextTurn = gameDataStore.currentProject.turn - 1 // 프로젝트 턴 수 1 감소
+    // const projectNextTurn = gameDataStore.currentProject.turn - 1 // 프로젝트 턴 수 1 감소
 
     // 프로젝트 완료 시
-    if (projectNextTurn === 0) {
-      gameDataStore.setFinance(gameDataStore.finance + gameDataStore.currentProject.reward)
-      const newProject = {
-        name: "",
-        turn: 0,
-        reward: 0,
-      }
-      gameDataStore.setCurrentProject(newProject)
-      buttonStore.setProjectButton(true)
-    } else {
-      const newProject = {
-        name: gameDataStore.currentProject.name,
-        turn: gameDataStore.currentProject.turn - 1,
-        reward: gameDataStore.currentProject.reward
-      }
-      gameDataStore.setCurrentProject(newProject)
+    // if (projectNextTurn === 0) {
+    //   gameDataStore.setFinance(gameDataStore.finance + gameDataStore.currentProject.reward)
+    //   const newProject = {
+    //     name: "",
+    //     turn: 0,
+    //     reward: 0,
+    //   }
+    //   gameDataStore.setCurrentProject(newProject)
+    //   buttonStore.setProjectButton(true)
+    // } else {
+    //   const newProject = {
+    //     name: gameDataStore.currentProject.name,
+    //     turn: gameDataStore.currentProject.turn - 1,
+    //     reward: gameDataStore.currentProject.reward
+    //   }
+    //   gameDataStore.setCurrentProject(newProject)
     }
 
     // 버튼 선택 여부 초기화
@@ -64,39 +64,39 @@ function InformationBar({ onRandomEvent, onStore }: InformationBarProps) {
     buttonStore.setInvestmentButton(true)
 
     // 각 액션 데이터 랜덤하게 변경
-    gameDataStore.setHiringArray(getRandomHiringArray(gameDataStore.hiringArray, 0, 14))
-    gameDataStore.setMarketingArray(getRandomUniqueArray(3, 0, 4))
-    gameDataStore.setInvestmentArray(getRandomUniqueArray(2, 0, 14))
-    gameDataStore.setProjectArray(getRandomUniqueArray(3, 0, 7))
+    // gameDataStore.setHiringArray(getRandomHiringArray(gameDataStore.hiringArray, 0, 14))
+    // gameDataStore.setMarketingArray(getRandomUniqueArray(3, 0, 4))
+    // gameDataStore.setInvestmentArray(getRandomUniqueArray(2, 0, 14))
+    // gameDataStore.setProjectArray(getRandomUniqueArray(3, 0, 7))
 
     // gameDataStore 갱신
-    const latestData = {
-      enterpriseValue: gameDataStore.enterpriseValue,
-      productivity: gameDataStore.productivity,
-      finance: gameDataStore.finance,
-      employeeCount: gameDataStore.employeeCount,
-      turn: gameDataStore.turn + 1,
-      currentProject: gameDataStore.currentProject,
-      officeLevel: gameDataStore.officeLevel,
-      updatedAt: new Date().toISOString().split("T")[0],
-      hiringArray: gameDataStore.hiringArray,
-      marketingArray: gameDataStore.marketingArray,
-      investmentArray: gameDataStore.investmentArray,
-      projectArray: gameDataStore.projectArray,
-      hiredPerson: gameDataStore.hiredPerson,
-    }
+    // const latestData = {
+    //   enterpriseValue: gameDataStore.enterpriseValue,
+    //   productivity: gameDataStore.productivity,
+    //   finance: gameDataStore.finance,
+    //   employeeCount: gameDataStore.employeeCount,
+    //   turn: gameDataStore.turn + 1,
+    //   currentProject: gameDataStore.currentProject,
+    //   officeLevel: gameDataStore.officeLevel,
+    //   updatedAt: new Date().toISOString().split("T")[0],
+    //   hiringArray: gameDataStore.hiringArray,
+    //   marketingArray: gameDataStore.marketingArray,
+    //   investmentArray: gameDataStore.investmentArray,
+    //   projectArray: gameDataStore.projectArray,
+    //   hiredPerson: gameDataStore.hiredPerson,
+    // }
     
     // 종료 턴 도달 시
-    if (gameDataStore.turn === MAX_TURN) {
-      saveStore.setSave(currentSaveIdx, defaultSave)
-      navigate("/ending")
-      return
-    } else {
-      gameDataStore.setTurn(gameDataStore.turn + 1)
-      saveStore.setSave(currentSaveIdx, latestData)
-      setShowReportModal(true)
-    }
-  }
+  //   if (gameDataStore.turn === MAX_TURN) {
+  //     saveStore.setSave(currentSaveIdx, defaultSave)
+  //     navigate("/ending")
+  //     return
+  //   } else {
+  //     gameDataStore.setTurn(gameDataStore.turn + 1)
+  //     saveStore.setSave(currentSaveIdx, latestData)
+  //     setShowReportModal(true)
+  //   }
+  // }
 
   // 경제 리포트 모달 닫기 버튼 클릭 이벤트
   const handleCloseModal = () => {
