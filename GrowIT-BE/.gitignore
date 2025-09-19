@@ -36,3 +36,9 @@ out/
 
 ### VS Code ###
 .vscode/
+
+daemon/
+native/
+caches/
+wrapper/
+.idea/
