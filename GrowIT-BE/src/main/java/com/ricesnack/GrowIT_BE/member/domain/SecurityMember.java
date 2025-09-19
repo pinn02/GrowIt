@@ -25,6 +25,10 @@ public class SecurityMember implements UserDetails {
         return member.getEmail();
     }
 
+    public Member getMember() {
+        return member;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();

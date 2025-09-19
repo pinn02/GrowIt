@@ -49,6 +49,9 @@ public class Saved {
     @Column(nullable = false)
     private BigDecimal monthlySalaryExpense;
 
+    @Column(nullable = false)
+    private BigDecimal accumulatedCompanyValue;
+
     @CreationTimestamp
     @Column(nullable = false)
     private LocalDateTime saveDate;

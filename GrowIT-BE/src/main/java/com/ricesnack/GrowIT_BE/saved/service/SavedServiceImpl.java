@@ -5,22 +5,17 @@ import com.ricesnack.GrowIT_BE.error.ErrorCode;
 import com.ricesnack.GrowIT_BE.member.domain.Member;
 import com.ricesnack.GrowIT_BE.member.repository.MemberRepository;
 import com.ricesnack.GrowIT_BE.saved.domain.Saved;
-import com.ricesnack.GrowIT_BE.saved.dto.ProjectInfo;
 import com.ricesnack.GrowIT_BE.saved.dto.SavedResponse;
-import com.ricesnack.GrowIT_BE.saved.dto.StaffInfo;
 import com.ricesnack.GrowIT_BE.saved.repository.SavedRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -28,6 +23,7 @@ import java.util.List;
 public class SavedServiceImpl implements SavedService {
 
     private final SavedRepository savedRepository;
+    private final MemberRepository memberRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -51,4 +47,19 @@ public class SavedServiceImpl implements SavedService {
         savedRepository.delete(saved);
     }
 
+    @Override
+    public void createNewSave(String companyName, Member member) {
+
+        savedRepository.save(Saved.builder()
+                .member(member)
+                .companyName(companyName)
+                .currentTurn(1)
+                .capital(BigDecimal.valueOf(1000))
+                .companyValue(BigDecimal.ZERO)
+                .productivity(0)
+                .employeeCount(0)
+                .monthlySalaryExpense(BigDecimal.ZERO)
+                .accumulatedCompanyValue(BigDecimal.ZERO)
+                .build());
+    }
 }
