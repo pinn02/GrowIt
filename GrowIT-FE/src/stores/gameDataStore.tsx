@@ -62,9 +62,9 @@ type GameDataState = {
 export const useGameDataStore = create<GameDataState>()(
   persist(
     (set) => ({
-      enterpriseValue: 1000,
+      enterpriseValue: 1000000,
       productivity: 100,
-      finance: 1000000,
+      finance: 1000000000,
       employeeCount: 0,
       turn: 1,
       currentProject: {
