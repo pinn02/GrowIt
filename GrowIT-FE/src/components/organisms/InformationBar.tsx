@@ -174,10 +174,7 @@ function InformationBar({ onRandomEvent, onStore }: InformationBarProps) {
             {/* 로그인 상태일 때만 로그아웃/회원탈퇴 버튼 표시 */}
             {isLoggedIn && (
               <div className="flex items-center gap-2">
-                <span className="text-white text-sm">
-                  {user?.email}님
-                </span>
-                <Button
+                <TurnEndButton
                   maxSize={logoutButtonSize}
                   className="bg-transparent border-2 border-red-500 text-red-500 px-3 py-2 rounded-lg font-semibold shadow-md hover:bg-red-700 hover:text-white transition-colors"
                   onClick={handleLogout}
