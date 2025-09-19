@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useSaveStore } from "../../stores/saveStore"
+// import { useSaveStore } from "../../stores/saveStore"
 import { useGameDataStore } from "../../stores/gameDataStore"
 import CloseButton from "../atoms/Button"
 import ApplicantCard from "../molecules/ApplicantCard"
@@ -14,29 +14,29 @@ type HiringModalProps = {
 function HiringModal({ onClose }: HiringModalProps) {
   const gameDataStore = useGameDataStore()
   const [applicants, setApplicants] = useState<any[]>([])
-  const currentSaveIdx = useSaveStore(state => state.currentSaveIdx)
-  const hiringArray = useGameDataStore(state => state.hiringArray)
+  // const currentSaveIdx = useSaveStore(state => state.currentSaveIdx)
+  // const hiringArray = useGameDataStore(state => state.hiringArray)
 
   // 모달 실행 시 직원 데이터 가져오는 로직
   useEffect(() => {
-    if (!hiringArray) return;
+    // if (!hiringArray) return;
 
     const newHirings: any[] = [];
     for (let i = 0; i < 3; i++) {
-      const selectedIndex = gameDataStore.hiringArray[i];
-      const hir = applicantData[selectedIndex];
-      newHirings.push({
-        id: hir.id,
-        name: hir.name,
-        position: hir.position,
-        productivity: hir.productivity,
-        imageIndex: hir.imageIndex,
-        salary: hir.salary
-      });
+      // const selectedIndex = gameDataStore.hiringArray[i];
+      // const hir = applicantData[selectedIndex];
+      // newHirings.push({
+      //   id: hir.id,
+      //   name: hir.name,
+      //   position: hir.position,
+      //   productivity: hir.productivity,
+      //   imageIndex: hir.imageIndex,
+      //   salary: hir.salary
+      // });
     }
 
     setApplicants(newHirings);
-  }, [hiringArray, currentSaveIdx]);
+  }, []);
 
   return (
     <div className="fixed inset-0 flex justify-center items-start z-50 pointer-events-none overflow-hidden">

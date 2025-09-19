@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUserStore } from '../stores/userStore.tsx';
-import { authApi } from '../api/authApi';
+import { authApi } from '../apis/authApi.ts';
 
 const OAuth2SuccessHandler = () => {
   const navigate = useNavigate();
