@@ -4,17 +4,19 @@ type ActionButtonProps = {
   onClick: () => void
 };
 
+// 액션 버튼
 function ActionButton({ name, actionImage, onClick }: ActionButtonProps) {
   return (
     <div
       className="w-[25%] min-w-[100px] max-w-[400px] h-auto cursor-pointer mx-8 group"
       onClick={onClick}
     >
-      <p 
+      {/* 해당 액션 버튼 명칭 표시 */}
+      <p
         className="
+        pt-1
         bg-zinc-500/70
         rounded-t-3xl
-        pt-1
         text-white
         transition
         duration-300
@@ -26,6 +28,8 @@ function ActionButton({ name, actionImage, onClick }: ActionButtonProps) {
       >
         { name }
       </p>
+
+      {/* 액션 버튼 테두리 */}
       <div
         className="
           w-full
@@ -40,11 +44,9 @@ function ActionButton({ name, actionImage, onClick }: ActionButtonProps) {
           ease-in-out
         "
       >
-        <img
-          src={ actionImage }
-          alt={`${name} 버튼`}
-          className="w-full h-full rounded-b-3xl object-contain"
-        />
+
+        {/* 액션 버튼 이미지 */}
+        <img src={ actionImage } alt={`${name} 버튼`} className="w-full h-full rounded-b-3xl object-contain" />
       </div>
     </div>
   );

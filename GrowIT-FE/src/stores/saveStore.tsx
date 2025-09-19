@@ -41,7 +41,7 @@ type SaveState = {
 }
 
 
-const defaultSave: SaveData = {
+export const defaultSave: SaveData = {
   enterpriseValue: 1000,
   productivity: 100,
   finance: 1000000,
