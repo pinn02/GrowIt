@@ -339,14 +339,14 @@ function StoreModal({ onClose }: StoreModalProps) {
           onClick={(e) => e.stopPropagation()}
         >
           <div className="absolute top-4 right-4 z-10">
-            <Button
+            <CloseButton
               onClick={onClose}
               className="w-10 h-10 rounded-full bg-red-600 text-white hover:bg-red-700 transition-colors flex items-center justify-center font-bold shadow-lg"
             >
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
-            </Button>
+            </CloseButton>
           </div>
 
           <div className="w-full flex flex-col items-center">

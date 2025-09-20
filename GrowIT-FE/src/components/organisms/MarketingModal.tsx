@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useSaveStore } from "../../stores/saveStore";
 import { useGameDataStore } from "../../stores/gameDataStore";
 import CloseButton from "../atoms/Button";
 import marketingModalBackgroundImage from "../../assets/background_images/board_page_background_image2.png";
@@ -28,25 +29,25 @@ type MarketingModalProps = {
 // 마케팅 모달
 function MarketingModal({ onClose }: MarketingModalProps) {
   const [marketings, setMarketings] = useState<Marketing[]>([]);
-  // const marketingArray = useGameDataStore(state => state.marketingArray)
-  // const currentSaveIdx = useSaveStore(state => state.currentSaveIdx)
+  const marketingArray = useGameDataStore(state => state.marketingArray)
+  const currentSaveIdx = useSaveStore(state => state.currentSaveIdx)
 
   // 마케팅 모달 실행 시 마케팅 데이터 지정
   useEffect(() => {
-    // if (!marketingArray) return
+    if (!marketingArray) return
     
     const newMarketings = marketingData.map((mar, idx) => {
-      // const selectedIndex = marketingArray[idx]
+      const selectedIndex = marketingArray[idx]
       return {
         name: mar.name,
-        // action: mar.actions[selectedIndex],
-        // cost: mar.costs[selectedIndex],
+        action: mar.actions[selectedIndex],
+        cost: mar.costs[selectedIndex],
         image: channelImages[idx]
       }
     })
 
-    // setMarketings(newMarketings)
-  }, [])
+    setMarketings(newMarketings)
+  }, [marketingArray, currentSaveIdx])
 
   return (
     <div className="fixed inset-0 flex justify-center items-center z-50 pointer-events-none" onClick={onClose}>

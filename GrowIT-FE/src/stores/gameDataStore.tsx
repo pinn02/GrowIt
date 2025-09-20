@@ -1,44 +1,111 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { SaveData } from "../hooks/SelectSave";
 
-type GameDataState = SaveData & {
-  setMoney: (value: number) => void
-  setValue: (value: number) => void
+export type Project = {
+  name: string
+  turn: number,
+  reward: number,
+}
+
+type GameDataState = {
+  enterpriseValue: number;
+  productivity: number;
+  finance: number;
+  employeeCount: number;
+  turn: number;
+  currentProject: Project;
+  officeLevel: number;
+
+  // 업그레이드 레벨들
+  commuteBusLevel: number;
+  dormitoryLevel: number;
+  gymLevel: number;
+  cafeteriaLevel: number;
+  hospitalLevel: number;
+  daycareLevel: number;
+  bookCafeLevel: number;
+  buildingLevel: number;
+
+  hiringArray: number[],
+  marketingArray: number[],
+  investmentArray: number[],
+  projectArray: number[],
+
+  hiredPerson: number[],
+
+  setEnterpriseValue: (value: number) => void
   setProductivity: (value: number) => void
-  setGameData: (value: SaveData) => void
+  setFinance: (value: number) => void
+  setEmployeeCount: (value: number) => void
+  setTurn: (value: number) => void
+  setCurrentProject: (value: Project) => void
+  setOfficeLevel: (value: number) => void
+
+  // 업그레이드 레벨 설정 함수들
+  setCommuteBusLevel: (value: number) => void
+  setDormitoryLevel: (value: number) => void
+  setGymLevel: (value: number) => void
+  setCafeteriaLevel: (value: number) => void
+  setHospitalLevel: (value: number) => void
+  setDaycareLevel: (value: number) => void
+  setBookCafeLevel: (value: number) => void
+  setBuildingLevel: (value: number) => void
+
+  setHiringArray: (value: number[]) => void
+  setMarketingArray: (value: number[]) => void
+  setInvestmentArray: (value: number[]) => void
+  setProjectArray: (value: number[]) => void
+
+  setHiredPerson: (value: number[]) => void
 }
 
 export const useGameDataStore = create<GameDataState>()(
   persist(
     (set) => ({
-      saveId: -1,
-      companyName: "",
-      turn: 0,
-      money: 0,
-      value: 0,
-      productivity: 0,
-      staffIds: [
-        {
-          id: -1,
-          productivity: 0
-        }
-      ],
-      project: [
-        {
-          id: -1,
-          endTurn: 0
-        }
-      ],
-      date: "",
-      setMoney: (value: number) =>
-        set(() => ({ money: value })),
-      setValue: (value: number) =>
-        set(() => ({ value: value })),
+      enterpriseValue: 1000000,
+      productivity: 100,
+      finance: 1000000000,
+      employeeCount: 0,
+      turn: 1,
+      currentProject: {
+        name: "",
+        turn: 0,
+        reward: 0,
+      },
+      officeLevel: 0,
+
+      hiringArray: [0, 0, 0],
+      marketingArray: [0, 0, 0],
+      investmentArray: [0, 0],
+      projectArray: [0, 0, 0],
+
+      hiredPerson: [],
+
+      setEnterpriseValue: (value: number) =>
+        set(() => ({ enterpriseValue: value })),
       setProductivity: (value: number) =>
         set(() => ({ productivity: value })),
-      setGameData: (value: SaveData ) =>
-        set(() => ({ ...value })),
+      setFinance: (value: number) =>
+        set(() => ({ finance: value })),
+      setEmployeeCount: (value: number) =>
+        set(() => ({ employeeCount: value })),
+      setTurn: (value: number) =>
+        set(() => ({ turn: value })),
+      setCurrentProject: (value: Project) =>
+        set(() => ({ currentProject: value })),
+      setOfficeLevel: (value: number) =>
+        set(() => ({ officeLevel: value })),
+
+      setHiringArray: (value: number[]) =>
+        set(() => ({ hiringArray: value })),
+      setMarketingArray: (value: number[]) =>
+        set(() => ({ marketingArray: value })),
+      setInvestmentArray: (value: number[]) =>
+        set(() => ({ investmentArray: value })),
+      setProjectArray: (value: number[]) =>
+        set(() => ({ projectArray: value })),
+      setHiredPerson: (value: number[]) =>
+        set(() => ({ hiredPerson: value }))
     }),
     {
       name: "game-data-storage",

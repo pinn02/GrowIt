@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
-// import { useSaveStore } from "../../stores/saveStore";
-// import { useGameDataStore } from "../../stores/gameDataStore";
+import { useSaveStore } from "../../stores/saveStore";
+import { useGameDataStore } from "../../stores/gameDataStore";
 import CloseButton from "../atoms/Button"
 import investmentModalBackgroundImage from "../../assets/modals/investment_modal_background.png"
 import InvestmentCard from "../molecules/InvestmentCard"
@@ -13,24 +13,24 @@ type InvestmentModalProps = {
 // 투자 모달
 function InvestmentModal({ onClose }: InvestmentModalProps) {
   const [investments, setInvestments] = useState<any[]>([])
-  // const currentSaveIdx = useSaveStore(state => state.currentSaveIdx)
-  // const investmentArray = useGameDataStore(state => state.investmentArray)
+  const currentSaveIdx = useSaveStore(state => state.currentSaveIdx)
+  const investmentArray = useGameDataStore(state => state.investmentArray)
 
   // 투자 모달 실행 시 표시할 데이터 지정
   useEffect(() => {
-    // if (!investmentArray) return
+    if (!investmentArray) return
 
     const newInvestments = investmentData.map((inv, idx) => {
-      // const selectedIndex = investmentArray[idx]
-      // return {
-      //   name: inv.name,
-      //   cost: inv.costs[selectedIndex],
-      //   content: inv.actions[selectedIndex],
-      // }
+      const selectedIndex = investmentArray[idx]
+      return {
+        name: inv.name,
+        cost: inv.costs[selectedIndex],
+        content: inv.actions[selectedIndex],
+      }
     })
 
     setInvestments(newInvestments)
-  }, [])
+  }, [investmentArray, currentSaveIdx])
 
   return (
     <div

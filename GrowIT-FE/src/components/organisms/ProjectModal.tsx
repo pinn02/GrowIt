@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-// import { useSaveStore } from "../../stores/saveStore";
+import { useSaveStore } from "../../stores/saveStore";
 import { useGameDataStore } from "../../stores/gameDataStore";
 import CloseButton from "../atoms/Button"
 import projectModalBackgroundImage from "../../assets/modals/project_modal_background.png"
@@ -28,26 +28,26 @@ type ProjectModalProps = {
 }
 
 function ProjectModal({ onClose }: ProjectModalProps) {
-  // const currentSaveIdx = useSaveStore(state => state.currentSaveIdx)
-  // const projectArray = useGameDataStore(state => state.projectArray)
+  const currentSaveIdx = useSaveStore(state => state.currentSaveIdx)
+  const projectArray = useGameDataStore(state => state.projectArray)
   const [projects, setProjects] = useState<Project[]>([]);
 
   useEffect(() => {
-    // if (!projectArray) return
+    if (!projectArray) return
     
-    // const newProjects = projectData.map((pro, idx) => {
-    //   const selectedIndex = projectArray[idx]
-    //   return {
-    //     name: pro.name,
-    //     reward: pro.rewards[selectedIndex],
-    //     action: pro.actions[selectedIndex],
-    //     image: channelImages[idx],
-    //     turn: pro.turn[selectedIndex]
-    //   }
-    // })
+    const newProjects = projectData.map((pro, idx) => {
+      const selectedIndex = projectArray[idx]
+      return {
+        name: pro.name,
+        reward: pro.rewards[selectedIndex],
+        action: pro.actions[selectedIndex],
+        image: channelImages[idx],
+        turn: pro.turn[selectedIndex]
+      }
+    })
     
-    // setProjects(newProjects);
-  }, []);
+    setProjects(newProjects);
+  }, [projectArray, currentSaveIdx]);
 
   return (
     <div className="fixed inset-0 flex justify-center items-center z-50 pointer-events-none" onClick={onClose}>

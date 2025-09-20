@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { authApi } from "../../apis/authApi";
+import { authApi } from "../../api/authApi";
 import LoginModal from "../organisms/LoginModal";
 import LoginButton from "../atoms/Button";
 import logo from "../../assets/images/logo.png";
