@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import ReportText from "../molecules/ReportText";
 import ReportButton from "../atoms/ReportButton";
 import backgroundImage from "../../assets/background_images/board_page_background_image3.png";
@@ -27,7 +27,7 @@ function ReportModal({ onClose }: ReportModalProps) {
       <div className={`fixed inset-0 flex justify-center items-center z-50 ${show ? 'fade-in' : 'fade-out'}`}
         onClick={handleClose}
       >
-        {/* 모달 컨테이너 - 두루마리 이미지 전체 */}
+        {/* 두루마리 이미지 전체 */}
         <div className="w-[85%] h-[80%] max-w-5xl max-h-[85vh] relative"
              onClick={(e) => e.stopPropagation()}
              style={{
@@ -42,16 +42,16 @@ function ReportModal({ onClose }: ReportModalProps) {
             <div 
               className="flex-1 flex flex-col relative"
               style={{
-                // 두루마리 이미지에서 실제 종이 부분의 영역만 지정
-                marginTop: '18%',    // 위쪽 스크롤 부분 제외
-                marginBottom: '15%', // 아래쪽 스크롤 부분 제외
-                marginLeft: '15%',   // 왼쪽 스크롤 부분 제외
-                marginRight: '15%',  // 오른쪽 여백
-                padding: '3% 5%'     // 내부 여백
+                // 반응형 위한 % 비율 조정 
+                marginTop: '18%',    
+                marginBottom: '15%',
+                marginLeft: '15%',   
+                marginRight: '15%', 
+                padding: '3% 5%'    
               }}
             >
               
-              {/* X 버튼을 종이 영역 우상단에 배치 */}
+              {/* X 버튼 */}
               <div className="absolute top-2 right-2 z-20">
                 <ReportButton onClose={handleClose} />
               </div>
@@ -64,11 +64,9 @@ function ReportModal({ onClose }: ReportModalProps) {
                 </h2>
               </div>
               
-              {/* 콘텐츠 영역 - 중앙 정렬 */}
               <div className="flex-1 flex flex-col justify-center items-center px-4">
                 <ReportText isModal={true} />
                 
-                {/* 버튼 영역 */}
                 <div className="mt-8">
                   <button 
                     className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold rounded-lg shadow-lg transition-all duration-200 hover:scale-105 flex items-center gap-2"
@@ -77,7 +75,7 @@ function ReportModal({ onClose }: ReportModalProps) {
                       fontSize: 'clamp(0.7rem, 1.5vw, 0.9rem)'
                     }}
                     onClick={() => {
-                      // TODO: 재화 소비 로직 추가
+                      // TODO: 재화 소비 로직 
                       console.log('턴 리포트 구매');
                     }}
                   >
