@@ -15,7 +15,8 @@ function Button({ type="button", to, disabled, maxSize, className = "", onClick,
   const navigate = useNavigate();
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (disabled) return; // 비활성화 시 버튼 클릭 이벤트 무시
-    if (to) { navigate(to) } else if (onClick) { onClick(e) };  // to 존재 시 해당 Route로 이동
+    if (onClick) { onClick(e) };  // onClick 먼저 실행
+    if (to) { navigate(to) }  // 그 다음에 to 경로로 이동
   };
 
   return (
