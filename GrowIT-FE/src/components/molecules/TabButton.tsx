@@ -1,4 +1,10 @@
-function TabButton({ children, isActive, onClick }) {
+interface TabButtonProps {
+  children: React.ReactNode;
+  isActive: boolean;
+  onClick: () => void;
+}
+
+function TabButton({ children, isActive, onClick }: TabButtonProps) {
   return (
     <button
       onClick={onClick}

@@ -1,6 +1,5 @@
 import mypageModalBackgroundImage from "../../assets/cards/window_card.png"
 import MypageContent from "../atoms/MypageContent";
-import MypageCard from "../molecules/MypageCard"
 
 type MypageModalProps = {
   onClose: () => void;

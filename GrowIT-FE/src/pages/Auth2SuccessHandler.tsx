@@ -41,7 +41,7 @@ const OAuth2SuccessHandler = () => {
         
       } catch (error) {
         console.error('로그인 오류:', error);
-        const errorMessage = error?.response?.data?.error || error?.message || '로그인에 실패했습니다.';
+        const errorMessage = error instanceof Error ? error.message : '로그인에 실패했습니다.';
         alert(`로그인에 실패했습니다: ${errorMessage}`);
         navigate('/?error=login_failed', { replace: true });
       }

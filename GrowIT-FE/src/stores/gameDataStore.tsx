@@ -74,6 +74,16 @@ export const useGameDataStore = create<GameDataState>()(
       },
       officeLevel: 0,
 
+      // 업그레이드 레벨들
+      commuteBusLevel: 1,
+      dormitoryLevel: 1,
+      gymLevel: 1,
+      cafeteriaLevel: 1,
+      hospitalLevel: 1,
+      daycareLevel: 1,
+      bookCafeLevel: 1,
+      buildingLevel: 1,
+
       hiringArray: [0, 0, 0],
       marketingArray: [0, 0, 0],
       investmentArray: [0, 0],
@@ -95,6 +105,24 @@ export const useGameDataStore = create<GameDataState>()(
         set(() => ({ currentProject: value })),
       setOfficeLevel: (value: number) =>
         set(() => ({ officeLevel: value })),
+
+      // 업그레이드 레벨 설정 함수들
+      setCommuteBusLevel: (value: number) =>
+        set(() => ({ commuteBusLevel: value })),
+      setDormitoryLevel: (value: number) =>
+        set(() => ({ dormitoryLevel: value })),
+      setGymLevel: (value: number) =>
+        set(() => ({ gymLevel: value })),
+      setCafeteriaLevel: (value: number) =>
+        set(() => ({ cafeteriaLevel: value })),
+      setHospitalLevel: (value: number) =>
+        set(() => ({ hospitalLevel: value })),
+      setDaycareLevel: (value: number) =>
+        set(() => ({ daycareLevel: value })),
+      setBookCafeLevel: (value: number) =>
+        set(() => ({ bookCafeLevel: value })),
+      setBuildingLevel: (value: number) =>
+        set(() => ({ buildingLevel: value })),
 
       setHiringArray: (value: number[]) =>
         set(() => ({ hiringArray: value })),

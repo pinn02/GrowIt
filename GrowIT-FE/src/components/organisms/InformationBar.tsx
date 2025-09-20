@@ -32,7 +32,7 @@ function InformationBar({ onRandomEvent, onStore }: InformationBarProps) {
   const saveStore = useSaveStore()
   const buttonStore = useButtonStore()
   const gameDataStore = useGameDataStore()
-  const { isLoggedIn, user, clearUser } = useUserStore()
+  const { isLoggedIn, user: _user, clearUser } = useUserStore()
   const [showReportModal, setShowReportModal] = useState(false)
   const currentSaveIdx = saveStore.currentSaveIdx
 

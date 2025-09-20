@@ -1,5 +1,4 @@
 // 메인 페이지로 라우터 이동하는 페이지
-import ButtonImage from '../../assets/buttons/button.png'
 
 
 type MainButtonProps = {

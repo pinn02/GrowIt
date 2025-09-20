@@ -1,4 +1,3 @@
-import { useState } from "react"
 // import MypageButtonClicked from "../../assets/buttons/button.png"
 // import MypageButtonNotClicked from "../../assets/buttons/button_disabled.png"
 

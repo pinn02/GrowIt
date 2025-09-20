@@ -1,11 +1,51 @@
 import CloseButton from "../atoms/Button";
 import UpgradeButton from "../atoms/Button";
-import officeUpgradeImage from "../../assets/images/office_upgrade.png";
 import { useGameDataStore } from "../../stores/gameDataStore";
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 
 // 업그레이드 타입 정의
 type UpgradeType = 'commuteBus' | 'dormitory' | 'gym' | 'cafeteria' | 'hospital' | 'daycare' | 'bookCafe' | 'building';
+
+// 기본 업그레이드 정보 타입
+interface BaseUpgradeInfo {
+  name: string;
+  icons: string[];
+  maxLevel: number;
+  costs: number[];
+  description: string;
+}
+
+// 생산성 보너스가 있는 업그레이드
+interface ProductivityUpgradeInfo extends BaseUpgradeInfo {
+  productivityBonus: number[];
+}
+
+// 기업가치 보너스가 있는 업그레이드
+interface EnterpriseValueUpgradeInfo extends BaseUpgradeInfo {
+  enterpriseValueBonus: number[];
+}
+
+// 건물 업그레이드 (특별 요구사항 포함)
+interface BuildingUpgradeInfo extends BaseUpgradeInfo {
+  enterpriseValueRequirements: number[];
+  enterpriseValueBonus: number[];
+}
+
+// 모든 업그레이드 정보 타입의 유니온
+type UpgradeInfo = ProductivityUpgradeInfo | EnterpriseValueUpgradeInfo | BuildingUpgradeInfo;
+
+// 타입 가드 함수들
+function hasProductivityBonus(info: UpgradeInfo): info is ProductivityUpgradeInfo {
+  return 'productivityBonus' in info;
+}
+
+function hasEnterpriseValueBonus(info: UpgradeInfo): info is EnterpriseValueUpgradeInfo {
+  return 'enterpriseValueBonus' in info;
+}
+
+function hasBuildingRequirements(info: UpgradeInfo): info is BuildingUpgradeInfo {
+  return 'enterpriseValueRequirements' in info;
+}
 
 let globalUpgradeLevels: Record<UpgradeType, number> = {
   commuteBus: 1,
@@ -19,7 +59,7 @@ let globalUpgradeLevels: Record<UpgradeType, number> = {
 };
 
 // 업그레이드 정보 정의
-const UPGRADE_INFO = {
+const UPGRADE_INFO: Record<UpgradeType, UpgradeInfo> = {
   commuteBus: {
     name: '통근버스',
     icons: ['🚌', '🚍', '🚐'], 
@@ -136,7 +176,7 @@ function StoreModal({ onClose }: StoreModalProps) {
     if (currentLevel >= upgradeInfo.maxLevel) return false;
     
     // 건물 업그레이드의 경우 누적 기업 가치 확인
-    if (currentUpgradeType === 'building' && upgradeInfo.enterpriseValueRequirements) {
+    if (currentUpgradeType === 'building' && hasBuildingRequirements(upgradeInfo)) {
       const requiredValue = upgradeInfo.enterpriseValueRequirements[currentLevel - 1]; 
       if (gameDataStore.enterpriseValue < requiredValue) return false;
     }
@@ -191,12 +231,14 @@ function StoreModal({ onClose }: StoreModalProps) {
       
       // 효과 적용
       const upgradeInfo = UPGRADE_INFO[currentUpgradeType];
-      if (upgradeInfo.productivityBonus) {
+      if (hasProductivityBonus(upgradeInfo)) {
         const bonus = upgradeInfo.productivityBonus[currentLevel - 1];
         gameDataStore.setProductivity(gameDataStore.productivity + bonus);
       }
-      if (upgradeInfo.enterpriseValueBonus) {
-        const bonus = upgradeInfo.enterpriseValueBonus[currentLevel - 1];
+      if (hasEnterpriseValueBonus(upgradeInfo) || hasBuildingRequirements(upgradeInfo)) {
+        const bonus = hasEnterpriseValueBonus(upgradeInfo) 
+          ? upgradeInfo.enterpriseValueBonus[currentLevel - 1]
+          : (upgradeInfo as BuildingUpgradeInfo).enterpriseValueBonus[currentLevel - 1];
         gameDataStore.setEnterpriseValue(gameDataStore.enterpriseValue + bonus);
       }
 
@@ -276,8 +318,8 @@ function StoreModal({ onClose }: StoreModalProps) {
   let buttonText = "레벨 " + (currentLevel + 1) + "로 업그레이드!";
 
   if (!canUpgradeThis) {
-    if (currentUpgradeType === 'building') {
-      const requiredValue = upgradeInfo.enterpriseValueRequirements![currentLevel - 1]; // 레벨이 1부터 시작하므로 -1
+    if (currentUpgradeType === 'building' && hasBuildingRequirements(upgradeInfo)) {
+      const requiredValue = upgradeInfo.enterpriseValueRequirements[currentLevel - 1]; // 레벨이 1부터 시작하므로 -1
       const shortage = requiredValue - gameDataStore.enterpriseValue;
       statusText = `기업가치가 ${shortage.toLocaleString()} 부족합니다`;
       statusColor = "text-red-500";
@@ -424,21 +466,23 @@ function StoreModal({ onClose }: StoreModalProps) {
               </p>
               
               {/* 추가 조건 표시 */}
-              {currentUpgradeType === 'building' && upgradeInfo.enterpriseValueRequirements && (
+              {currentUpgradeType === 'building' && hasBuildingRequirements(upgradeInfo) && (
                 <p className="text-sm text-gray-500 mb-2">
                   필요 기업가치: <span className="font-bold">{upgradeInfo.enterpriseValueRequirements[currentLevel - 1].toLocaleString()}</span>
                 </p>
               )}
 
               {/* 보너스 효과 */}
-              {upgradeInfo.productivityBonus && (
+              {hasProductivityBonus(upgradeInfo) && (
                 <p className="text-sm text-blue-600">
                   생산성 +{upgradeInfo.productivityBonus[currentLevel - 1]}
                 </p>
               )}
-              {upgradeInfo.enterpriseValueBonus && (
+              {(hasEnterpriseValueBonus(upgradeInfo) || hasBuildingRequirements(upgradeInfo)) && (
                 <p className="text-sm text-purple-600">
-                  기업가치 +{upgradeInfo.enterpriseValueBonus[currentLevel - 1]}
+                  기업가치 +{hasEnterpriseValueBonus(upgradeInfo) 
+                    ? upgradeInfo.enterpriseValueBonus[currentLevel - 1]
+                    : (upgradeInfo as BuildingUpgradeInfo).enterpriseValueBonus[currentLevel - 1]}
                 </p>
               )}
 

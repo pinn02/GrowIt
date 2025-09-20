@@ -1,7 +1,12 @@
 // 탭 버튼 바(집합)
 import TabButton from "../molecules/TabButton";
 
-function RankingTabBar({ activeTab, onTabChange }) {
+interface RankingTabBarProps {
+  activeTab: "corporate" | "productivity";
+  onTabChange: (tab: "corporate" | "productivity") => void;
+}
+
+function RankingTabBar({ activeTab, onTabChange }: RankingTabBarProps) {
   return (
     <div className="flex border-b">
       <TabButton
