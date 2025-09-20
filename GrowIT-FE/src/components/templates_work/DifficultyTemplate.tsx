@@ -1,6 +1,10 @@
 import DifficultyButton from "../atoms/Button"
 
-function DifficultyTemplate() {
+type DifficultyTemplateProps = {
+  onDifficultySelect?: () => void;
+}
+
+function DifficultyTemplate({ onDifficultySelect }: DifficultyTemplateProps) {
   const difficultyList = [
     { name: "Easy" },
     { name: "Normal" },

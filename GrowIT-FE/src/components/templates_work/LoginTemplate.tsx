@@ -27,7 +27,12 @@ function LoginTemplate({ onLogin }: LoginTemplateProps) {
 
   // 임시 로그인 기능
   const handleNormalLogin = (id: string, pw: string) => {
-    if (id === userId && pw === userPassword) { onLogin() } else { alert("아이디 또는 비밀번호가 틀렸습니다.") }
+    if (id === userId && pw === userPassword) { 
+      setActiveLoginModal(false)  // 모달 닫기
+      onLogin() 
+    } else { 
+      alert("아이디 또는 비밀번호가 틀렸습니다.") 
+    }
   }
 
   // 로그인 모달 열기
