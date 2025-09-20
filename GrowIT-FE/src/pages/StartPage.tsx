@@ -7,6 +7,7 @@ import { getRandomUniqueArray } from "../hooks/CreateRandomArray"
 import LoginTemplate from "../components/templates_work/LoginTemplate"
 import SelectSaveTemplate from "../components/templates_work/SelectSaveTemplate"
 import DifficultyTemplate from "../components/templates_work/DifficultyTemplate"
+import CeoSelectTemplate from "../components/templates_work/CeoSelectTemplate"
 import loginPageBackgroundImage from "../assets/background_images/start_page_background_image.png"
 
 const newSave = {
@@ -35,6 +36,7 @@ const newSave = {
 function StartPage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [isNewGame, setIsNewGame] = useState(false)
+  const [currentStep, setCurrentStep] = useState<'ceo' | 'difficulty'>('ceo')
 
   const saveStore = useSaveStore()
   const buttonStore = useButtonStore()
@@ -91,9 +93,10 @@ function StartPage() {
   }
 
   // 새 게임
-  const handleNewGame = () => {
+  const handleNewGame = (idx: number = 0) => {
     setIsNewGame(true);
-    newGame();
+    setCurrentStep('ceo'); // CEO 선택부터 시작
+    newGame(idx);
   }
 
   return (
@@ -109,6 +112,8 @@ function StartPage() {
         <LoginTemplate onLogin={handleLogin} />
       ) : !isNewGame ? (
         <SelectSaveTemplate onIsNewGame={handleNewGame} />
+      ) : currentStep === 'ceo' ? (
+        <CeoSelectTemplate onCeoSelect={() => setCurrentStep('difficulty')} />
       ) : (
         <DifficultyTemplate />
       )}

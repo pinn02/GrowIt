@@ -15,6 +15,7 @@ type GameDataState = {
   turn: number;
   currentProject: Project;
   officeLevel: number;
+  selectedCeo: number | null;
 
   // 업그레이드 레벨들
   commuteBusLevel: number;
@@ -33,6 +34,7 @@ type GameDataState = {
 
   hiredPerson: number[],
 
+  setSelectedCeo: (value: number | null) => void
   setEnterpriseValue: (value: number) => void
   setProductivity: (value: number) => void
   setFinance: (value: number) => void
@@ -90,7 +92,10 @@ export const useGameDataStore = create<GameDataState>()(
       projectArray: [0, 0, 0],
 
       hiredPerson: [],
+      selectedCeo: null,
 
+      setSelectedCeo: (value: number | null) =>
+        set(() => ({ selectedCeo: value })),
       setEnterpriseValue: (value: number) =>
         set(() => ({ enterpriseValue: value })),
       setProductivity: (value: number) =>
