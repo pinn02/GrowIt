@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { authApi } from '../../api/authApi'
 import { useUserStore } from '../../stores/userStore'
@@ -10,7 +9,6 @@ import { getRandomHiringArray, getRandomUniqueArray } from '../../hooks/CreateRa
 import Logo from "../atoms/Logo"
 import GameDataInformation from "../molecules/GameDataInformation"
 import Button from "../atoms/Button"
-import ReportModal from "./ReportModal"
 
 
 const logoHeight = 48;  // 로고 이미지 세로 사이즈
@@ -33,7 +31,6 @@ function InformationBar({ onRandomEvent, onStore }: InformationBarProps) {
   const buttonStore = useButtonStore()
   const gameDataStore = useGameDataStore()
   const { isLoggedIn, user: _user, clearUser } = useUserStore()
-  const [showReportModal, setShowReportModal] = useState(false)
   const currentSaveIdx = saveStore.currentSaveIdx
 
   // 턴 종료 버튼 누를 시 이벤트
@@ -95,16 +92,13 @@ function InformationBar({ onRandomEvent, onStore }: InformationBarProps) {
     } else {
       gameDataStore.setTurn(gameDataStore.turn + 1)
       saveStore.setSave(currentSaveIdx, latestData)
-      setShowReportModal(true)
+      
+      // 랜덤 이벤트 발생 확률 체크
+      const randomEventProbability = Math.random()
+      if (randomEventProbability < RANDOM_EVENT_PROBABILITY) onRandomEvent()
     }
   }
 
-  // 경제 리포트 모달 닫기 버튼 클릭 이벤트
-  const handleCloseModal = () => {
-    setShowReportModal(false)
-    const randomEventProbability = Math.random()
-    if (randomEventProbability < RANDOM_EVENT_PROBABILITY) onRandomEvent()  // 경제 리포트 닫으면 랜덤 이벤트 실행
-  }
 
   // 로그아웃 기능
   const handleLogout = async () => {
@@ -194,9 +188,6 @@ function InformationBar({ onRandomEvent, onStore }: InformationBarProps) {
           </div>
         </div>
       </header>
-      
-      {/* 경제 리포트 모달 */}
-      {showReportModal && (<ReportModal onClose={handleCloseModal} />)}
     </>
   )
 }

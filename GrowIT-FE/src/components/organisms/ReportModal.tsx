@@ -11,7 +11,9 @@ function ReportModal({ onClose }: ReportModalProps) {
       <div className="fixed inset-0 flex justify-center items-center z-50"
         onClick={onClose}
       >
-        <div className="bg-white rounded-3xl p-8 w-11/12 max-w-xl relative">
+        <div className="bg-white rounded-3xl p-8 w-10/12 max-w-2xl h-3/5 max-h-96 overflow-y-auto relative"
+             onClick={(e) => e.stopPropagation()}
+        >
 
         <ReportButton onClose={onClose} />
 
