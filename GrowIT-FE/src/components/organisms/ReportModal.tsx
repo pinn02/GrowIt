@@ -1,31 +1,96 @@
+import React, { useState, useEffect } from "react";
 import ReportText from "../molecules/ReportText";
 import ReportButton from "../atoms/ReportButton";
+import backgroundImage from "../../assets/background_images/board_page_background_image3.png";
+import '../../index.css';
 
 type ReportModalProps = {
   onClose: () => void;
 }
 
 function ReportModal({ onClose }: ReportModalProps) {
+  const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    setShow(true);
+  }, []);
+
+  const handleClose = () => {
+    setShow(false);
+    setTimeout(() => {
+      onClose();
+    }, 500);
+  };
+
   return (
     <>
-      <div className="fixed inset-0 flex justify-center items-center z-50"
-        onClick={onClose}
+      <div className={`fixed inset-0 flex justify-center items-center z-50 ${show ? 'fade-in' : 'fade-out'}`}
+        onClick={handleClose}
       >
-        <div className="bg-white rounded-3xl p-8 w-10/12 max-w-2xl h-3/5 max-h-96 overflow-y-auto relative"
+        {/* 모달 컨테이너 - 두루마리 이미지 전체 */}
+        <div className="w-[85%] h-[80%] max-w-5xl max-h-[85vh] relative"
              onClick={(e) => e.stopPropagation()}
+             style={{
+               backgroundImage: `url(${backgroundImage})`,
+               backgroundSize: 'contain',
+               backgroundPosition: 'center',
+               backgroundRepeat: 'no-repeat'
+             }}
         >
-
-        <ReportButton onClose={onClose} />
-
-        <h2 className="text-2xl font-bold mb-4 text-center">경제 리포트</h2>
-        
-        <div className="mt-6">
-        <ReportText isModal={true} />
-        </div>
+          {/* 두루마리의 실제 콘텐츠 영역 - 스크롤 부분을 제외한 평평한 종이 부분만 */}
+          <div className="absolute inset-0 flex flex-col">
+            <div 
+              className="flex-1 flex flex-col relative"
+              style={{
+                // 두루마리 이미지에서 실제 종이 부분의 영역만 지정
+                marginTop: '18%',    // 위쪽 스크롤 부분 제외
+                marginBottom: '15%', // 아래쪽 스크롤 부분 제외
+                marginLeft: '15%',   // 왼쪽 스크롤 부분 제외
+                marginRight: '15%',  // 오른쪽 여백
+                padding: '3% 5%'     // 내부 여백
+              }}
+            >
+              
+              {/* X 버튼을 종이 영역 우상단에 배치 */}
+              <div className="absolute top-2 right-2 z-20">
+                <ReportButton onClose={handleClose} />
+              </div>
+              
+              {/* 제목 영역 */}
+              <div className="text-center mb-6 mt-4">
+                <h2 className="font-bold text-gray-900" 
+                    style={{ fontSize: 'clamp(1.2rem, 3vw, 2.2rem)' }}>
+                  턴 리포트
+                </h2>
+              </div>
+              
+              {/* 콘텐츠 영역 - 중앙 정렬 */}
+              <div className="flex-1 flex flex-col justify-center items-center px-4">
+                <ReportText isModal={true} />
+                
+                {/* 버튼 영역 */}
+                <div className="mt-8">
+                  <button 
+                    className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold rounded-lg shadow-lg transition-all duration-200 hover:scale-105 flex items-center gap-2"
+                    style={{ 
+                      padding: 'clamp(0.4rem, 1.2vw, 0.7rem) clamp(0.8rem, 2vw, 1.2rem)',
+                      fontSize: 'clamp(0.7rem, 1.5vw, 0.9rem)'
+                    }}
+                    onClick={() => {
+                      // TODO: 재화 소비 로직 추가
+                      console.log('턴 리포트 구매');
+                    }}
+                  >
+                    <span>힌트 구매</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </>
-  )
+  );
 }
 
-export default ReportModal
+export default ReportModal;
