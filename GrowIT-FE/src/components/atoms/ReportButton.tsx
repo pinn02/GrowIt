@@ -6,9 +6,21 @@ type ReportButtonProps = {
 
 const ReportButton = ({onClose}: ReportButtonProps) => {
     return (
-    <div>
-        <img src={xButton} className="absolute top-4 right-4 w-8 h-8 cursor-pointer z-10" alt="x이미지" onClick={onClose}/>
-    </div>
+        <img 
+            src={xButton} 
+            className="cursor-pointer z-10 hover:scale-110 transition-all duration-200 hover:brightness-110 select-none" 
+            style={{ 
+              width: 'clamp(1rem, 2vw, 1.5rem)',
+              height: 'clamp(1rem, 2vw, 1.5rem)',
+              minWidth: '1rem',
+              minHeight: '1rem',
+              maxWidth: '1.5rem',
+              maxHeight: '1.5rem'
+            }}
+            alt="닫기 버튼" 
+            onClick={onClose}
+            onMouseDown={(e) => e.preventDefault()}
+        />
     )
 }
 export default ReportButton
