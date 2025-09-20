@@ -168,3 +168,11 @@ body {
   text-align: center;
   z-index: 100;
 }
+
+.fade-in {
+  animation: fadeIn 0.05s ease-out forwards;
+}
+
+.fade-out {
+  animation: fadeOut 0.01s ease-out forwards;
+}
