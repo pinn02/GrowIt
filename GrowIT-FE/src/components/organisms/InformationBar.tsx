@@ -180,7 +180,7 @@ function InformationBar({ onRandomEvent, onStore }: InformationBarProps) {
                   onClick={handleLogout}
                 >
                   로그아웃
-                </Button>
+                </TurnEndButton>
                 <Button
                   maxSize={logoutButtonSize}
                   className="bg-transparent border-2 border-orange-500 text-orange-500 px-3 py-2 rounded-lg font-semibold shadow-md hover:bg-orange-700 hover:text-white transition-colors"
