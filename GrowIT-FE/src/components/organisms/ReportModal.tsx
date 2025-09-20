@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import ReportText from "../molecules/ReportText";
 import ReportButton from "../atoms/ReportButton";
 import backgroundImage from "../../assets/background_images/board_page_background_image3.png";
