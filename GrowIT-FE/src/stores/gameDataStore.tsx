@@ -74,7 +74,7 @@ export const useGameDataStore = create<GameDataState>()(
         turn: 0,
         reward: 0,
       },
-      officeLevel: 0,
+      officeLevel: 1,
 
       // 업그레이드 레벨들
       commuteBusLevel: 1,

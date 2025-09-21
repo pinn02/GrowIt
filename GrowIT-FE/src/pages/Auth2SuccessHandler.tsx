@@ -30,17 +30,13 @@ const OAuth2SuccessHandler = () => {
         localStorage.removeItem('growit-auth-data');
         localStorage.removeItem('growit-user-storage');
         
-        console.log('로그인 성공 - 저장된 데이터:', {
-          user: userData,
-          token: tokenData.accessToken,
-          isLoggedIn: true
-        });
+        // 로그인 성공 - 사용자 데이터 저장 완료
         
         alert('로그인 성공!');
         navigate('/', { replace: true });
         
       } catch (error) {
-        console.error('로그인 오류:', error);
+        // 로그인 처리 중 오류 발생
         const errorMessage = error instanceof Error ? error.message : '로그인에 실패했습니다.';
         alert(`로그인에 실패했습니다: ${errorMessage}`);
         navigate('/?error=login_failed', { replace: true });

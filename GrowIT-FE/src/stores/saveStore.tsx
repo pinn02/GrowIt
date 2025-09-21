@@ -17,6 +17,16 @@ export type SaveData = {
   officeLevel: number
   updatedAt: string
 
+  // 업그레이드 레벨들
+  commuteBusLevel: number
+  dormitoryLevel: number
+  gymLevel: number
+  cafeteriaLevel: number
+  hospitalLevel: number
+  daycareLevel: number
+  bookCafeLevel: number
+  buildingLevel: number
+
   hiringArray: number[]
   marketingArray: number[]
   investmentArray: number[]
@@ -51,8 +61,18 @@ export const defaultSave: SaveData = {
     turn: 0,
     reward: 0,
   },
-  officeLevel: 0,
+  officeLevel: 1,
   updatedAt: new Date().toISOString().split("T")[0],
+
+  // 업그레이드 레벨들 초기값
+  commuteBusLevel: 1,
+  dormitoryLevel: 1,
+  gymLevel: 1,
+  cafeteriaLevel: 1,
+  hospitalLevel: 1,
+  daycareLevel: 1,
+  bookCafeLevel: 1,
+  buildingLevel: 1,
 
   hiringArray: [0, 0, 0],
   marketingArray: [0, 0, 0],

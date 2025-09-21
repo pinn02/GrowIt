@@ -23,7 +23,7 @@ export const authApi = {
       const response = await apiClient.get('/api/v1/member/logout');
       return response.data;
     } catch (error) {
-      console.error('로그아웃 API 오류:', error);
+      // 로그아웃 API 호출 실패
       throw error;
     }
   },
@@ -46,7 +46,7 @@ export const authApi = {
       });
       return response.data;
     } catch (error) {
-      console.error('회원탈퇴 API 오류:', error);
+      // 회원탈퇴 API 호출 실패
       throw error;
     }
   },

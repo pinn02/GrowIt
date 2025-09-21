@@ -1,7 +1,15 @@
 import CloseButton from "../atoms/Button";
 import UpgradeButton from "../atoms/Button";
 import { useGameDataStore } from "../../stores/gameDataStore";
+import { useSaveStore } from "../../stores/saveStore";
 import { useState } from "react";
+
+import upgradedBus1 from "../../assets/upgrades/upgraded_bus1.png";
+import upgradedBus2 from "../../assets/upgrades/upgraded_bus2.png";
+import upgradedBus3 from "../../assets/upgrades/upgraded_bus3.png";
+import upgradedBuilding1 from "../../assets/upgrades/upgraded_building1.png";
+import upgradedBuilding2 from "../../assets/upgrades/upgraded_building2.png";
+import upgradedBuilding3 from "../../assets/upgrades/upgraded_building3.png";
 
 // 업그레이드 타입 정의
 type UpgradeType = 'commuteBus' | 'dormitory' | 'gym' | 'cafeteria' | 'hospital' | 'daycare' | 'bookCafe' | 'building';
@@ -25,7 +33,7 @@ interface EnterpriseValueUpgradeInfo extends BaseUpgradeInfo {
   enterpriseValueBonus: number[];
 }
 
-// 건물 업그레이드 (특별 요구사항 포함)
+// 건물 업그레이드 
 interface BuildingUpgradeInfo extends BaseUpgradeInfo {
   enterpriseValueRequirements: number[];
   enterpriseValueBonus: number[];
@@ -47,22 +55,11 @@ function hasBuildingRequirements(info: UpgradeInfo): info is BuildingUpgradeInfo
   return 'enterpriseValueRequirements' in info;
 }
 
-let globalUpgradeLevels: Record<UpgradeType, number> = {
-  commuteBus: 1,
-  dormitory: 1,
-  gym: 1,
-  cafeteria: 1,
-  hospital: 1,
-  daycare: 1,
-  bookCafe: 1,
-  building: 1
-};
-
 // 업그레이드 정보 정의
 const UPGRADE_INFO: Record<UpgradeType, UpgradeInfo> = {
   commuteBus: {
     name: '통근버스',
-    icons: ['🚌', '🚍', '🚐'], 
+    icons: [upgradedBus1, upgradedBus2, upgradedBus3], 
     maxLevel: 3,
     costs: [5000, 10000, 15000],
     productivityBonus: [10, 20, 30],
@@ -118,7 +115,7 @@ const UPGRADE_INFO: Record<UpgradeType, UpgradeInfo> = {
   },
   building: {
     name: '건물 업그레이드',
-    icons: ['🏢', '🏬', '🏭', '🏰'],
+    icons: [upgradedBuilding1, upgradedBuilding2, upgradedBuilding3, upgradedBuilding3],
     maxLevel: 4,
     costs: [50000, 100000, 150000, 200000],
     enterpriseValueRequirements: [10, 20, 30, 50], 
@@ -137,12 +134,24 @@ type StoreModalProps = {
 
 function StoreModal({ onClose }: StoreModalProps) {
   const gameDataStore = useGameDataStore();
+  const saveStore = useSaveStore();
   
   const [, forceUpdate] = useState({});
   const [isUpgrading, setIsUpgrading] = useState(false);
   
-  // 전역 변수에서 업그레이드 레벨 가져오기
-  const upgradeLevels = globalUpgradeLevels;
+  // 게임 스토어에서 업그레이드 레벨 가져오기
+  const upgradeLevels: Record<UpgradeType, number> = {
+    commuteBus: gameDataStore.commuteBusLevel,
+    dormitory: gameDataStore.dormitoryLevel,
+    gym: gameDataStore.gymLevel,
+    cafeteria: gameDataStore.cafeteriaLevel,
+    hospital: gameDataStore.hospitalLevel,
+    daycare: gameDataStore.daycareLevel,
+    bookCafe: gameDataStore.bookCafeLevel,
+    building: gameDataStore.buildingLevel
+  };
+  
+  // 현재 업그레이드 레벨 상태 확인
   
   const triggerRerender = () => {
     forceUpdate({});
@@ -150,12 +159,11 @@ function StoreModal({ onClose }: StoreModalProps) {
 
   const getCurrentUpgrade = (): UpgradeType | null => {
     const minLevel = Math.min(...Object.values(upgradeLevels));
-    console.log('현재 레벨 상태:', upgradeLevels);
-    console.log('최소 레벨:', minLevel);
+    // 현재 레벨 상태 및 최소 레벨 확인
     
     for (const upgradeType of UPGRADE_ORDER) {
       if (upgradeLevels[upgradeType] === minLevel && upgradeLevels[upgradeType] < UPGRADE_INFO[upgradeType].maxLevel) {
-        console.log('현재 업그레이드 대상:', upgradeType, '레벨:', upgradeLevels[upgradeType]);
+        // 현재 업그레이드 대상 및 레벨 확인
         return upgradeType;
       }
     }
@@ -194,24 +202,14 @@ function StoreModal({ onClose }: StoreModalProps) {
   // 업그레이드 실행
   const executeUpgrade = () => {
     if (!currentUpgradeType || !canUpgrade() || !hasEnoughMoney()) {
-      console.log('업그레이드 실행 실패:', {
-        currentUpgradeType,
-        canUpgrade: canUpgrade(),
-        hasEnoughMoney: hasEnoughMoney(),
-        currentFinance: gameDataStore.finance
-      });
+      // 업그레이드 실행 조건 미충족
       return;
     }
 
     const currentLevel = upgradeLevels[currentUpgradeType];
     const cost = UPGRADE_INFO[currentUpgradeType].costs[currentLevel - 1]; 
 
-    console.log('업그레이드 실행:', {
-      upgradeType: currentUpgradeType,
-      currentLevel,
-      cost,
-      currentFinance: gameDataStore.finance
-    });
+    // 업그레이드 실행 시작
 
     setIsUpgrading(true);
 
@@ -219,15 +217,38 @@ function StoreModal({ onClose }: StoreModalProps) {
       // 자본 차감
       gameDataStore.setFinance(gameDataStore.finance - cost);
       
-      // 레벨 증가
-      globalUpgradeLevels[currentUpgradeType] = currentLevel + 1;
-      
-      console.log('업그레이드 후 새로운 레벨:', globalUpgradeLevels);
-      
-      if (currentUpgradeType === 'building') {
-        gameDataStore.setOfficeLevel(currentLevel);
-        console.log('officeLevel 업데이트:', currentLevel);
+      // 레벨 증가 - 게임 스토어 업데이트
+      switch (currentUpgradeType) {
+        case 'commuteBus':
+          gameDataStore.setCommuteBusLevel(currentLevel + 1);
+          break;
+        case 'dormitory':
+          gameDataStore.setDormitoryLevel(currentLevel + 1);
+          break;
+        case 'gym':
+          gameDataStore.setGymLevel(currentLevel + 1);
+          break;
+        case 'cafeteria':
+          gameDataStore.setCafeteriaLevel(currentLevel + 1);
+          break;
+        case 'hospital':
+          gameDataStore.setHospitalLevel(currentLevel + 1);
+          break;
+        case 'daycare':
+          gameDataStore.setDaycareLevel(currentLevel + 1);
+          break;
+        case 'bookCafe':
+          gameDataStore.setBookCafeLevel(currentLevel + 1);
+          break;
+        case 'building':
+          const newBuildingLevel = currentLevel + 1;
+          gameDataStore.setBuildingLevel(newBuildingLevel);
+          gameDataStore.setOfficeLevel(newBuildingLevel);
+          // 건물 업그레이드 완료: 빌딩 레벨 및 오피스 레벨 동기화
+          break;
       }
+      
+      // 업그레이드 후 새로운 레벨 설정 완료
       
       // 효과 적용
       const upgradeInfo = UPGRADE_INFO[currentUpgradeType];
@@ -245,10 +266,41 @@ function StoreModal({ onClose }: StoreModalProps) {
       setTimeout(() => {
         setIsUpgrading(false);
         triggerRerender(); // 리렌더링 강제
+        
+        // 업그레이드 후 세이브 데이터 업데이트
+        const currentSaveIdx = saveStore.currentSaveIdx;
+        const currentSave = saveStore.saves[currentSaveIdx];
+        const updatedSave = {
+          ...currentSave,
+          enterpriseValue: gameDataStore.enterpriseValue,
+          productivity: gameDataStore.productivity,
+          finance: gameDataStore.finance,
+          employeeCount: gameDataStore.employeeCount,
+          turn: gameDataStore.turn,
+          currentProject: gameDataStore.currentProject,
+          officeLevel: gameDataStore.officeLevel,
+          commuteBusLevel: gameDataStore.commuteBusLevel,
+          dormitoryLevel: gameDataStore.dormitoryLevel,
+          gymLevel: gameDataStore.gymLevel,
+          cafeteriaLevel: gameDataStore.cafeteriaLevel,
+          hospitalLevel: gameDataStore.hospitalLevel,
+          daycareLevel: gameDataStore.daycareLevel,
+          bookCafeLevel: gameDataStore.bookCafeLevel,
+          buildingLevel: gameDataStore.buildingLevel,
+          hiringArray: gameDataStore.hiringArray,
+          marketingArray: gameDataStore.marketingArray,
+          investmentArray: gameDataStore.investmentArray,
+          projectArray: gameDataStore.projectArray,
+          hiredPerson: gameDataStore.hiredPerson,
+          updatedAt: new Date().toISOString().split("T")[0]
+        };
+        saveStore.setSave(currentSaveIdx, updatedSave);
+        // 세이브 데이터 업데이트 완료
+        
         // 모달을 자동으로 닫지 않고 사용자가 닫을 때까지 열어두기
         // onClose();
-      }, 1000);
-    }, 500);
+      }, 200); // 500ms에서 200ms로 단축
+    }, 200);
   };
 
   if (!currentUpgradeType) {
@@ -333,6 +385,9 @@ function StoreModal({ onClose }: StoreModalProps) {
   }
 
   const currentIcon = upgradeInfo.icons[currentLevel - 1]; 
+  
+  // 아이콘이 이미지 경로인지 이모지인지 확인
+  const isImageIcon = typeof currentIcon === 'string' && currentIcon.includes('.png'); 
 
   return (
     <>
@@ -393,9 +448,17 @@ function StoreModal({ onClose }: StoreModalProps) {
 
           <div className="w-full flex flex-col items-center">
             <div className="w-full max-w-[300px] h-[200px] bg-gradient-to-b from-sky-200 to-sky-100 rounded-lg mb-6 flex items-center justify-center border-2 border-gray-300">
-              <div className="text-8xl animate-bounce-slow">
-                {currentIcon}
-              </div>
+              {isImageIcon ? (
+                <img 
+                  src={currentIcon} 
+                  alt={upgradeInfo.name}
+                  className="w-48 h-40 object-contain animate-bounce-slow"
+                />
+              ) : (
+                <div className="text-8xl animate-bounce-slow">
+                  {currentIcon}
+                </div>
+              )}
             </div>
 
             <h2 className="font-extrabold text-2xl text-center mb-2 text-gray-900">

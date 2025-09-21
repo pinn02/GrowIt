@@ -24,6 +24,16 @@ const newSave = {
   officeLevel: 0,
   updatedAt: new Date().toISOString().split("T")[0],
 
+  // 업그레이드 레벨들
+  commuteBusLevel: 1,
+  dormitoryLevel: 1,
+  gymLevel: 1,
+  cafeteriaLevel: 1,
+  hospitalLevel: 1,
+  daycareLevel: 1,
+  bookCafeLevel: 1,
+  buildingLevel: 1,
+
   hiringArray: [0, 0, 0],
   marketingArray: [0, 0, 0],
   investmentArray: [0, 0],
@@ -63,6 +73,16 @@ function StartPage() {
     gameDataStore.setTurn(1)
     gameDataStore.setCurrentProject(newSave.currentProject)
     gameDataStore.setOfficeLevel(newSave.officeLevel)
+
+    // 업그레이드 레벨 초기화
+    gameDataStore.setCommuteBusLevel(1)
+    gameDataStore.setDormitoryLevel(1)
+    gameDataStore.setGymLevel(1)
+    gameDataStore.setCafeteriaLevel(1)
+    gameDataStore.setHospitalLevel(1)
+    gameDataStore.setDaycareLevel(1)
+    gameDataStore.setBookCafeLevel(1)
+    gameDataStore.setBuildingLevel(1)
 
     const newHiringArray = getRandomUniqueArray(3, 0, 14)
     const newMarketingArray = getRandomUniqueArray(3, 0, 4)

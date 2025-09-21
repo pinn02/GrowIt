@@ -45,12 +45,51 @@ function SelectSaveTemplate({ onIsNewGame }: SelectSaveTemplateProps) {
                   gameDataStore.setEmployeeCount(currentSave.employeeCount)
                   gameDataStore.setTurn(currentSave.turn)
                   gameDataStore.setCurrentProject(currentSave.currentProject)
-                  gameDataStore.setOfficeLevel(currentSave.officeLevel)
+                  // 업그레이드 레벨들 로드 (기본값 1로 설정)
+                  gameDataStore.setCommuteBusLevel(currentSave.commuteBusLevel || 1)
+                  gameDataStore.setDormitoryLevel(currentSave.dormitoryLevel || 1)
+                  gameDataStore.setGymLevel(currentSave.gymLevel || 1)
+                  gameDataStore.setCafeteriaLevel(currentSave.cafeteriaLevel || 1)
+                  gameDataStore.setHospitalLevel(currentSave.hospitalLevel || 1)
+                  gameDataStore.setDaycareLevel(currentSave.daycareLevel || 1)
+                  gameDataStore.setBookCafeLevel(currentSave.bookCafeLevel || 1)
+                  
+                  // buildingLevel 로드 및 officeLevel과 동기화
+                  // gameDataStore의 persist된 값과 비교하여 더 높은 값 사용
+                  const savedBuildingLevel = currentSave.buildingLevel || 1;
+                  const currentBuildingLevel = gameDataStore.buildingLevel;
+                  const finalBuildingLevel = Math.max(savedBuildingLevel, currentBuildingLevel);
+                  
+                  console.log('로드될 세이브 데이터:', currentSave);
+                  console.log('저장된 buildingLevel:', savedBuildingLevel, '현재 gameStore buildingLevel:', currentBuildingLevel);
+                  console.log('최종 선택된 buildingLevel:', finalBuildingLevel);
+                  
+                  gameDataStore.setBuildingLevel(finalBuildingLevel);
+                  gameDataStore.setOfficeLevel(finalBuildingLevel);
+                  console.log('세이브 로드 완료: buildingLevel =', finalBuildingLevel, 'officeLevel =', finalBuildingLevel);
+                  
                   gameDataStore.setHiringArray(currentSave.hiringArray)
                   gameDataStore.setMarketingArray(currentSave.marketingArray)
                   gameDataStore.setInvestmentArray(currentSave.investmentArray)
                   gameDataStore.setProjectArray(currentSave.projectArray)
                   gameDataStore.setHiredPerson(currentSave.hiredPerson)
+                  
+                  // 로드 직후 saveStore를 최신 상태로 업데이트하여 동기화
+                  const syncedSave = {
+                    ...currentSave,
+                    buildingLevel: finalBuildingLevel,
+                    officeLevel: finalBuildingLevel,
+                    commuteBusLevel: gameDataStore.commuteBusLevel,
+                    dormitoryLevel: gameDataStore.dormitoryLevel,
+                    gymLevel: gameDataStore.gymLevel,
+                    cafeteriaLevel: gameDataStore.cafeteriaLevel,
+                    hospitalLevel: gameDataStore.hospitalLevel,
+                    daycareLevel: gameDataStore.daycareLevel,
+                    bookCafeLevel: gameDataStore.bookCafeLevel,
+                  };
+                  saveStore.setSave(idx, syncedSave);
+                  console.log('로드 후 saveStore 동기화 완료:', syncedSave);
+                  
                   navigate("/main")
                 } else {
                   onIsNewGame(idx)
