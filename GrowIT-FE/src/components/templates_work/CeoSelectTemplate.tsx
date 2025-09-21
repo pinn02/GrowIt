@@ -7,6 +7,7 @@ import SliderButton from "../atoms/SliderButton"
 
 // CEO 이미지 import
 import steveJobsImg from "../../assets/ceos/SteveJobs.png"
+import BillGatesImg from "../../assets/ceos/BillGates.png"
 import elonMuskImg from "../../assets/ceos/ElonMusk.png"
 import markZuckerbergImg from "../../assets/ceos/MarkZuckerberg.png"
 import donaldTrumpImg from "../../assets/ceos/DonaldTrump.png"
@@ -45,7 +46,7 @@ function CeoSelectTemplate({ onCeoSelect }: CeoSelectTemplateProps) {
     },
     {
       name: "빌 게이츠",
-      image: "/src/assets/ceos/BillGates.png",
+      image: BillGatesImg,
       description: ["기술 혁신과 전략적 특허 투자의 선구자"],
       effects: {
         positive: ["R&D 투자 보상 1.3배", "특허 등록 성공 확률 2배", "리스크 투자 확률 2.5배"],
