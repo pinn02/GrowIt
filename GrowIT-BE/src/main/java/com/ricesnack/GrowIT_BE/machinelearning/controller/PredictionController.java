@@ -1,7 +1,6 @@
 package com.ricesnack.GrowIT_BE.machinelearning.controller;
 
-import com.ricesnack.GrowIT_BE.machinelearning.domain.ModelType;
-import com.ricesnack.GrowIT_BE.machinelearning.dto.PredictionResponse;
+import com.ricesnack.GrowIT_BE.machinelearning.dto.PredictionRequestDto;
 import com.ricesnack.GrowIT_BE.machinelearning.service.PredictionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -14,12 +13,11 @@ public class PredictionController {
 
     private final PredictionService predictionService;
 
-    @PostMapping("/data/{turn}/{modelType}")
-    public ResponseEntity<PredictionResponse> predictByModel(
-            @PathVariable int turn,
-            @PathVariable ModelType modelType) {
+    @PostMapping("/data/predict")
+    public ResponseEntity<Object> predictByModel(
+            @RequestBody PredictionRequestDto requestDto) {
 
-        PredictionResponse response = predictionService.predictForTurnByModel(turn, modelType);
+        Object response = predictionService.predictForTurnByModel(requestDto);
         return ResponseEntity.ok(response);
     }
 }
