@@ -76,6 +76,15 @@ function InformationBar({ onRandomEvent, onStore }: InformationBarProps) {
       turn: gameDataStore.turn + 1,
       currentProject: gameDataStore.currentProject,
       officeLevel: gameDataStore.officeLevel,
+      // 업그레이드 레벨들 추가
+      commuteBusLevel: gameDataStore.commuteBusLevel,
+      dormitoryLevel: gameDataStore.dormitoryLevel,
+      gymLevel: gameDataStore.gymLevel,
+      cafeteriaLevel: gameDataStore.cafeteriaLevel,
+      hospitalLevel: gameDataStore.hospitalLevel,
+      daycareLevel: gameDataStore.daycareLevel,
+      bookCafeLevel: gameDataStore.bookCafeLevel,
+      buildingLevel: gameDataStore.buildingLevel,
       updatedAt: new Date().toISOString().split("T")[0],
       hiringArray: gameDataStore.hiringArray,
       marketingArray: gameDataStore.marketingArray,
@@ -91,7 +100,13 @@ function InformationBar({ onRandomEvent, onStore }: InformationBarProps) {
       return
     } else {
       gameDataStore.setTurn(gameDataStore.turn + 1)
+      console.log('턴 종료 전 데이터:', {
+        buildingLevel: gameDataStore.buildingLevel,
+        officeLevel: gameDataStore.officeLevel
+      });
+      console.log('저장할 latestData:', latestData);
       saveStore.setSave(currentSaveIdx, latestData)
+      console.log('턴 종료 후 저장 완료');
       
       // 랜덤 이벤트 발생 확률 체크
       const randomEventProbability = Math.random()
