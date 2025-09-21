@@ -16,7 +16,6 @@ import jeffreyBezosImg from "../../assets/ceos/JeffreyBezos.png"
 // CEO 정보 타입 정의
 type CeoInfo = {
   name: string;
-  nickname: string;
   image: string;
   description: string[];
   effects: {
@@ -37,7 +36,6 @@ function CeoSelectTemplate({ onCeoSelect }: CeoSelectTemplateProps) {
   const ceoList: CeoInfo[] = [
     {
       name: "스티브 잡스",
-      nickname: "스티브 잡아쓰",
       image: steveJobsImg,
       description: ["혁신적인 마케팅과 프로젝트 실행력의 대명사"],
       effects: {
@@ -47,7 +45,6 @@ function CeoSelectTemplate({ onCeoSelect }: CeoSelectTemplateProps) {
     },
     {
       name: "빌 게이츠",
-      nickname: "빌",
       image: "/src/assets/ceos/BillGates.png",
       description: ["기술 혁신과 전략적 특허 투자의 선구자"],
       effects: {
@@ -57,7 +54,6 @@ function CeoSelectTemplate({ onCeoSelect }: CeoSelectTemplateProps) {
     },
     {
       name: "일론 머스크",
-      nickname: "일론 머쓰타드",
       image: elonMuskImg,
       description: ["압도적인 생산성과 위험한 도전 정신의 소유자"],
       effects: {
@@ -67,7 +63,6 @@ function CeoSelectTemplate({ onCeoSelect }: CeoSelectTemplateProps) {
     },
     {
       name: "마크 주커버그",
-      nickname: "마크",
       image: markZuckerbergImg,
       description: ["소셜 미디어와 마케팅 전략의 천재"],
       effects: {
@@ -77,7 +72,6 @@ function CeoSelectTemplate({ onCeoSelect }: CeoSelectTemplateProps) {
     },
     {
       name: "도날드 트럼프",
-      nickname: "개그캐",
       image: donaldTrumpImg,
       description: ["화제성과 미디어 활용의 달인, 자본력 보유"],
       effects: {
@@ -87,7 +81,6 @@ function CeoSelectTemplate({ onCeoSelect }: CeoSelectTemplateProps) {
     },
     {
       name: "젠슨 황",
-      nickname: "젠슨",
       image: jensenHuangImg,
       description: ["AI와 GPU 기술 혁신의 선두주자"],
       effects: {
@@ -97,12 +90,11 @@ function CeoSelectTemplate({ onCeoSelect }: CeoSelectTemplateProps) {
     },
     {
       name: "제프 베이조스",
-      nickname: "아마존",
       image: jeffreyBezosImg,
       description: ["글로벌 확장과 효율적인 마케팅의 대가"],
       effects: {
-        positive: ["글로벌 프로젝트 보상 1.5배", "마케팅 비용 0.8배"],
-        negative: []
+        positive: ["글로벌 프로젝트 보상 1.5배"],
+        negative: ["마케팅 비용 0.8배"]
       }
     }
   ]

@@ -1,7 +1,6 @@
 // CEO 정보 타입
 type CeoInfo = {
   name: string;
-  nickname: string;
   image: string;
   description: string[];
   effects: {
