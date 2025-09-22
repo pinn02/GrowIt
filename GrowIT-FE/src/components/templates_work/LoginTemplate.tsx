@@ -7,8 +7,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faKakaoTalk } from "@fortawesome/free-brands-svg-icons";
 
 // 테스트 로그인용 임시 계정
-const userId = "test"
-const userPassword = "1234"
+const userId = "1"
+const userPassword = "1"
 
 const loginButtonSize = 400;  // 로그인 버튼 최대 사이즈
 

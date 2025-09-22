@@ -19,7 +19,7 @@ function ReportModal({ onClose }: ReportModalProps) {
     setShow(false);
     setTimeout(() => {
       onClose();
-    }, 500);
+    }, 100);
   };
 
   return (
@@ -50,14 +50,20 @@ function ReportModal({ onClose }: ReportModalProps) {
                 padding: '3% 5%'    
               }}
             >
+              {/* <div className="flex ps-20 mb-10">
+                <div className="w-full">
+                  <p className="text-center">턴 리포트</p>
+                </div>
+                <p>닫기 버튼</p>
+              </div> */}
               
               {/* X 버튼 */}
-              <div className="absolute top-2 right-2 z-20">
+              <div className="absolute top-3 right-20 mt-10 z-20">
                 <ReportButton onClose={handleClose} />
               </div>
               
               {/* 제목 영역 */}
-              <div className="text-center mb-6 mt-4">
+              <div className="text-center mb-6">
                 <h2 className="font-bold text-gray-900" 
                     style={{ fontSize: 'clamp(1.2rem, 3vw, 2.2rem)' }}>
                   턴 리포트
@@ -69,7 +75,7 @@ function ReportModal({ onClose }: ReportModalProps) {
                 
                 <div className="mt-8">
                   <button 
-                    className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold rounded-lg shadow-lg transition-all duration-200 hover:scale-105 flex items-center gap-2"
+                    className="bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-lg shadow-lg transition-all duration-200 hover:scale-105 flex items-center gap-2"
                     style={{ 
                       padding: 'clamp(0.4rem, 1.2vw, 0.7rem) clamp(0.8rem, 2vw, 1.2rem)',
                       fontSize: 'clamp(0.7rem, 1.5vw, 0.9rem)'
