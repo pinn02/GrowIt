@@ -1,6 +1,7 @@
 package com.ricesnack.GrowIT_BE.saved.controller;
 
 import com.ricesnack.GrowIT_BE.member.domain.SecurityMember;
+import com.ricesnack.GrowIT_BE.saved.dto.GameCreateRequest;
 import com.ricesnack.GrowIT_BE.saved.dto.SavedResponse;
 import com.ricesnack.GrowIT_BE.saved.service.SavedService;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,14 @@ public class SavedController {
 
     }
 
+    @PostMapping()
+    public ResponseEntity<Void> createNewSave(
+            @AuthenticationPrincipal SecurityMember securityMember,
+            @RequestBody GameCreateRequest gameCreateRequest) {
+        savedService.createNewSave(gameCreateRequest, securityMember.getMember());
+        return ResponseEntity.ok().build();
+    }
+
     @DeleteMapping("/{saveId}")
     public ResponseEntity<Void> deleteSave(
             @PathVariable Long saveId,
@@ -32,13 +41,5 @@ public class SavedController {
         Long memberId = member.getMemberId();
         savedService.deleteSavedById(saveId, memberId);
         return ResponseEntity.noContent().build();
-    }
-
-    @PostMapping("/{companyName}")
-    public ResponseEntity<Void> createNewSave(
-            @PathVariable String companyName,
-            @AuthenticationPrincipal SecurityMember securityMember) {
-        savedService.createNewSave(companyName, securityMember.getMember());
-        return ResponseEntity.ok().build();
     }
 }

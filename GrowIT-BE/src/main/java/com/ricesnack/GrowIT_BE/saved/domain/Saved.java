@@ -31,6 +31,10 @@ public class Saved {
     @Column(nullable = false)
     private String companyName;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private CEO ceo;
+
     @Column(nullable = false)
     private Integer currentTurn;
 
