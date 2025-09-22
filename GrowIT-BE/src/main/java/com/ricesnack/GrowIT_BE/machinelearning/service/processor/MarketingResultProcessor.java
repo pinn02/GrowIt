@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 import java.util.Map;
 
 @Component
-public class MarketingResultProcesso implements PredictionResultProcessor {
+public class MarketingResultProcessor implements PredictionResultProcessor {
 
     private static final double COMPANY_VALUE_WEIGHT = 0.05;
     private static final Map<String, Integer> BASE_COSTS = Map.of(
