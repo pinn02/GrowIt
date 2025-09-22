@@ -6,13 +6,13 @@ import com.ricesnack.GrowIT_BE.member.domain.Member;
 import com.ricesnack.GrowIT_BE.saved.domain.CEO;
 import com.ricesnack.GrowIT_BE.saved.domain.EventWeight;
 import com.ricesnack.GrowIT_BE.saved.domain.Saved;
-import com.ricesnack.GrowIT_BE.saved.domain.StatDelta;
+import com.ricesnack.GrowIT_BE.saved.domain.RewardDelta;
 import com.ricesnack.GrowIT_BE.saved.dto.GameCreateRequest;
 import com.ricesnack.GrowIT_BE.saved.dto.SavedResponse;
 import com.ricesnack.GrowIT_BE.saved.repository.EventOverrideRepository;
 import com.ricesnack.GrowIT_BE.saved.repository.EventWeightRepository;
 import com.ricesnack.GrowIT_BE.saved.repository.SavedRepository;
-import com.ricesnack.GrowIT_BE.saved.repository.StatDeltaRepository;
+import com.ricesnack.GrowIT_BE.saved.repository.RewardDeltaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -30,7 +30,7 @@ import java.util.Map;
 public class SavedServiceImpl implements SavedService {
 
     private final SavedRepository savedRepository;
-    private final StatDeltaRepository statDeltaRepository;
+    private final RewardDeltaRepository rewardDeltaRepository;
     private final EventWeightRepository eventWeightRepository;
     private final EventOverrideRepository eventOverrideRepository;
 
@@ -80,7 +80,7 @@ public class SavedServiceImpl implements SavedService {
         // 3) 스탯 배율 저장
         ceo.getTrait().statMultipliers().forEach((rewardType, mul) -> {
             int delta = toPercentInt(mul);
-            statDeltaRepository.save(StatDelta.builder()
+            rewardDeltaRepository.save(RewardDelta.builder()
                     .saved(saved)
                     .statName(rewardType.name())
                     .delta(delta)
@@ -90,23 +90,21 @@ public class SavedServiceImpl implements SavedService {
         // 4) 이벤트 "서브 카테고리" 배율 저장
         Map<String, Double> subCategoryMul = new java.util.HashMap<>();
 
-        ceo.getTrait().eventChanceMultipliers().forEach((event, mul) -> {
-            String subCategory = event.getSubCategory().name();   // ★ 여기!
+        ceo.getTrait().eventMultipliers().forEach((event, mul) -> {
+            String subCategory = event.getSubCategory().name();
             subCategoryMul.merge(subCategory, mul, (a, b) -> a * b);
         });
 
         subCategoryMul.forEach((subCategory, mul) -> {
-            int delta = toPercentInt(mul);
+            int magnification = toPercentInt(mul);
             eventWeightRepository.save(
                     EventWeight.builder()
                             .saved(saved)
                             .category(subCategory)
-                            .delta(delta)
+                            .delta(magnification)
                             .build()
             );
         });
-
-        // 5) (선택) 특정 이벤트 오버라이드 저장 블록은 필요시 구현
     }
 
     private static int toPercentInt(double multiplier) {

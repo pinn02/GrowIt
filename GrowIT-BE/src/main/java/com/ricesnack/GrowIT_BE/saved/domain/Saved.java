@@ -47,8 +47,11 @@ public class Saved {
     @Column(nullable = false)
     private Integer productivity;
 
+    @Enumerated(EnumType.STRING)
+    private Policy policy;
+
     @Column(nullable = false)
-    private Integer employeeCount;
+    private int employeeCount;
 
     @Column(nullable = false)
     private BigDecimal monthlySalaryExpense;
@@ -77,8 +80,7 @@ public class Saved {
         this.currentTurn += 1;
     }
 
-    public void updateEmployeeCount(long count) {
-        this.employeeCount = (int) count;
+    public void updatePolicy(Policy newPolicy) {
+        this.policy = newPolicy;
     }
-
 }

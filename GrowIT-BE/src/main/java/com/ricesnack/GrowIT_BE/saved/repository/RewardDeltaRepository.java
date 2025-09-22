@@ -1,8 +1,8 @@
 package com.ricesnack.GrowIT_BE.saved.repository;
 
-import com.ricesnack.GrowIT_BE.saved.domain.RewardDelta;
+import com.ricesnack.GrowIT_BE.saved.domain.RewardType;
 import com.ricesnack.GrowIT_BE.saved.domain.Saved;
-import com.ricesnack.GrowIT_BE.saved.domain.StatDelta;
+import com.ricesnack.GrowIT_BE.saved.domain.RewardDelta;
 import com.ricesnack.GrowIT_BE.saved.domain.StatType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -11,13 +11,13 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface StatDeltaRepository extends JpaRepository<StatDelta, Long> {
+public interface RewardDeltaRepository extends JpaRepository<RewardDelta, Long> {
     boolean existsBySaved_IdAndStatName(Long savedId, String statName);
 
     @Modifying
-    @Query("UPDATE StatDelta sd SET sd.delta = sd.delta + :delta100 " +
-            "WHERE sd.saved.id = :savedId AND sd.statName = :statType")
+    @Query("UPDATE RewardDelta rd SET rd.delta = rd.delta + :delta100 " +
+            "WHERE rd.saved.id = :savedId AND rd.statName = :rewardType")
     int incrementMagnification(@Param("savedId") Long savedId,
-                               @Param("statType") String statType,
+                               @Param("rewardType") String rewardType,
                                @Param("delta100") int delta100);
 }

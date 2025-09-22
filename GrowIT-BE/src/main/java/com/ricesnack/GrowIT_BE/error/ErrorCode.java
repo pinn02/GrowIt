@@ -7,8 +7,14 @@ import org.springframework.http.HttpStatus;
 public enum ErrorCode {
     // 회원 관련
     MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "회원을 찾을 수 없습니다."),
+
+    // 세이브,
     SAVE_CREATION_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "저장 생성 중 오류가 발생했습니다."),
-    SAVE_NOT_FOUND_OR_NO_PERMISSION(HttpStatus.FORBIDDEN, "세이브가 존재하지 않거나 삭제 권한이 없습니다.");
+    SAVE_NOT_FOUND_OR_NO_PERMISSION(HttpStatus.FORBIDDEN, "세이브가 존재하지 않거나 삭제 권한이 없습니다."),
+    SAVE_NOT_EXIST(HttpStatus.NOT_FOUND, "세이브가 존재하지 않습니다."),
+
+    // 정책
+    POLICY_NOT_FOUND(HttpStatus.BAD_REQUEST, "존재하지 않는 정책입니다.");
 
     private final HttpStatus status;
     private final String message;
