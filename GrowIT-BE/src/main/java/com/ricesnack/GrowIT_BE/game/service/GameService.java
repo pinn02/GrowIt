@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -24,13 +25,50 @@ public class GameService {
     private final StatDeltaRepository statDeltaRepository;
     private final EventOverrideRepository eventOverrideRepository;
 
+    private final HireRepository hireRepository;
+    private final StaffRepository staffRepository;
+
     @Transactional
     public void makeDecision(Member member, GamePlayRequest gamePlayRequest) {
-        log.info("makeDecision 호출 - savedId: {}, policy: {}",
-                gamePlayRequest.savedId(), gamePlayRequest.policy());
+        fireStaff(gamePlayRequest.savedId(), gamePlayRequest.fire());
         changePolicy(gamePlayRequest);
-        log.info("makeDecision 완료");
     }
+
+    private void fireStaff(Long savedId, List<Integer> fireStaffIds) {
+        if (fireStaffIds == null || fireStaffIds.isEmpty()) {
+            log.info("해고할 직원이 없음");
+            return;
+        }
+
+        List<Long> staffIds = fireStaffIds.stream()
+                .map(Integer::longValue)
+                .toList();
+
+        // 1) 이 세이브에 소속된 직원만 필터링
+        List<Long> validStaffIds = hireRepository.findExistingStaffIds(savedId, staffIds);
+        if (validStaffIds.isEmpty()) {
+            log.warn("해당 세이브에 속한 유효한 직원이 없음. 요청 staffIds={}", staffIds);
+            return;
+        }
+
+        // 2) 삭제 전에 합계 계산
+        int salarySum = staffRepository.sumSalaryByIds(validStaffIds);
+        int prodSum   = staffRepository.sumProductivityByIds(validStaffIds);
+
+        // 3) Hire(연결 테이블) 삭제
+        int deletedHires = hireRepository.deleteBySavedIdAndStaffIdIn(savedId, validStaffIds);
+        log.info("Hire 삭제 완료 - count: {}", deletedHires);
+
+        // 4) Staff 삭제
+        staffRepository.deleteAllByIdInBatch(validStaffIds);
+        log.info("Staff 삭제 완료 - count: {}", validStaffIds.size());
+
+        // 5) Saved 파생값 갱신
+        Saved saved = savedRepository.findById(savedId)
+                .orElseThrow(() -> new CustomException(ErrorCode.SAVE_NOT_EXIST));
+        saved.updateAfterFiring(salarySum, prodSum, validStaffIds.size());
+    }
+
 
     @Transactional
     public void changePolicy(GamePlayRequest gamePlayRequest) {

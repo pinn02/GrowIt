@@ -83,4 +83,22 @@ public class Saved {
     public void updatePolicy(Policy newPolicy) {
         this.policy = newPolicy;
     }
+
+    public void updateAfterFiring(int salarySum, int prodSum, int size) {
+        // 직원 수
+        this.employeeCount = Math.max(0, this.employeeCount - size);
+
+        // 월급 지출
+        if (this.monthlySalaryExpense != null) {
+            this.monthlySalaryExpense = this.monthlySalaryExpense.subtract(BigDecimal.valueOf(salarySum));
+            if (this.monthlySalaryExpense.compareTo(BigDecimal.ZERO) < 0) {
+                this.monthlySalaryExpense = BigDecimal.ZERO;
+            }
+        }
+
+        // 생산성
+        if (this.productivity != null) {
+            this.productivity = Math.max(0, this.productivity - prodSum);
+        }
+    }
 }

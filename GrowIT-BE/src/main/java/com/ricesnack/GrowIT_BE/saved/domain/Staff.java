@@ -1,6 +1,7 @@
 package com.ricesnack.GrowIT_BE.saved.domain;
 
 import jakarta.persistence.*;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -20,8 +21,16 @@ public class Staff {
     @Column(nullable = false)
     private Integer productivity;
 
-    public Staff(String name, Integer productivity) {
+    @Column(nullable = false)
+    private String description;
+
+    @Column(nullable = false)
+    private Integer salary;
+
+    public Staff(String name, Integer productivity, String description, Integer salary) {
         this.name = name;
         this.productivity = productivity;
+        this.description = description;
+        this.salary = salary;
     }
 }
