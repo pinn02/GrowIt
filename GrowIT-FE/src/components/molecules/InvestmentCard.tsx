@@ -25,7 +25,7 @@ function InvestmentCard({ investment }: InvestmentCardProps) {
   // 선택 버튼 클릭 시 이벤트
   const investmentSelected = () => {
     gameDataStore.setFinance(gameDataStore.finance - investment.cost)
-    gameDataStore.setProductivity(gameDataStore.productivity + Math.round(investment.cost / 1000 * (Math.random() * (1.25 - 0.75) + 0.75)))
+    gameDataStore.setProductivity(gameDataStore.productivity + investment.cost / 1000)
     setInvestmentButton(false)
   }
 

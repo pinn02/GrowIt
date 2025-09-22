@@ -20,7 +20,7 @@ function GameData({ dataName, dataValue, dataMax, fillColor = "bg-gray-700", ico
       {/* 데이터 표시 */}
       <div className="relative z-10 flex items-center gap-2">
 				{icon && <img src={icon} alt={dataName} className="w-10 h-10" />}
-        <span className="font-pixel text-sm">{dataName}</span>
+        <span className="font-pixel text-sm text-nowrap truncate">{dataName}</span>
         <span className="font-pixel text-lg">
           {(dataValue ?? 0).toLocaleString()}
         </span>

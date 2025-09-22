@@ -51,8 +51,8 @@ type SaveState = {
 }
 
 export const defaultSave: SaveData = {
-  enterpriseValue: 1000,
-  productivity: 100,
+  enterpriseValue: 0,
+  productivity: 0,
   finance: 1000000,
   employeeCount: 0,
   turn: 0,

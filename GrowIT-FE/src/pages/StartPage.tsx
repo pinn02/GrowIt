@@ -9,38 +9,40 @@ import SelectSaveTemplate from "../components/templates_work/SelectSaveTemplate"
 import DifficultyTemplate from "../components/templates_work/DifficultyTemplate"
 import CeoSelectTemplate from "../components/templates_work/CeoSelectTemplate"
 import loginPageBackgroundImage from "../assets/background_images/start_page_background_image.png"
+import { defaultSave } from "../stores/saveStore"
 
-const newSave = {
-  enterpriseValue: 1000,
-  productivity: 100,
-  finance: 1000000,
-  employeeCount: 0,
-  turn: 1,
-  currentProject: {
-    name: "",
-    turn: 0,
-    reward: 0,
-  },
-  officeLevel: 0,
-  updatedAt: new Date().toISOString().split("T")[0],
 
-  // 업그레이드 레벨들
-  commuteBusLevel: 1,
-  dormitoryLevel: 1,
-  gymLevel: 1,
-  cafeteriaLevel: 1,
-  hospitalLevel: 1,
-  daycareLevel: 1,
-  bookCafeLevel: 1,
-  buildingLevel: 1,
+// const newSave = {
+//   enterpriseValue: 1000,
+//   productivity: 100,
+//   finance: 1000000,
+//   employeeCount: 0,
+//   turn: 1,
+//   currentProject: {
+//     name: "",
+//     turn: 0,
+//     reward: 0,
+//   },
+//   officeLevel: 0,
+//   updatedAt: new Date().toISOString().split("T")[0],
 
-  hiringArray: [0, 0, 0],
-  marketingArray: [0, 0, 0],
-  investmentArray: [0, 0],
-  projectArray: [0, 0, 0],
+//   // 업그레이드 레벨들
+//   commuteBusLevel: 1,
+//   dormitoryLevel: 1,
+//   gymLevel: 1,
+//   cafeteriaLevel: 1,
+//   hospitalLevel: 1,
+//   daycareLevel: 1,
+//   bookCafeLevel: 1,
+//   buildingLevel: 1,
 
-  hiredPerson: [],
-}
+//   hiringArray: [0, 0, 0],
+//   marketingArray: [0, 0, 0],
+//   investmentArray: [0, 0],
+//   projectArray: [0, 0, 0],
+
+//   hiredPerson: [],
+// }
 
 // 시작 페이지
 function StartPage() {
@@ -66,13 +68,13 @@ function StartPage() {
     buttonStore.setInvestmentButton(true)
     buttonStore.setProjectButton(true)
     
-    gameDataStore.setEnterpriseValue(newSave.enterpriseValue)
-    gameDataStore.setProductivity(newSave.productivity)
-    gameDataStore.setFinance(newSave.finance)
-    gameDataStore.setEmployeeCount(newSave.employeeCount)
+    gameDataStore.setEnterpriseValue(defaultSave.enterpriseValue)
+    gameDataStore.setProductivity(defaultSave.productivity)
+    gameDataStore.setFinance(defaultSave.finance)
+    gameDataStore.setEmployeeCount(defaultSave.employeeCount)
     gameDataStore.setTurn(1)
-    gameDataStore.setCurrentProject(newSave.currentProject)
-    gameDataStore.setOfficeLevel(newSave.officeLevel)
+    gameDataStore.setCurrentProject(defaultSave.currentProject)
+    gameDataStore.setOfficeLevel(defaultSave.officeLevel)
 
     // 업그레이드 레벨 초기화
     gameDataStore.setCommuteBusLevel(1)
@@ -97,7 +99,7 @@ function StartPage() {
     gameDataStore.setHiredPerson([])
 
     const randomSave = {
-      ...newSave,
+      ...defaultSave,
       hiringArray: newHiringArray,
       marketingArray: newMarketingArray,
       investmentArray: newInvestmentArray,
