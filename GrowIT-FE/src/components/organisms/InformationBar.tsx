@@ -17,7 +17,7 @@ const turnEndButtonSize = 100;  // 턴 종료 버튼 최대 사이즈
 const logoutButtonSize = 100; // 로그아웃 버튼 사이즈
 
 const RANDOM_EVENT_PROBABILITY = 0.25 // 랜덤 이벤트 확률
-const MAX_TURN = 3  // 게임의 종료 턴
+const MAX_TURN = 30  // 게임의 종료 턴
 
 type InformationBarProps = {
   onRandomEvent: () => void

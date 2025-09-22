@@ -54,9 +54,12 @@ function ProjectCard({ project }: ProjectCardProps) {
             {project.action}
           </p>
           <p className="text-clamp-base">
+            기간: {project.turn.toLocaleString()}턴
+          </p>
+          <p className="text-clamp-base">
             보수: {project.reward.toLocaleString()}G
           </p>
-          <div className="mt-4 w-full">
+          <div className="mt-2 w-full">
             <SelectButton
               disabled={!projectButton}
               maxSize={selectButtonSize}

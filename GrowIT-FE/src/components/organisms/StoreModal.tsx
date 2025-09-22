@@ -61,7 +61,7 @@ const UPGRADE_INFO: Record<UpgradeType, UpgradeInfo> = {
     name: '통근버스',
     icons: [upgradedBus1, upgradedBus2, upgradedBus3], 
     maxLevel: 3,
-    costs: [5000, 10000, 15000],
+    costs: [10000, 20000, 30000],
     productivityBonus: [10, 20, 30],
     description: '직원들의 통근 편의성을 향상시킵니다'
   },
@@ -69,7 +69,7 @@ const UPGRADE_INFO: Record<UpgradeType, UpgradeInfo> = {
     name: '기숙사',
     icons: ['🏠', '🏘️', '🏢'],
     maxLevel: 3,
-    costs: [10000, 20000, 30000],
+    costs: [50000, 100000, 150000],
     enterpriseValueBonus: [50, 100, 150],
     description: '직원들의 주거 환경을 개선합니다'
   },
@@ -77,7 +77,7 @@ const UPGRADE_INFO: Record<UpgradeType, UpgradeInfo> = {
     name: '사내 헬스장',
     icons: ['💪', '🏃', '🏋️'],
     maxLevel: 3,
-    costs: [8000, 16000, 24000],
+    costs: [15000, 30000, 45000],
     productivityBonus: [15, 30, 45],
     description: '직원들의 건강과 업무 효율을 높입니다'
   },
@@ -85,7 +85,7 @@ const UPGRADE_INFO: Record<UpgradeType, UpgradeInfo> = {
     name: '카페테리아',
     icons: ['🍽️', '🍜', '🍱'],
     maxLevel: 3,
-    costs: [6000, 12000, 18000],
+    costs: [30000, 60000, 90000],
     enterpriseValueBonus: [30, 60, 90],
     description: '직원들의 식사 환경을 개선합니다'
   },
@@ -93,7 +93,7 @@ const UPGRADE_INFO: Record<UpgradeType, UpgradeInfo> = {
     name: '병원',
     icons: ['🏥', '⛑️', '🚑'],
     maxLevel: 3,
-    costs: [15000, 30000, 45000],
+    costs: [20000, 40000, 60000],
     productivityBonus: [20, 40, 60],
     description: '직원들의 의료 서비스를 제공합니다'
   },
@@ -101,7 +101,7 @@ const UPGRADE_INFO: Record<UpgradeType, UpgradeInfo> = {
     name: '어린이집',
     icons: ['👶', '🧸', '🎠'],
     maxLevel: 3,
-    costs: [12000, 24000, 36000],
+    costs: [40000, 80000, 120000],
     enterpriseValueBonus: [40, 80, 120],
     description: '직원들의 육아 부담을 덜어줍니다'
   },
@@ -109,7 +109,7 @@ const UPGRADE_INFO: Record<UpgradeType, UpgradeInfo> = {
     name: '북카페',
     icons: ['📚', '☕', '📖'],
     maxLevel: 3,
-    costs: [9000, 18000, 27000],
+    costs: [12000, 25000, 40000],
     productivityBonus: [12, 25, 40],
     description: '직원들의 휴식과 자기계발을 돕습니다'
   },
@@ -117,9 +117,9 @@ const UPGRADE_INFO: Record<UpgradeType, UpgradeInfo> = {
     name: '건물 업그레이드',
     icons: [upgradedBuilding1, upgradedBuilding2, upgradedBuilding3, upgradedBuilding3],
     maxLevel: 4,
-    costs: [50000, 100000, 150000, 200000],
-    enterpriseValueRequirements: [10, 20, 30, 50], 
-    enterpriseValueBonus: [200, 500, 800, 1200],
+    costs: [100000, 200000, 300000, 500000],
+    enterpriseValueRequirements: [100, 300, 500, 700], 
+    enterpriseValueBonus: [10, 20, 30, 50],
     description: '회사 건물 자체를 업그레이드합니다'
   }
 };
