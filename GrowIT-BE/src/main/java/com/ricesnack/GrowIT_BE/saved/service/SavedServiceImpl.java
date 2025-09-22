@@ -3,7 +3,6 @@ package com.ricesnack.GrowIT_BE.saved.service;
 import com.ricesnack.GrowIT_BE.error.CustomException;
 import com.ricesnack.GrowIT_BE.error.ErrorCode;
 import com.ricesnack.GrowIT_BE.member.domain.Member;
-import com.ricesnack.GrowIT_BE.member.repository.MemberRepository;
 import com.ricesnack.GrowIT_BE.saved.domain.CEO;
 import com.ricesnack.GrowIT_BE.saved.domain.EventWeight;
 import com.ricesnack.GrowIT_BE.saved.domain.Saved;
@@ -88,7 +87,7 @@ public class SavedServiceImpl implements SavedService {
                     .build());
         });
 
-        // 4) 이벤트 "서브 카테고리" 배율 저장 (곱셈 누적 → 1개 row)
+        // 4) 이벤트 "서브 카테고리" 배율 저장
         Map<String, Double> subCategoryMul = new java.util.HashMap<>();
 
         ceo.getTrait().eventChanceMultipliers().forEach((event, mul) -> {
