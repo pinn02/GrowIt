@@ -5,18 +5,6 @@ import java.util.List;
 
 public record GameCreateRequest(
         String companyName,
-
-        BigDecimal money,
-
-        BigDecimal value,
-
-        BigDecimal monthlySalaryExpense,
-
-        Integer turn,
-
-        Integer productivity,
-
-        List<HireRequest> hire,
-        List<ProjectRequest> project
+        String CEOName
 ) {
 }
