@@ -25,7 +25,7 @@ function MarketingCard({ marketing }: MarketingCardProps) {
   // 선택 버튼 클릭 시 이벤트
   const marketingSelected = () => {
     gameDataStore.setFinance(gameDataStore.finance - marketing.cost)
-    gameDataStore.setEnterpriseValue(gameDataStore.enterpriseValue + Math.round(marketing.cost * (Math.random() * (1.25 - 0.75) + 0.75)))
+    gameDataStore.setEnterpriseValue(gameDataStore.enterpriseValue + marketing.cost / 10000)
     setMarketingButton(false)
   }
 

@@ -5,9 +5,9 @@ import productivityIcon  from '../../assets/icons/productivity.png'
 import enterpriseIcon  from '../../assets/icons/enterprise.png'
 
 const gameDataList = [
-  { name: "기업가치", iconImage: enterpriseIcon, maxData: 2000, fillColor: "bg-[#45A14B]" },
-  { name: "생산성", iconImage: productivityIcon, maxData: 1000, fillColor: "bg-[#B374F3]" },
-  { name: "자본", iconImage: financeIcon, maxData: 5000000, fillColor: "bg-[#F8C545]" },
+  { name: "기업가치", iconImage: enterpriseIcon, maxData: 1000, fillColor: "bg-[#45A14B]" },
+  { name: "생산성", iconImage: productivityIcon, maxData: 10000, fillColor: "bg-[#B374F3]" },
+  { name: "자본", iconImage: financeIcon, maxData: 10000000, fillColor: "bg-[#F8C545]" },
 ]
 
 type GameDataInformationProps = {
