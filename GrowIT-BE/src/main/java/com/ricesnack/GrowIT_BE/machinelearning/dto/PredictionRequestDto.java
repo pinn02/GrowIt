@@ -8,10 +8,11 @@ import org.springframework.lang.Nullable;
 import java.util.List;
 
 public record PredictionRequestDto(
+        Long savedId,
         int turn,
         ModelType modelType,
         @Nullable
-        List<Integer> hireIds,
+        List<Long> hireIds,
         @Nullable
         List<String> marketingType,
         @Nullable

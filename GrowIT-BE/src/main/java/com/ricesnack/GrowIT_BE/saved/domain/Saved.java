@@ -81,4 +81,14 @@ public class Saved {
         this.employeeCount = (int) count;
     }
 
+    public void updateStateWithinTurn(BigDecimal newCapital, Integer newProductivity) {
+        this.capital = newCapital;
+        this.productivity = newProductivity;
+    }
+
+    public void updateValueAndCapital(BigDecimal spentCapital, BigDecimal gainedCompanyValue) {
+        this.capital = this.capital.subtract(spentCapital);
+        this.companyValue = this.companyValue.add(gainedCompanyValue);
+    }
+
 }

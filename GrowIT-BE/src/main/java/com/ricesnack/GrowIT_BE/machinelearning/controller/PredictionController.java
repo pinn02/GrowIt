@@ -22,11 +22,6 @@ public class PredictionController {
             @RequestBody PredictionRequestDto requestDto) {
         try {
             Object response = predictionService.predictForTurnByModel(requestDto);
-
-            if (response == null) {
-                return ResponseEntity.noContent().build();
-            }
-
             return ResponseEntity.ok(response);
 
         } catch (OrtException e) {

@@ -1,10 +1,15 @@
 package com.ricesnack.GrowIT_BE.machinelearning.dto;
 
+import lombok.Builder;
+
+import java.math.BigDecimal;
+
+@Builder
 public record MarketingPredictionResponse(
         Integer probability,
-        Integer enterpriseValue,
-        Integer totalEnterpriseValue,
-        Integer spentCapital,
-        Integer totalCapital
+        BigDecimal enterpriseValue,
+        BigDecimal totalEnterpriseValue,
+        BigDecimal spentCapital,
+        BigDecimal totalCapital
 ) {
 }
