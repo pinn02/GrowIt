@@ -11,6 +11,9 @@ public record PredictionRequestDto(
         int turn,
         ModelType modelType,
         @Nullable
-        List<Integer> hireIds
-) {
-}
+        List<Integer> hireIds,
+        @Nullable
+        List<String> marketingType,
+        @Nullable
+        List<String> projectType
+) {}
