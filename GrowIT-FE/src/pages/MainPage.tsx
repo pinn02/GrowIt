@@ -9,7 +9,7 @@ import RandomEventModal from "../components/organisms/RandomEventModal"
 import StoreModal from "../components/organisms/StoreModal"
 // import ReportModal from "../components/organisms/ReportModal"
 import MainTemplate from "../components/templates_work/MainTemplate"
-import hintIcon from "../assets/icons/hint.png"
+// import hintIcon from "../assets/icons/hint.png"
 
 function MainPage() {
   const [activeModal, setActiveModal] = useState<number | null>(null);
