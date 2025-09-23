@@ -18,14 +18,18 @@ const selectButtonSize = 300  // 선택 버튼 최대 사이즈
 // 투자 카드
 function InvestmentCard({ investment }: InvestmentCardProps) {
   // 실시간으로 해당 값의 변화에 반응하도록 Store에서 가져옴
+  const gameDataStore = useGameDataStore()
+  
   const investmentButton = useButtonStore((state) => state.investmentButton)
   const setInvestmentButton = useButtonStore((state) => state.setInvestmentButton)
-  const gameDataStore = useGameDataStore()
+  
+  const currentCost = investment.cost * gameDataStore.investmentInput
+  const currentReward = Math.round(investment.cost / 1000 * gameDataStore.investmentOutput)
 
   // 선택 버튼 클릭 시 이벤트
   const investmentSelected = () => {
-    gameDataStore.setFinance(gameDataStore.finance - investment.cost)
-    gameDataStore.setProductivity(gameDataStore.productivity + investment.cost / 1000)
+    gameDataStore.setFinance(gameDataStore.finance - currentCost)
+    gameDataStore.setProductivity(gameDataStore.productivity + currentReward)
     setInvestmentButton(false)
   }
 
@@ -47,14 +51,14 @@ function InvestmentCard({ investment }: InvestmentCardProps) {
           {investment.content}
         </p>
         <p className="text-clamp-base text-center">
-          비용: {investment.cost.toLocaleString()}G
+          비용: {currentCost.toLocaleString()}G
         </p>
       </div>
       
       {/* 투자 선택 버튼 */}
       <div className="absolute left-[10%] top-[75%] w-[80%] h-[15%] flex items-center justify-center">
         <SelectButton
-          disabled={!investmentButton || gameDataStore.finance < investment.cost} // 자금 부족 시 Disabled
+          disabled={!investmentButton || gameDataStore.finance < currentCost} // 자금 부족 시 Disabled
           maxSize={selectButtonSize}
           className={`w-[80%] rounded transition-colors mx-3 text-clamp-base ${
             investmentButton
@@ -63,7 +67,7 @@ function InvestmentCard({ investment }: InvestmentCardProps) {
           }`}
           onClick={() => investmentSelected()}
         >
-          {investmentButton ? (gameDataStore.finance >= investment.cost ? "선택" : "자금 부족") : "선택 완료"}
+          {investmentButton ? (gameDataStore.finance >= currentCost ? "선택" : "자금 부족") : "선택 완료"}
         </SelectButton>
       </div>
     </div>

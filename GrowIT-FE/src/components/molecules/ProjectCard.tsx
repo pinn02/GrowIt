@@ -57,7 +57,7 @@ function ProjectCard({ project }: ProjectCardProps) {
             기간: {project.turn.toLocaleString()}턴
           </p>
           <p className="text-clamp-base">
-            보수: {project.reward.toLocaleString()}G
+            보수: {(project.reward * gameDataStore.projectOutput).toLocaleString()}G
           </p>
           <div className="mt-2 w-full">
             <SelectButton
