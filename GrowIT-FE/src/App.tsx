@@ -1,23 +1,32 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Navigation from './components/organisms/Navigation'
-import Home from './pages/Home'
-import Company from './pages/Company'
-import Projects from './pages/Projects'
-import Settings from './pages/Settings'
+import { useState } from 'react'
+import reactLogo from './assets/react.svg'
+import viteLogo from '/vite.svg'
+import './App.css'
 
 function App() {
+  const [count, setCount] = useState(0)
+
   return (
-    <BrowserRouter>
-      <div className="min-h-screen bg-gray-50">
-        <Navigation />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/company" element={<Company />} />
-          <Route path="/projects" element={<Projects />} />
-          <Route path="/settings" element={<Settings />} />
-        </Routes>
+    <>
+      <div>
+        {/* <a href="https://vite.dev" target="_blank">
+          <img src={viteLogo} className="logo" alt="Vite logo" />
+        </a> */}
+        <a href="https://react.dev" target="_blank">
+          <img src={reactLogo} className="logo react" alt="React logo" />
+        </a>
       </div>
-    </BrowserRouter>
+      <div className="card">
+        <button onClick={() => setCount((count) => count + 1)}>
+          count is {count}
+        </button>
+        <p>
+          Edit <code>src/App.tsx</code> and save to test HMR
+        </p>
+      </div>
+      <p className="read-the-docs">
+      </p>
+    </>
   )
 }
 
