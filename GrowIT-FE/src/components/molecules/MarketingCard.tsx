@@ -21,11 +21,14 @@ function MarketingCard({ marketing }: MarketingCardProps) {
   const gameDataStore = useGameDataStore()
   const marketingButton = useButtonStore((state) => state.marketingButton)
   const setMarketingButton = useButtonStore((state) => state.setMarketingButton)
+
+  const currentCost = marketing.cost * gameDataStore.marketingInput
+  const currentReward = Math.round(marketing.cost / 10000 * gameDataStore.marketingOutput)
   
   // 선택 버튼 클릭 시 이벤트
   const marketingSelected = () => {
-    gameDataStore.setFinance(gameDataStore.finance - marketing.cost)
-    gameDataStore.setEnterpriseValue(gameDataStore.enterpriseValue + marketing.cost / 10000)
+    gameDataStore.setFinance(gameDataStore.finance - currentCost)
+    gameDataStore.setEnterpriseValue(gameDataStore.enterpriseValue + currentReward)
     setMarketingButton(false)
   }
 
@@ -53,11 +56,11 @@ function MarketingCard({ marketing }: MarketingCardProps) {
               {marketing.action}
             </p>
             <p className="text-clamp-base mb-1">
-              비용: {marketing.cost.toLocaleString()}G
+              비용: {currentCost.toLocaleString()}G
             </p>
             <div className="mt-1 w-full bottom-[10%]">
               <SelectButton
-                disabled={!marketingButton || gameDataStore.finance < marketing.cost}
+                disabled={!marketingButton || gameDataStore.finance < currentCost}
                 maxSize={selectButtonSize}
                 className={`w-[80%] rounded transition-colors mx-3 text-clamp-base ${
                   marketingButton
@@ -66,7 +69,7 @@ function MarketingCard({ marketing }: MarketingCardProps) {
                 }`}
                 onClick={marketingSelected}
               >
-                {marketingButton ? (gameDataStore.finance >= marketing.cost ? "선택" : "자금 부족") : "선택 완료"}
+                {marketingButton ? (gameDataStore.finance >= currentCost ? "선택" : "자금 부족") : "선택 완료"}
               </SelectButton>
             </div>
           </div>
