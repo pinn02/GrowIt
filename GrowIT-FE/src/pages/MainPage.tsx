@@ -9,12 +9,15 @@ import RandomEventModal from "../components/organisms/RandomEventModal"
 import StoreModal from "../components/organisms/StoreModal"
 // import ReportModal from "../components/organisms/ReportModal"
 import MainTemplate from "../components/templates_work/MainTemplate"
+import { useGameDataStore } from "../stores/gameDataStore"
 // import hintIcon from "../assets/icons/hint.png"
 
 function MainPage() {
   const [activeModal, setActiveModal] = useState<number | null>(null);
   const [activeRandomEventModal, setActiveRandomEventModal] = useState(false)
   const [activeStoreModal, setActiveStoreModal] = useState(false)
+  const [showTurnTransition, setShowTurnTransition] = useState(false)
+  const gameDataStore = useGameDataStore()
   // const [activeReportModal, setActiveReportModal] = useState(false)
 
   // 액션 버튼 모달
@@ -25,6 +28,15 @@ function MainPage() {
   // 랜덤 이벤트 모달
   const handleRandomEventModal = () => {
     setActiveRandomEventModal(true)
+  }
+
+  // 이벤트 완료 후 턴 전환 애니메이션 표시
+  const handleEventComplete = () => {
+    setActiveRandomEventModal(false)
+    setShowTurnTransition(true)
+    setTimeout(() => {
+      setShowTurnTransition(false)
+    }, 1500)
   }
 
   // 스토어 모달
@@ -39,7 +51,33 @@ function MainPage() {
 
   return (
     <>
-      <InformationBar onRandomEvent={handleRandomEventModal} onStore={handleStoreModal} />
+      {/* 새턴 시작 오버레이 */}
+      {showTurnTransition && (
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center">
+          {/* 배경 오버레이 */}
+          <div className="absolute inset-0 bg-black bg-opacity-90" />
+          
+          {/* 턴 전환 텍스트 */}
+          <div className="relative z-10 text-center animate-turnTransition">
+             <div className="text-4xl font-bold text-white mb-4 animate-pulse">
+              GrowIT
+            </div>
+            
+            {/* 장식 효과 */}
+            <div className="mt-8 flex justify-center space-x-4">
+              <div className="w-3 h-3 bg-blue-500 rounded-full animate-bounce" style={{animationDelay: '0s'}}></div>
+              <div className="w-3 h-3 bg-green-500 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
+              <div className="w-3 h-3 bg-yellow-500 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+            </div>
+          </div>
+        </div>
+      )}
+      
+      <InformationBar 
+        onRandomEvent={handleRandomEventModal} 
+        onStore={handleStoreModal}
+        onEventComplete={() => setShowTurnTransition(false)}
+      />
       <MainTemplate openModal={toggleModal} />
 
       {/* 모달 켜기 */}
@@ -49,7 +87,7 @@ function MainPage() {
       {activeModal === 3 && <ProjectModal onClose={() => setActiveModal(null)} />}
       {activeModal === 4 && <MypageModal onClose={() => setActiveModal(null)} />}
 
-      {activeRandomEventModal && <RandomEventModal onClose={() => setActiveRandomEventModal(false)} />}
+      {activeRandomEventModal && <RandomEventModal onClose={handleEventComplete} />}
       {activeStoreModal && <StoreModal onClose={() => setActiveStoreModal(false)} />}
       {/* {activeReportModal && <ReportModal onClose={() => setActiveReportModal(false)} />} */}
 
