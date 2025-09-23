@@ -34,6 +34,21 @@ type GameDataState = {
 
   hiredPerson: number[],
 
+  hiringInput: number
+  hiringOutput: number
+  marketingInput: number
+  marketingOutput: number
+  investmentInput: number
+  investmentOutput: number
+  projectInput: number
+  projectOutput: number
+  goodRandomEventEnterpriseValue: number
+  goodRandomEventProductivity: number
+  goodRandomEventFinance: number
+  badRandomEventEnterpriseValue: number
+  badRandomEventProductivity: number
+  badRandomEventFinance: number
+
   setSelectedCeo: (value: number | null) => void
   setEnterpriseValue: (value: number) => void
   setProductivity: (value: number) => void
@@ -59,6 +74,21 @@ type GameDataState = {
   setProjectArray: (value: number[]) => void
 
   setHiredPerson: (value: number[]) => void
+
+  setHiringInput: (value: number) => void
+  setHiringOutput: (value: number) => void
+  setMarketingInput: (value: number) => void
+  setMarketingOutput: (value: number) => void
+  setInvestmentInput: (value: number) => void
+  setInvestmentOutput: (value: number) => void
+  setProjectInput: (value: number) => void
+  setProjectOutput: (value: number) => void
+  setGoodRandomEventEnterpriseValue: (value: number) => void
+  setGoodRandomEventProductivity: (value: number) => void
+  setGoodRandomEventFinance: (value: number) => void
+  setBadRandomEventEnterpriseValue: (value: number) => void
+  setBadRandomEventProductivity: (value: number) => void
+  setBadRandomEventFinance: (value: number) => void
 }
 
 export const useGameDataStore = create<GameDataState>()(
@@ -93,6 +123,21 @@ export const useGameDataStore = create<GameDataState>()(
 
       hiredPerson: [],
       selectedCeo: null,
+
+      hiringInput: 1,
+      hiringOutput: 1,
+      marketingInput: 1,
+      marketingOutput: 1,
+      investmentInput: 1,
+      investmentOutput: 1,
+      projectInput: 1,
+      projectOutput: 1,
+      goodRandomEventEnterpriseValue: 1,
+      goodRandomEventProductivity: 1,
+      goodRandomEventFinance: 1,
+      badRandomEventEnterpriseValue: 1,
+      badRandomEventProductivity: 1,
+      badRandomEventFinance: 1,
 
       setSelectedCeo: (value: number | null) =>
         set(() => ({ selectedCeo: value })),
@@ -138,7 +183,36 @@ export const useGameDataStore = create<GameDataState>()(
       setProjectArray: (value: number[]) =>
         set(() => ({ projectArray: value })),
       setHiredPerson: (value: number[]) =>
-        set(() => ({ hiredPerson: value }))
+        set(() => ({ hiredPerson: value })),
+
+      setHiringInput: (value: number) => 
+        set(() => ({ hiringInput: value })),
+      setHiringOutput: (value: number) =>
+        set(() => ({ hiringOutput: value })),
+      setMarketingInput: (value: number) =>
+        set(() => ({ marketingInput: value })),
+      setMarketingOutput: (value: number) =>
+        set(() => ({ marketingOutput: value })),
+      setInvestmentInput: (value: number) =>
+        set(() => ({ investmentInput: value })),
+      setInvestmentOutput: (value: number) =>
+        set(() => ({ investmentOutput: value })),
+      setProjectInput: (value: number) =>
+        set(() => ({ projectInput: value })),
+      setProjectOutput: (value: number) =>
+        set(() => ({ projectOutput: value })),
+      setGoodRandomEventEnterpriseValue: (value: number) =>
+        set(() => ({ goodRandomEventEnterpriseValue: value })),
+      setGoodRandomEventProductivity: (value: number) =>
+        set(() => ({ goodRandomEventProductivity: value })),
+      setGoodRandomEventFinance: (value: number) =>
+        set(() => ({ goodRandomEventFinance: value })),
+      setBadRandomEventEnterpriseValue: (value: number) =>
+        set(() => ({ badRandomEventEnterpriseValue: value })),
+      setBadRandomEventProductivity: (value: number) =>
+        set(() => ({ badRandomEventProductivity: value })),
+      setBadRandomEventFinance: (value: number) =>
+        set(() => ({ badRandomEventFinance: value })),
     }),
     {
       name: "game-data-storage",

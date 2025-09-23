@@ -55,12 +55,12 @@ function RandomEventModal({ onClose }: RandomEventModalProps) {
   const effectApply = () => {
     if (event) {
       gameDataStore.setEnterpriseValue(
-        gameDataStore.enterpriseValue + event.enterpriseValue
+        gameDataStore.enterpriseValue + event.enterpriseValue * (eventResultType === "positive" ? gameDataStore.goodRandomEventEnterpriseValue : gameDataStore.badRandomEventEnterpriseValue)
       );
       gameDataStore.setProductivity(
-        gameDataStore.productivity + event.productivity
+        gameDataStore.productivity + event.productivity * (event.productivity > 0 ? gameDataStore.goodRandomEventProductivity : gameDataStore.badRandomEventProductivity)
       );
-      gameDataStore.setFinance(gameDataStore.finance + event.finance);
+      gameDataStore.setFinance(gameDataStore.finance + event.finance * (event.finance > 0 ? gameDataStore.goodRandomEventFinance : gameDataStore.badRandomEventFinance));
     }
     onClose();
   };

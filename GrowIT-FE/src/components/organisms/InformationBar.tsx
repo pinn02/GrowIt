@@ -59,7 +59,7 @@ function InformationBar({ onRandomEvent, onStore, onEventComplete }: Information
 
     // 프로젝트 완료 시
     if (projectNextTurn === 0) {
-      gameDataStore.setFinance(gameDataStore.finance + gameDataStore.currentProject.reward)
+      gameDataStore.setFinance(gameDataStore.finance + (gameDataStore.currentProject.reward * gameDataStore.projectOutput))
       const newProject = {
         name: "",
         turn: 0,
@@ -111,6 +111,21 @@ function InformationBar({ onRandomEvent, onStore, onEventComplete }: Information
       investmentArray: gameDataStore.investmentArray,
       projectArray: gameDataStore.projectArray,
       hiredPerson: gameDataStore.hiredPerson,
+
+      hiringInput: gameDataStore.hiringInput,
+      hiringOutput: gameDataStore.hiringOutput,
+      marketingInput: gameDataStore.marketingInput,
+      marketingOutput: gameDataStore.marketingOutput,
+      investmentInput: gameDataStore.investmentInput,
+      investmentOutput: gameDataStore.investmentOutput,
+      projectInput: gameDataStore.projectInput,
+      projectOutput: gameDataStore.projectOutput,
+      goodRandomEventEnterpriseValue: gameDataStore.goodRandomEventEnterpriseValue,
+      goodRandomEventProductivity: gameDataStore.goodRandomEventProductivity,
+      goodRandomEventFinance: gameDataStore.goodRandomEventFinance,
+      badRandomEventEnterpriseValue: gameDataStore.badRandomEventEnterpriseValue,
+      badRandomEventProductivity: gameDataStore.badRandomEventProductivity,
+      badRandomEventFinance: gameDataStore.badRandomEventFinance,
     }
     
     // 종료 턴 도달 시
