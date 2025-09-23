@@ -36,12 +36,12 @@ public class AnnualData {
     private double equipmentInvestmentIndex;
     private double productivityIndex;
     private double exchangeRate;
-    private double bsi6MMa;
-    private double gdp12MMa;
-    private double exchangeRate12MStd;
-    private double ccsi3MMomentum;
-    private double ictProd6MMomentum;
-    private double loanRateLag3M;
+    private double bsi6mMa; // 수정됨
+    private double gdp12mMa; // 수정됨
+    private double exchangeRate12mStd; // 수정됨
+    private double ccsi3mMomentum; // 수정됨
+    private double ictProd6mMomentum; // 수정됨
+    private double loanRateLag3m; // 수정됨
     private double manufacturingProductivity;
     private double applicationLag1;
     private double applicationLag2;
@@ -62,11 +62,11 @@ public class AnnualData {
     private double rndTotalByIndustrySystemSw;
     private double rndTotalByIndustryVirtualAsset;
     private double rndTotalLag1;
-    private double rndTotalLag1X;
-    private double rndTotalLag1Y;
+    private double rndTotalLag1x; // 수정됨
+    private double rndTotalLag1y; // 수정됨
     private double rndTotalLag2;
-    private double rndTotalLag2X;
-    private double rndTotalLag2Y;
+    private double rndTotalLag2x; // 수정됨
+    private double rndTotalLag2y; // 수정됨
     private double serviceProductivity;
     private double corporateLoansLaggedRate;
     private double corporateLoansLaggedRateLag6;
@@ -134,4 +134,3 @@ public class AnnualData {
         return camelCase.toString();
     }
 }
-
