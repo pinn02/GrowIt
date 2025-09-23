@@ -17,7 +17,6 @@ export type SaveData = {
   officeLevel: number
   updatedAt: string
 
-  // 업그레이드 레벨들
   commuteBusLevel: number
   dormitoryLevel: number
   gymLevel: number
@@ -33,21 +32,36 @@ export type SaveData = {
   projectArray: number[]
 
   hiredPerson: number[]
+
+  hiringInput: number
+  hiringOutput: number
+  marketingInput: number
+  marketingOutput: number
+  investmentInput: number
+  investmentOutput: number
+  projectInput: number
+  projectOutput: number
+  goodRandomEventEnterpriseValue: number
+  goodRandomEventProductivity: number
+  goodRandomEventFinance: number
+  badRandomEventEnterpriseValue: number
+  badRandomEventProductivity: number
+  badRandomEventFinance: number
 }
 
 type SaveState = {
-    saves: SaveData[]
-    currentSaveIdx: number
+  saves: SaveData[]
+  currentSaveIdx: number
 
-    setSave: (index: number, value: SaveData) => void
-    setCurrentSaveIdx: (value: number) => void
+  setSave: (index: number, value: SaveData) => void
+  setCurrentSaveIdx: (value: number) => void
 
-    setHiringArray: (arr: number[]) => void
-    setMarketingArray: (arr: number[]) => void
-    setInvestmentArray: (arr: number[]) => void
-    setProjectArray: (arr: number[]) => void
+  setHiringArray: (arr: number[]) => void
+  setMarketingArray: (arr: number[]) => void
+  setInvestmentArray: (arr: number[]) => void
+  setProjectArray: (arr: number[]) => void
 
-    setHiredPerson: (value: number[]) => void
+  setHiredPerson: (value: number[]) => void
 }
 
 export const defaultSave: SaveData = {
@@ -80,6 +94,21 @@ export const defaultSave: SaveData = {
   projectArray: [0, 0, 0],
   
   hiredPerson: [],
+
+  hiringInput: 1,
+  hiringOutput: 1,
+  marketingInput: 1,
+  marketingOutput: 1,
+  investmentInput: 1,
+  investmentOutput: 1,
+  projectInput: 1,
+  projectOutput: 1,
+  goodRandomEventEnterpriseValue: 1,
+  goodRandomEventProductivity: 1,
+  goodRandomEventFinance: 1,
+  badRandomEventEnterpriseValue: 1,
+  badRandomEventProductivity: 1,
+  badRandomEventFinance: 1,
 }
 
 export const useSaveStore = create<SaveState>()(

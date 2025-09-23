@@ -65,12 +65,12 @@ function RandomEventModal({ onClose }: RandomEventModalProps) {
   const effectApply = () => {
     if (event) {
       gameDataStore.setEnterpriseValue(
-        gameDataStore.enterpriseValue + event.enterpriseValue
+        gameDataStore.enterpriseValue + event.enterpriseValue * (eventResultType === "positive" ? gameDataStore.goodRandomEventEnterpriseValue : gameDataStore.badRandomEventEnterpriseValue)
       );
       gameDataStore.setProductivity(
-        gameDataStore.productivity + event.productivity
+        gameDataStore.productivity + event.productivity * (event.productivity > 0 ? gameDataStore.goodRandomEventProductivity : gameDataStore.badRandomEventProductivity)
       );
-      gameDataStore.setFinance(gameDataStore.finance + event.finance);
+      gameDataStore.setFinance(gameDataStore.finance + event.finance * (event.finance > 0 ? gameDataStore.goodRandomEventFinance : gameDataStore.badRandomEventFinance));
     }
     onClose();
   };
@@ -180,8 +180,8 @@ function RandomEventModal({ onClose }: RandomEventModalProps) {
                   >
                     자본:{" "}
                     {event.finance >= 0
-                      ? `+${event.finance.toLocaleString()}`
-                      : event.finance.toLocaleString()}
+                      ? `+${(event.finance * gameDataStore.goodRandomEventFinance).toLocaleString()}`
+                      : (event.finance * gameDataStore.badRandomEventFinance).toLocaleString()}
                   </p>
                   <p
                     className={`text-lg font-semibold animate-slideInUp ${
@@ -192,8 +192,8 @@ function RandomEventModal({ onClose }: RandomEventModalProps) {
                   >
                     기업 가치:{" "}
                     {event.enterpriseValue >= 0
-                      ? `+${event.enterpriseValue.toLocaleString()}`
-                      : event.enterpriseValue.toLocaleString()}
+                      ? `+${(event.enterpriseValue * gameDataStore.goodRandomEventEnterpriseValue).toLocaleString()}`
+                      : (event.enterpriseValue * gameDataStore.badRandomEventEnterpriseValue).toLocaleString()}
                   </p>
                   <p
                     className={`text-lg font-semibold animate-slideInUp ${
@@ -204,8 +204,8 @@ function RandomEventModal({ onClose }: RandomEventModalProps) {
                   >
                     생산성:{" "}
                     {event.productivity >= 0
-                      ? `+${event.productivity.toLocaleString()}`
-                      : event.productivity.toLocaleString()}
+                      ? `+${(event.productivity * gameDataStore.goodRandomEventProductivity).toLocaleString()}`
+                      : (event.productivity * gameDataStore.badRandomEventProductivity).toLocaleString()}
                   </p>
                 </div>
               </div>
