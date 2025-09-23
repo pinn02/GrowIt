@@ -1,6 +1,8 @@
 spring:
   application:
     name: GrowIT-BE
+  profiles:
+    active: local
   config:
     import:
       - optional:file:.env.local[.properties]
@@ -8,13 +10,56 @@ spring:
 ---
 
 spring:
-  application:
-    name: GrowIT-BE
   config:
     activate:
       on-profile: local
     import: optional:file:.env.local[.properties]
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/growit?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQL8Dialect
+    show-sql: true
+  security:
+    oauth2:
+      client:
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id
+        registration:
+          kakao:
+            client-id: ${KAKAO_CLIENT_ID}
+            client-secret: ${KAKAO_CLIENT_SECRET}
+            redirect-uri: http://localhost:8080/login/oauth2/code/kakao
+            authorization-grant-type: authorization_code
+            client-authentication-method: client_secret_post
+            client-name: Kakao
+            scope:
+              - account_email
 
+jwt:
+  secret: ${JWT_SECRET}
+  expiration_time: 900000
+
+front:
+  url2: ${FRONTEND_URL}
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+    org.springframework.security.oauth2: DEBUG
+    com.ricesnack.GrowIT_BE: DEBUG
+    root: INFO
 
 ---
 

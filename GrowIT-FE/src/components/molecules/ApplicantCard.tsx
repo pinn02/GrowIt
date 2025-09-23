@@ -39,10 +39,13 @@ function ApplicantCard({ applicant }: ApplicantCardProps) {
   const hiringButton = useButtonStore((state) => state.hiringButton)
   const setHiringButton = useButtonStore((state) => state.setHiringButton)
 
+  const currentCost = applicant.salary * gameDataStore.hiringInput
+  const currentReward = applicant.productivity * gameDataStore.hiringOutput
+
   // 버튼 클릭 시 고용 관련 동작
   const hiringSelected = () => {
-    gameDataStore.setFinance(gameDataStore.finance - applicant.salary)
-    gameDataStore.setProductivity(gameDataStore.productivity + Math.round(applicant.productivity * (Math.random() * (1.25 - 0.75) + 0.75)))
+    gameDataStore.setFinance(gameDataStore.finance - currentCost)
+    gameDataStore.setProductivity(gameDataStore.productivity + currentReward)
     setHiringButton(false)
   }
 
@@ -61,12 +64,12 @@ function ApplicantCard({ applicant }: ApplicantCardProps) {
       <div className="absolute left-[10%] top-[58%] w-[80%]">
         <p className="font-bold text-clamp-title text-center">{applicant.name}</p>
         <p className="text-clamp-base">{applicant.position}</p>
-        <p className="text-clamp-base">생산성: {applicant.productivity}</p>
-        <p className="text-clamp-base">급여: {applicant.salary.toLocaleString()}G</p>
+        <p className="text-clamp-base">생산성: {currentReward}</p>
+        <p className="text-clamp-base">급여: {currentCost.toLocaleString()}G</p>
         <div className="flex justify-center">
           <SelectButton
             maxSize={selectButtonSize}
-            disabled={!hiringButton || gameDataStore.finance < applicant.salary}
+            disabled={!hiringButton || gameDataStore.finance < currentCost}
             className="
               bg-orange-400
               text-black
@@ -84,7 +87,7 @@ function ApplicantCard({ applicant }: ApplicantCardProps) {
               hiringSelected()
             }}
           >
-            {hiringButton ? (gameDataStore.finance >= applicant.salary ? "선택" : "자금 부족") : "선택 완료"}
+            {hiringButton ? (gameDataStore.finance >= currentCost ? "선택" : "자금 부족") : "선택 완료"}
           </SelectButton>
         </div>
       </div>

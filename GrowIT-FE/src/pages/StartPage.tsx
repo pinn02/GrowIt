@@ -11,39 +11,6 @@ import CeoSelectTemplate from "../components/templates_work/CeoSelectTemplate"
 import loginPageBackgroundImage from "../assets/background_images/start_page_background_image.png"
 import { defaultSave } from "../stores/saveStore"
 
-
-// const newSave = {
-//   enterpriseValue: 1000,
-//   productivity: 100,
-//   finance: 1000000,
-//   employeeCount: 0,
-//   turn: 1,
-//   currentProject: {
-//     name: "",
-//     turn: 0,
-//     reward: 0,
-//   },
-//   officeLevel: 0,
-//   updatedAt: new Date().toISOString().split("T")[0],
-
-//   // 업그레이드 레벨들
-//   commuteBusLevel: 1,
-//   dormitoryLevel: 1,
-//   gymLevel: 1,
-//   cafeteriaLevel: 1,
-//   hospitalLevel: 1,
-//   daycareLevel: 1,
-//   bookCafeLevel: 1,
-//   buildingLevel: 1,
-
-//   hiringArray: [0, 0, 0],
-//   marketingArray: [0, 0, 0],
-//   investmentArray: [0, 0],
-//   projectArray: [0, 0, 0],
-
-//   hiredPerson: [],
-// }
-
 // 시작 페이지
 function StartPage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -117,7 +84,7 @@ function StartPage() {
   // 새 게임
   const handleNewGame = (idx: number = 0) => {
     setIsNewGame(true);
-    setCurrentStep('ceo'); // CEO 선택부터 시작
+    setCurrentStep('ceo');
     newGame(idx);
   }
 
