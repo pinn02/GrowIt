@@ -7,7 +7,7 @@ import ProjectModal from "../components/organisms/ProjectModal"
 import MypageModal from "../components/organisms/MypageModal"
 import RandomEventModal from "../components/organisms/RandomEventModal"
 import StoreModal from "../components/organisms/StoreModal"
-import ReportModal from "../components/organisms/ReportModal"
+// import ReportModal from "../components/organisms/ReportModal"
 import MainTemplate from "../components/templates_work/MainTemplate"
 import hintIcon from "../assets/icons/hint.png"
 
@@ -15,7 +15,7 @@ function MainPage() {
   const [activeModal, setActiveModal] = useState<number | null>(null);
   const [activeRandomEventModal, setActiveRandomEventModal] = useState(false)
   const [activeStoreModal, setActiveStoreModal] = useState(false)
-  const [activeReportModal, setActiveReportModal] = useState(false)
+  // const [activeReportModal, setActiveReportModal] = useState(false)
 
   // 액션 버튼 모달
   const toggleModal = (index: number) => {
@@ -33,9 +33,9 @@ function MainPage() {
   }
 
   // 리포트 모달
-  const handleReportModal = () => {
-    setActiveReportModal(true)
-  }
+  // const handleReportModal = () => {
+  //   setActiveReportModal(true)
+  // }
 
   return (
     <>
@@ -51,10 +51,10 @@ function MainPage() {
 
       {activeRandomEventModal && <RandomEventModal onClose={() => setActiveRandomEventModal(false)} />}
       {activeStoreModal && <StoreModal onClose={() => setActiveStoreModal(false)} />}
-      {activeReportModal && <ReportModal onClose={() => setActiveReportModal(false)} />}
+      {/* {activeReportModal && <ReportModal onClose={() => setActiveReportModal(false)} />} */}
 
       {/* 우측 하단 리포트 버튼 */}
-      <button
+      {/* <button
         onClick={handleReportModal}
         className="fixed bottom-6 right-6 w-32 h-32 transition-all duration-200 hover:scale-110 z-40 flex items-center justify-center"
         title="경제 리포트 보기"
@@ -64,7 +64,7 @@ function MainPage() {
           alt="리포트" 
           className="w-28 h-28"
         />
-      </button>
+      </button> */}
     </>
   )
 }
