@@ -139,16 +139,13 @@ function RandomEventModal({ onClose }: RandomEventModalProps) {
                 {/* 메인 헤드라인 */}
                 <div className="border-b-2 border-black pb-3 mb-4">
                   <h2 
-                    className={`text-2xl font-bold text-center leading-tight ${
+                    className={`text-xl font-bold text-center leading-tight ${
                       eventResultType === 'positive' ? 'text-blue-900' : 'text-red-900'
                     }`}
                     style={{ fontFamily: 'Times New Roman, serif' }}
                   >
                     {event.title}
                   </h2>
-                  <p className="text-center text-gray-600 text-xs mt-2 font-italic">
-                    {eventResultType === 'positive' ? '우리 회사에 희소식이 전해졌다' : '우리 회사에 악재가 발생했다'}
-                  </p>
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
@@ -173,8 +170,8 @@ function RandomEventModal({ onClose }: RandomEventModalProps) {
                           alt={event.title}
                           className="w-full h-24 object-cover border-2 border-gray-400 grayscale rounded-sm"
                         />
-                        <p className="text-xs text-gray-600 mt-1 italic text-center">
-                          ▲ 사건과 관련된 현장 모습 (GrowIT뉴스 제공)
+                        <p className="text-xs text-gray-600 mt-2 italic text-center">
+                          ▲ 사건 현장 모습 (GrowIT뉴스 제공)
                         </p>
                       </div>
                     </div>
