@@ -9,6 +9,7 @@ import EndingPage from '../pages/EndingPage';
 export const router = createBrowserRouter([
   { path: '/', element: <LoginPage /> },
   { path: '/oauth2/success', element: <Auth2SuccessHandler />},
+  { path: '/login/oauth2/code/kakao', element: <LoginPage /> },
   { path: '/main', element: <MainPage /> },
   { path: '/bankruptcy', element: <BankruptcyPage /> },
   // { path: '/ranking', element: <RankingPage /> },
