@@ -9,7 +9,7 @@ import RandomEventModal from "../components/organisms/RandomEventModal"
 import StoreModal from "../components/organisms/StoreModal"
 // import ReportModal from "../components/organisms/ReportModal"
 import MainTemplate from "../components/templates_work/MainTemplate"
-import { useGameDataStore } from "../stores/gameDataStore"
+// import { useGameDataStore } from "../stores/gameDataStore"
 // import hintIcon from "../assets/icons/hint.png"
 
 function MainPage() {
@@ -17,7 +17,6 @@ function MainPage() {
   const [activeRandomEventModal, setActiveRandomEventModal] = useState(false)
   const [activeStoreModal, setActiveStoreModal] = useState(false)
   const [showTurnTransition, setShowTurnTransition] = useState(false)
-  const gameDataStore = useGameDataStore()
   // const [activeReportModal, setActiveReportModal] = useState(false)
 
   // 액션 버튼 모달
