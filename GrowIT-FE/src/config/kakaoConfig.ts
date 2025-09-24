@@ -15,9 +15,8 @@ export const KAKAO_CONFIG = {
   REST_API_KEY: KAKAO_REST_API_KEY,
 
   // 카카오 로그인 완료 후 리디렉트될 프론트엔드 URL
-  // 카카오 개발자 콘솔에 등록된 리디렉트 URI와 정확히 일치해야 함
-  // 현재 등록된 URI: https://j13c201.p.ssafy.io/
-  REDIRECT_URI: `${window.location.origin}/`,
+  // 백엔드에서 사용하던 Spring OAuth2 기본 패턴을 그대로 사용
+  REDIRECT_URI: `${window.location.origin}/login/oauth2/code/kakao`,
 
   // 카카오 연결 해제(회원탈퇴) 완료 후 리디렉트될 프론트엔드 URL
   WITHDRAW_REDIRECT_URI: `${window.location.origin}/`,
