@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getKakaoAuthUrl } from '../config/kakaoConfig.js';
+import { getKakaoAuthUrl } from '../config/kakaoConfig';
 
 /**
  * 백엔드 API 기본 URL 설정
