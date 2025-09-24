@@ -22,6 +22,11 @@ function ProjectCard({ project }: ProjectCardProps) {
   const gameDataStore = useGameDataStore()
   const projectButton = useButtonStore((state) => state.projectButton)
   const setProjectButton = useButtonStore((state) => state.setProjectButton)
+  const hiringCount = useGameDataStore((state) => state.hiredPerson.length)
+
+  // const hiringCount = gameDataStore.hiredPerson.length
+  const currentTurn = project.turn - hiringCount > 0 ? project.turn - hiringCount : 0
+  const currentReward = project.reward * gameDataStore.projectOutput
 
   // 프로젝트 선택 시 이벤트
   const projectSelected = (pName: string, pTurn: number, pReward: number) => {
@@ -54,10 +59,10 @@ function ProjectCard({ project }: ProjectCardProps) {
             {project.action}
           </p>
           <p className="text-clamp-base">
-            기간: {project.turn.toLocaleString()}턴
+            기간: {currentTurn.toLocaleString()}턴
           </p>
           <p className="text-clamp-base">
-            보수: {(project.reward * gameDataStore.projectOutput).toLocaleString()}G
+            보수: {currentReward.toLocaleString()}G
           </p>
           <div className="mt-2 w-full">
             <SelectButton
@@ -68,7 +73,7 @@ function ProjectCard({ project }: ProjectCardProps) {
                 ? "bg-orange-400 text-black hover:bg-orange-500"
                 : "bg-gray-400 text-gray-700 cursor-not-allowed"
               }`}
-              onClick={() => projectSelected(project.name, project.turn, project.reward)}
+              onClick={() => projectSelected(project.name, currentTurn, currentReward)}
             >
               {projectButton ? "선택" : "프로젝트 진행 중"}
             </SelectButton>

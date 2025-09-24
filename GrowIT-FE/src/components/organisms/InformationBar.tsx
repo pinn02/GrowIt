@@ -58,7 +58,7 @@ function InformationBar({ onRandomEvent, onStore, onEventComplete }: Information
     const projectNextTurn = gameDataStore.currentProject.turn - 1 // 프로젝트 턴 수 1 감소
 
     // 프로젝트 완료 시
-    if (projectNextTurn === 0) {
+    if (projectNextTurn <= 0) {
       gameDataStore.setFinance(gameDataStore.finance + (gameDataStore.currentProject.reward * gameDataStore.projectOutput))
       const newProject = {
         name: "",
