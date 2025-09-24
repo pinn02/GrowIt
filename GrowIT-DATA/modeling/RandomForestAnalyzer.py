@@ -197,6 +197,7 @@ if __name__ == '__main__':
             try:
                 from skl2onnx import convert_sklearn
                 from skl2onnx.common.data_types import FloatTensorType
+                import onnx
 
                 sklearn_model = analyzer.model
                 n_features = analyzer.X.shape[1]
@@ -207,6 +208,19 @@ if __name__ == '__main__':
                 with open(onnx_filename, "wb") as f:
                     f.write(onnx_model.SerializeToString())
                 print(f"[저장 완료] ONNX 모델을 '{onnx_filename}' 파일로 저장했습니다.")
+
+                print("ONNX 모델에 피처 목록 메타데이터를 추가합니다...")
+                model_with_meta = onnx.load(onnx_filename)
+
+                feature_names = analyzer.config['features']
+                feature_name_str = ",".join(feature_names)
+
+                meta = model_with_meta.metadata_props.add()
+                meta.key = "feature_names"
+                meta.value = feature_name_str
+
+                onnx.save(model_with_meta, onnx_filename)
+                print(f"[저장 완료] 메타데이터가 추가된 ONNX 모델을 '{onnx_filename}'에 덮어썼습니다.")
 
             except ImportError:
                 print("\n[오류] ONNX 변환 라이브러리가 없습니다. 'pip install skl2onnx onnx'를 실행해주세요.")

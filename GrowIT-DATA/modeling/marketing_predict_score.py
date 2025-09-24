@@ -39,7 +39,7 @@ if __name__ == '__main__':
                 'Equipment_Investment_Index': [110], 'productivity_index': [115], 'Exchange_Rate': [1100],
                 'BSI_6M_MA': [101], 'GDP_12M_MA': [540000], 'Exchange_Rate_12M_Std': [15.0],
                 'CCSI_3M_Momentum': [2.5], 'ICT_Prod_6M_Momentum': [3000], 'Loan_Rate_Lag_3M': [3.6],
-                'Retail_Sales_Index': [115], 'KOSPI': [3200]
+                # 'Retail_Sales_Index': [115], 'KOSPI': [3200]
             },
             "2. 소비/기업 심리가 모두 얼어붙은 '최악의 마케팅 환경'": {
                 'GDP': [480000], 'ICT_Production': [45000], 'ICT_Investment': [13000],
