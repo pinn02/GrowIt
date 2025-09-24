@@ -115,11 +115,11 @@ const UPGRADE_INFO: Record<UpgradeType, UpgradeInfo> = {
   },
   building: {
     name: '건물 업그레이드',
-    icons: [upgradedBuilding1, upgradedBuilding2, upgradedBuilding3, upgradedBuilding3],
-    maxLevel: 4,
-    costs: [100000, 200000, 300000, 500000],
-    enterpriseValueRequirements: [100, 300, 500, 700], 
-    enterpriseValueBonus: [10, 20, 30, 50],
+    icons: [upgradedBuilding1, upgradedBuilding2, upgradedBuilding3],
+    maxLevel: 3,
+    costs: [100000, 200000, 300000],
+    enterpriseValueRequirements: [100, 300, 500], 
+    enterpriseValueBonus: [10, 20, 30],
     description: '회사 건물 자체를 업그레이드합니다'
   }
 };
