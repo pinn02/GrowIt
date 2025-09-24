@@ -16,6 +16,8 @@ function HiringModal({ onClose }: HiringModalProps) {
   const [applicants, setApplicants] = useState<any[]>([])
   const currentSaveIdx = useSaveStore(state => state.currentSaveIdx)
   const hiringArray = useGameDataStore(state => state.hiringArray)
+  
+  const hiringCount = useGameDataStore(state => state.hiredPerson.length)
 
   // 모달 실행 시 직원 데이터 가져오는 로직
   useEffect(() => {
@@ -51,7 +53,10 @@ function HiringModal({ onClose }: HiringModalProps) {
       >
         {/* 모달 이름과 닫기 버튼 */}
         <div className="flex justify-between items-center">
-          <p className="font-bold text-3xl mx-3">고용</p>
+          <div>
+            <p className="font-bold text-3xl mx-3">고용</p>
+            <p className="text-xl mx-3">현재 직원 수: {hiringCount}</p>
+          </div>
           <CloseButton
             className="
               bg-red-400

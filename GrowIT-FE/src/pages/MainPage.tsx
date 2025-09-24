@@ -75,7 +75,7 @@ function MainPage() {
       <InformationBar 
         onRandomEvent={handleRandomEventModal} 
         onStore={handleStoreModal}
-        onEventComplete={() => setShowTurnTransition(false)}
+        // onEventComplete={() => setShowTurnTransition(false)}
       />
       <MainTemplate openModal={toggleModal} />
 

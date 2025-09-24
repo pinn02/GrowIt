@@ -46,6 +46,7 @@ function ApplicantCard({ applicant }: ApplicantCardProps) {
   const hiringSelected = () => {
     gameDataStore.setFinance(gameDataStore.finance - currentCost)
     gameDataStore.setProductivity(gameDataStore.productivity + currentReward)
+    gameDataStore.setHiredPerson([...gameDataStore.hiredPerson, applicant.id])
     setHiringButton(false)
   }
 
