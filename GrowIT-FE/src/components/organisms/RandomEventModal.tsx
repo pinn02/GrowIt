@@ -1,4 +1,4 @@
-import CloseButton from "../atoms/Button";
+
 import { useEffect, useState } from "react";
 import randomEventsData from "../../assets/data/randomEvents.json";
 import { useGameDataStore } from "../../stores/gameDataStore";
@@ -21,7 +21,7 @@ type RandomEventModalProps = {
 function RandomEventModal({ onClose }: RandomEventModalProps) {
   const [eventIndex, setEventIndex] = useState(-1);
   const [isLoading, setIsLoading] = useState(true);
-  const [showContent, setShowContent] = useState(false);
+
   const [eventResultType, setEventResultType] = useState<
     "positive" | "negative"
   >("positive");
@@ -41,7 +41,7 @@ function RandomEventModal({ onClose }: RandomEventModalProps) {
         setEventResultType("negative");
       }
 
-      setTimeout(() => setShowContent(true), 300);
+
     }, 2000);
 
     return () => {
