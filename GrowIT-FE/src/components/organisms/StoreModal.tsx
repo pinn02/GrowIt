@@ -10,11 +10,10 @@ import upgradedBus3 from "../../assets/upgrades/upgraded_bus3.png";
 import upgradedBuilding1 from "../../assets/upgrades/upgraded_building1.png";
 import upgradedBuilding2 from "../../assets/upgrades/upgraded_building2.png";
 import upgradedBuilding3 from "../../assets/upgrades/upgraded_building3.png";
+import storeBackgroundImage from "../../assets/background_images/store_page_background_image6.png";
 
-// 업그레이드 타입 정의
 type UpgradeType = 'commuteBus' | 'dormitory' | 'gym' | 'cafeteria' | 'hospital' | 'daycare' | 'bookCafe' | 'building';
 
-// 기본 업그레이드 정보 타입
 interface BaseUpgradeInfo {
   name: string;
   icons: string[];
@@ -23,26 +22,21 @@ interface BaseUpgradeInfo {
   description: string;
 }
 
-// 생산성 보너스가 있는 업그레이드
 interface ProductivityUpgradeInfo extends BaseUpgradeInfo {
   productivityBonus: number[];
 }
 
-// 기업가치 보너스가 있는 업그레이드
 interface EnterpriseValueUpgradeInfo extends BaseUpgradeInfo {
   enterpriseValueBonus: number[];
 }
 
-// 건물 업그레이드 
 interface BuildingUpgradeInfo extends BaseUpgradeInfo {
   enterpriseValueRequirements: number[];
   enterpriseValueBonus: number[];
 }
 
-// 모든 업그레이드 정보 타입의 유니온
 type UpgradeInfo = ProductivityUpgradeInfo | EnterpriseValueUpgradeInfo | BuildingUpgradeInfo;
 
-// 타입 가드 함수들
 function hasProductivityBonus(info: UpgradeInfo): info is ProductivityUpgradeInfo {
   return 'productivityBonus' in info;
 }
@@ -55,11 +49,10 @@ function hasBuildingRequirements(info: UpgradeInfo): info is BuildingUpgradeInfo
   return 'enterpriseValueRequirements' in info;
 }
 
-// 업그레이드 정보 정의
 const UPGRADE_INFO: Record<UpgradeType, UpgradeInfo> = {
   commuteBus: {
     name: '통근버스',
-    icons: [upgradedBus1, upgradedBus2, upgradedBus3], 
+    icons: [upgradedBus1, upgradedBus2, upgradedBus3],
     maxLevel: 3,
     costs: [10000, 20000, 30000],
     productivityBonus: [10, 20, 30],
@@ -118,7 +111,7 @@ const UPGRADE_INFO: Record<UpgradeType, UpgradeInfo> = {
     icons: [upgradedBuilding1, upgradedBuilding2, upgradedBuilding3],
     maxLevel: 3,
     costs: [100000, 200000, 300000],
-    enterpriseValueRequirements: [100, 300, 500], 
+    enterpriseValueRequirements: [100, 300, 500],
     enterpriseValueBonus: [10, 20, 30],
     description: '회사 건물 자체를 업그레이드합니다'
   }
@@ -135,11 +128,10 @@ type StoreModalProps = {
 function StoreModal({ onClose }: StoreModalProps) {
   const gameDataStore = useGameDataStore();
   const saveStore = useSaveStore();
-  
+
   const [, forceUpdate] = useState({});
   const [isUpgrading, setIsUpgrading] = useState(false);
-  
-  // 게임 스토어에서 업그레이드 레벨 가져오기
+
   const upgradeLevels: Record<UpgradeType, number> = {
     commuteBus: gameDataStore.commuteBusLevel,
     dormitory: gameDataStore.dormitoryLevel,
@@ -150,74 +142,61 @@ function StoreModal({ onClose }: StoreModalProps) {
     bookCafe: gameDataStore.bookCafeLevel,
     building: gameDataStore.buildingLevel
   };
-  
-  // 현재 업그레이드 레벨 상태 확인
-  
+
   const triggerRerender = () => {
     forceUpdate({});
   };
 
   const getCurrentUpgrade = (): UpgradeType | null => {
     const minLevel = Math.min(...Object.values(upgradeLevels));
-    // 현재 레벨 상태 및 최소 레벨 확인
-    
+
     for (const upgradeType of UPGRADE_ORDER) {
       if (upgradeLevels[upgradeType] === minLevel && upgradeLevels[upgradeType] < UPGRADE_INFO[upgradeType].maxLevel) {
-        // 현재 업그레이드 대상 및 레벨 확인
         return upgradeType;
       }
     }
-    
-    return null; // 모든 업그레이드 완료
+
+    return null;
   };
 
   const currentUpgradeType = getCurrentUpgrade();
 
-  // 업그레이드 가능 여부 확인
   const canUpgrade = (): boolean => {
     if (!currentUpgradeType) return false;
-    
+
     const currentLevel = upgradeLevels[currentUpgradeType];
     const upgradeInfo = UPGRADE_INFO[currentUpgradeType];
-    
-    // 최대 레벨 확인
+
     if (currentLevel >= upgradeInfo.maxLevel) return false;
-    
-    // 건물 업그레이드의 경우 누적 기업 가치 확인
+
     if (currentUpgradeType === 'building' && hasBuildingRequirements(upgradeInfo)) {
-      const requiredValue = upgradeInfo.enterpriseValueRequirements[currentLevel - 1]; 
+      const requiredValue = upgradeInfo.enterpriseValueRequirements[currentLevel];
       if (gameDataStore.enterpriseValue < requiredValue) return false;
     }
-    
+
     return true;
   };
 
   const hasEnoughMoney = (): boolean => {
     if (!currentUpgradeType) return false;
     const currentLevel = upgradeLevels[currentUpgradeType];
-    const cost = UPGRADE_INFO[currentUpgradeType].costs[currentLevel - 1]; 
+    const cost = UPGRADE_INFO[currentUpgradeType].costs[currentLevel];
     return gameDataStore.finance >= cost;
   };
 
-  // 업그레이드 실행
   const executeUpgrade = () => {
     if (!currentUpgradeType || !canUpgrade() || !hasEnoughMoney()) {
-      // 업그레이드 실행 조건 미충족
       return;
     }
 
     const currentLevel = upgradeLevels[currentUpgradeType];
-    const cost = UPGRADE_INFO[currentUpgradeType].costs[currentLevel - 1]; 
-
-    // 업그레이드 실행 시작
+    const cost = UPGRADE_INFO[currentUpgradeType].costs[currentLevel];
 
     setIsUpgrading(true);
 
     setTimeout(() => {
-      // 자본 차감
       gameDataStore.setFinance(gameDataStore.finance - cost);
-      
-      // 레벨 증가 - 게임 스토어 업데이트
+
       switch (currentUpgradeType) {
         case 'commuteBus':
           gameDataStore.setCommuteBusLevel(currentLevel + 1);
@@ -244,30 +223,25 @@ function StoreModal({ onClose }: StoreModalProps) {
           const newBuildingLevel = currentLevel + 1;
           gameDataStore.setBuildingLevel(newBuildingLevel);
           gameDataStore.setOfficeLevel(newBuildingLevel);
-          // 건물 업그레이드 완료: 빌딩 레벨 및 오피스 레벨 동기화
           break;
       }
-      
-      // 업그레이드 후 새로운 레벨 설정 완료
-      
-      // 효과 적용
+
       const upgradeInfo = UPGRADE_INFO[currentUpgradeType];
       if (hasProductivityBonus(upgradeInfo)) {
-        const bonus = upgradeInfo.productivityBonus[currentLevel - 1];
+        const bonus = upgradeInfo.productivityBonus[currentLevel];
         gameDataStore.setProductivity(gameDataStore.productivity + bonus);
       }
       if (hasEnterpriseValueBonus(upgradeInfo) || hasBuildingRequirements(upgradeInfo)) {
-        const bonus = hasEnterpriseValueBonus(upgradeInfo) 
-          ? upgradeInfo.enterpriseValueBonus[currentLevel - 1]
-          : (upgradeInfo as BuildingUpgradeInfo).enterpriseValueBonus[currentLevel - 1];
+        const bonus = hasEnterpriseValueBonus(upgradeInfo)
+          ? upgradeInfo.enterpriseValueBonus[currentLevel]
+          : (upgradeInfo as BuildingUpgradeInfo).enterpriseValueBonus[currentLevel];
         gameDataStore.setEnterpriseValue(gameDataStore.enterpriseValue + bonus);
       }
 
       setTimeout(() => {
         setIsUpgrading(false);
-        triggerRerender(); // 리렌더링 강제
-        
-        // 업그레이드 후 세이브 데이터 업데이트
+        triggerRerender();
+
         const currentSaveIdx = saveStore.currentSaveIdx;
         const currentSave = saveStore.saves[currentSaveIdx];
         const updatedSave = {
@@ -295,11 +269,7 @@ function StoreModal({ onClose }: StoreModalProps) {
           updatedAt: new Date().toISOString().split("T")[0]
         };
         saveStore.setSave(currentSaveIdx, updatedSave);
-        // 세이브 데이터 업데이트 완료
-        
-        // 모달을 자동으로 닫지 않고 사용자가 닫을 때까지 열어두기
-        // onClose();
-      }, 200); // 500ms에서 200ms로 단축
+      }, 200);
     }, 200);
   };
 
@@ -308,15 +278,14 @@ function StoreModal({ onClose }: StoreModalProps) {
       <div
         className="
           fixed
-          inset-0
-          w-full
-          h-full
+          top-16
+          left-0
+          right-0
+          bottom-0
           flex
           justify-center
           items-center
           z-50
-          bg-black/70
-          backdrop-blur-sm
           animate-fadeIn
         "
         onClick={onClose}
@@ -324,33 +293,38 @@ function StoreModal({ onClose }: StoreModalProps) {
         <div
           className="
             relative
-            w-[90%]
-            max-w-lg
-            bg-white
-            rounded-2xl
-            shadow-xl
-            p-8
             transform
             transition-all
             duration-300
             scale-100
             pointer-events-auto
-            border-4 border-green-400
+            flex
+            flex-col
+            justify-center
+            items-center
+            bg-white
+            rounded-xl
+            p-8
+            shadow-2xl
+            text-center
           "
+          style={{
+            width: '500px',
+            height: '300px',
+          }}
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="absolute top-4 right-4 z-10">
+          <div className="absolute top-4 right-4 z-50">
             <CloseButton
               onClick={onClose}
-              className="w-10 h-10 rounded-full bg-red-600 text-white hover:bg-red-700 transition-colors flex items-center justify-center font-bold shadow-lg"
+              className="w-8 h-8 rounded-full bg-gray-500 hover:bg-gray-600 text-white transition-colors flex items-center justify-center font-bold text-lg shadow-xl"
             >
               ×
             </CloseButton>
           </div>
-
-          <div className="w-full flex flex-col items-center">
-            <h2 className="font-extrabold text-3xl text-center mb-4 text-gray-900">🎉 축하합니다!</h2>
-            <p className="text-lg text-center text-green-600 font-semibold">
+          <div className="w-full flex flex-col items-center z-10 p-4">
+            <h2 className="font-extrabold text-3xl text-center mb-4 text-black">🎉 축하합니다!</h2>
+            <p className="text-lg text-center text-gray-600 font-semibold">
               모든 업그레이드를 완료했습니다!
             </p>
           </div>
@@ -361,40 +335,36 @@ function StoreModal({ onClose }: StoreModalProps) {
 
   const upgradeInfo = UPGRADE_INFO[currentUpgradeType];
   const currentLevel = upgradeLevels[currentUpgradeType];
-  const cost = upgradeInfo.costs[currentLevel - 1]; 
+  const cost = upgradeInfo.costs[currentLevel];
   const canUpgradeThis = canUpgrade();
   const hasMoneyFor = hasEnoughMoney();
 
   let statusText = "";
-  let statusColor = "";
-  let buttonText = "레벨 " + (currentLevel + 1) + "로 업그레이드!";
+  let buttonText = `레벨 ${currentLevel + 1}로 업그레이드!`;
 
   if (!canUpgradeThis) {
     if (currentUpgradeType === 'building' && hasBuildingRequirements(upgradeInfo)) {
-      const requiredValue = upgradeInfo.enterpriseValueRequirements[currentLevel - 1]; // 레벨이 1부터 시작하므로 -1
+      const requiredValue = upgradeInfo.enterpriseValueRequirements[currentLevel];
       const shortage = requiredValue - gameDataStore.enterpriseValue;
       statusText = `기업가치가 ${shortage.toLocaleString()} 부족합니다`;
-      statusColor = "text-red-500";
       buttonText = "업그레이드 불가";
     }
   } else if (!hasMoneyFor) {
     const shortage = cost - gameDataStore.finance;
     statusText = `자금이 ${shortage.toLocaleString()}원 부족합니다`;
-    statusColor = "text-red-500";
     buttonText = "자금 부족";
   }
 
-  const currentIcon = upgradeInfo.icons[currentLevel - 1]; 
-  
-  // 아이콘이 이미지 경로인지 이모지인지 확인
-  const isImageIcon = typeof currentIcon === 'string' && currentIcon.includes('.png'); 
+  const currentIcon = upgradeInfo.icons[currentLevel];
+
+  const isImageIcon = typeof currentIcon === 'string' && currentIcon.includes('.png');
 
   return (
     <>
       {isUpgrading && (
-        <div className="fixed inset-0 flex justify-center items-center z-[100] pointer-events-none bg-black/70 backdrop-blur-sm">
+        <div className="fixed inset-0 flex justify-center items-center z-[100] pointer-events-none">
           <div className="upgrade-success-animation animate-popIn">
-            <p className="text-white text-4xl md:text-5xl font-extrabold animate-typewriter animate-flash animate-zoomIn">
+            <p className="text-black text-4xl md:text-5xl font-extrabold animate-typewriter animate-flash animate-zoomIn">
               업그레이드 성공! 🎉
             </p>
           </div>
@@ -404,15 +374,14 @@ function StoreModal({ onClose }: StoreModalProps) {
       <div
         className="
           fixed
-          inset-0
-          w-full
-          h-full
+          top-16
+          left-0
+          right-0
+          bottom-0
           flex
           justify-center
           items-center
           z-50
-          bg-black/70
-          backdrop-blur-sm
           animate-fadeIn
         "
         onClick={onClose}
@@ -420,141 +389,136 @@ function StoreModal({ onClose }: StoreModalProps) {
         <div
           className="
             relative
-            w-[90%]
-            max-w-lg
-            bg-white
-            rounded-2xl
-            shadow-xl
-            p-8
             transform
             transition-all
             duration-300
             scale-100
             pointer-events-auto
-            border-4 border-blue-400
+            flex
+            flex-col
+            items-center
+            justify-start
           "
+          style={{
+            backgroundImage: `url(${storeBackgroundImage})`,
+            backgroundSize: 'contain',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            width: '600px',
+            height: '800px',
+            paddingTop: '120px',
+            paddingLeft: '80px',
+            paddingRight: '80px',
+            paddingBottom: '80px'
+          }}
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="absolute top-4 right-4 z-10">
+          <div className="absolute top-30 right-16 z-50">
             <CloseButton
               onClick={onClose}
-              className="w-10 h-10 rounded-full bg-red-600 text-white hover:bg-red-700 transition-colors flex items-center justify-center font-bold shadow-lg"
+              className="w-8 h-8 rounded-full bg-gray-500 hover:bg-gray-600 text-white transition-colors flex items-center justify-center font-bold text-lg shadow-xl border-2 border-white"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
+              ×
             </CloseButton>
           </div>
-
-          <div className="w-full flex flex-col items-center">
-            <div className="w-full max-w-[300px] h-[200px] bg-gradient-to-b from-sky-200 to-sky-100 rounded-lg mb-6 flex items-center justify-center border-2 border-gray-300">
-              {isImageIcon ? (
-                <img 
-                  src={currentIcon} 
-                  alt={upgradeInfo.name}
-                  className="w-48 h-40 object-contain animate-bounce-slow"
-                />
-              ) : (
-                <div className="text-8xl animate-bounce-slow">
-                  {currentIcon}
-                </div>
-              )}
+          <div className="w-full flex flex-col items-center z-10 pt-20 px-8 h-full">
+            <div className="w-full h-full flex flex-col items-center justify-start">
+              <div className="w-full max-w-[200px] h-[150px] flex items-center justify-center">
+                {isImageIcon ? (
+                  <img
+                    src={currentIcon}
+                    alt={upgradeInfo.name}
+                    className="w-32 h-28 object-contain animate-bounce-slow"
+                  />
+                ) : (
+                  <div className="flex justify-center items-center w-32 h-28 rounded-xl bg-white animate-bounce-slow">
+                    <span className="text-6xl text-black">
+                      {currentIcon}
+                    </span>
+                  </div>
+                )}
+              </div>
+              <h2 className="font-extrabold text-xl text-center mb-2 text-black">
+                {upgradeInfo.name}
+              </h2>
+              <p className="text-sm text-black mb-3">
+                현재 진행도: <span className="font-bold text-[#FF8C00]">{currentLevel} / {upgradeInfo.maxLevel}</span>
+              </p>
             </div>
 
-            <h2 className="font-extrabold text-2xl text-center mb-2 text-gray-900">
-              {upgradeInfo.name}
-            </h2>
-            
-            {/* 현재 진행도 */}
-            <p className="text-base text-gray-600 mb-4">
-              현재 진행도: <span className="font-bold text-blue-600">{currentLevel} / {upgradeInfo.maxLevel}</span>
-            </p>
-
-            {/* 업그레이드 버튼 */}
-            {canUpgradeThis && hasMoneyFor ? (
-              <UpgradeButton
-                className="
-                  w-full
-                  bg-gradient-to-r from-amber-400 to-yellow-600
-                  text-white
-                  px-8
-                  py-4
-                  my-4
-                  rounded-lg
-                  shadow-xl
-                  hover:shadow-amber-400/50
-                  transition-all
-                  duration-300
-                  transform
-                  hover:-translate-y-2
-                  active:translate-y-0
-                  focus:outline-none
-                  focus:ring-4
-                  focus:ring-amber-300
-                  focus:ring-opacity-75
-                  font-extrabold
-                  text-xl
-                  tracking-wide
-                  animate-pulse
-                "
-                onClick={executeUpgrade}
-              >
-                🎉 {buttonText}
-              </UpgradeButton>
-            ) : (
-              <button
-                className="
-                  w-full
-                  bg-gray-400
-                  text-white
-                  px-8
-                  py-4
-                  my-4
-                  rounded-lg
-                  font-bold
-                  text-xl
-                  cursor-not-allowed
-                  opacity-50
-                "
-                disabled
-              >
-                {buttonText}
-              </button>
-            )}
-
-            {/* 비용 정보 */}
-            <div className="text-center w-full">
-              <p className="text-base text-gray-600 mb-2">
-                자본: <span className="font-bold text-green-600">{cost.toLocaleString()}원</span>
-              </p>
-              
-              {/* 추가 조건 표시 */}
-              {currentUpgradeType === 'building' && hasBuildingRequirements(upgradeInfo) && (
-                <p className="text-sm text-gray-500 mb-2">
-                  필요 기업가치: <span className="font-bold">{upgradeInfo.enterpriseValueRequirements[currentLevel - 1].toLocaleString()}</span>
-                </p>
+            <div className="w-full flex flex-col items-center mb-50">
+              {canUpgradeThis && hasMoneyFor ? (
+                <UpgradeButton
+                  className="
+                    w-2/3
+                    bg-orange-400
+                    hover:bg-orange-500
+                    text-black
+                    px-1
+                    py-3
+                    my-3
+                    rounded-lg
+                    transition-all
+                    duration-200
+                    font-bold
+                    text-lg
+                    shadow-md
+                    hover:shadow-lg
+                  "
+                  onClick={executeUpgrade}
+                >
+                  {buttonText}
+                </UpgradeButton>
+              ) : (
+                <button
+                  className="
+                    w-2/3
+                    bg-gray-400
+                    text-white
+                    px-6
+                    py-3
+                    my-3
+                    rounded-lg
+                    font-bold
+                    text-lg
+                    cursor-not-allowed
+                    opacity-60
+                  "
+                  disabled
+                >
+                  {buttonText}
+                </button>
               )}
+              <div className="text-center w-full">
+                <p className="text-sm text-black mb-2">
+                  자본: <span className="font-bold text-black">{cost.toLocaleString()}원</span>
+                </p>
 
-              {/* 보너스 효과 */}
-              {hasProductivityBonus(upgradeInfo) && (
-                <p className="text-sm text-blue-600">
-                  생산성 +{upgradeInfo.productivityBonus[currentLevel - 1]}
-                </p>
-              )}
-              {(hasEnterpriseValueBonus(upgradeInfo) || hasBuildingRequirements(upgradeInfo)) && (
-                <p className="text-sm text-purple-600">
-                  기업가치 +{hasEnterpriseValueBonus(upgradeInfo) 
-                    ? upgradeInfo.enterpriseValueBonus[currentLevel - 1]
-                    : (upgradeInfo as BuildingUpgradeInfo).enterpriseValueBonus[currentLevel - 1]}
-                </p>
-              )}
+                {currentUpgradeType === 'building' && hasBuildingRequirements(upgradeInfo) && (
+                  <p className="text-xs text-black mb-1">
+                    필요 기업가치: <span className="font-bold text-black">{upgradeInfo.enterpriseValueRequirements[currentLevel].toLocaleString()}</span>
+                  </p>
+                )}
 
-              {/* 상태 메시지 */}
-              {statusText && (
-                <p className={`text-sm ${statusColor} mt-2 font-semibold`}>
-                  {statusText}
-                </p>
-              )}
+                {hasProductivityBonus(upgradeInfo) && (
+                  <p className="text-xs text-black">
+                    생산성 +{upgradeInfo.productivityBonus[currentLevel]}
+                  </p>
+                )}
+                {(hasEnterpriseValueBonus(upgradeInfo) || hasBuildingRequirements(upgradeInfo)) && (
+                  <p className="text-xs text-black">
+                    기업가치 +{hasEnterpriseValueBonus(upgradeInfo)
+                      ? upgradeInfo.enterpriseValueBonus[currentLevel]
+                      : (upgradeInfo as BuildingUpgradeInfo).enterpriseValueBonus[currentLevel]}
+                  </p>
+                )}
+
+                {statusText && (
+                  <p className={`text-xs text-red-600 mt-1 font-semibold`}>
+                    {statusText}
+                  </p>
+                )}
+              </div>
             </div>
           </div>
         </div>
