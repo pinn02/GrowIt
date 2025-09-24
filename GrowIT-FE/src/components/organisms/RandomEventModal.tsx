@@ -2,8 +2,7 @@
 import { useEffect, useState } from "react";
 import randomEventsData from "../../assets/data/randomEvents.json";
 import { useGameDataStore } from "../../stores/gameDataStore";
-import treasureBoxImage from "../../assets/icons/treasure_box.png"; 
-import boardBackgroundImage from "../../assets/background_images/board_page_background_image4.png";
+import treasureBoxImage from "../../assets/icons/treasure_box.png";
 
 type RandomEvent = {
   title: string;
