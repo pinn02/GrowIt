@@ -5,7 +5,7 @@ const API_BASE_URL = 'https://j13c201.p.ssafy.io';
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
   withCredentials: true,
-  timeout: 10000,
+  timeout: 20000,
 });
 
 export const authApi = {
