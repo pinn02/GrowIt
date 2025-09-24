@@ -46,10 +46,19 @@ function StartPage() {
           // 2. 액세스 토큰으로 사용자 정보 가져오기
           const userInfo = await getKakaoUserInfo(tokenData.access_token);
 
-          // 3. 사용자 정보 저장
+          // 3. 사용자 정보 저장 (백엔드 로직 참고)
+          const email = userInfo.kakao_account?.email;
+          const providerId = userInfo.id?.toString();
+
+          if (!email) {
+            throw new Error('카카오에서 이메일을 받지 못했습니다.');
+          }
+
           const userData = {
-            email: userInfo.kakao_account?.email || `kakao_${userInfo.id}`,
-            nickname: userInfo.properties?.nickname || '카카오 사용자'
+            email: email,
+            nickname: userInfo.properties?.nickname || '카카오사용자', // 백엔드와 동일한 기본값
+            provider: 'kakao',
+            providerId: providerId
           };
 
           // 4. Zustand store에 저장
@@ -57,11 +66,16 @@ function StartPage() {
           setToken(tokenData.access_token);
           setStoreIsLoggedIn(true);
 
-          // 5. URL에서 파라미터 제거
-          window.history.replaceState({}, document.title, window.location.pathname);
-
+          // 5. 백엔드와 동일한 방식으로 /oauth2/success로 리디렉트
           console.log('카카오 로그인 성공:', userData);
-          alert(`${userData.nickname}님, 환영합니다!`);
+
+          // 백엔드 CustomOAuth2SuccessHandler와 동일한 플로우
+          // 세션에 사용자 정보 저장하고 /oauth2/success로 리디렉트
+          sessionStorage.setItem('oauth2_success', 'true');
+          sessionStorage.setItem('userEmail', userData.email);
+          sessionStorage.setItem('userNickname', userData.nickname);
+
+          window.location.href = '/oauth2/success';
 
         } catch (error) {
           console.error('카카오 로그인 처리 실패:', error);
