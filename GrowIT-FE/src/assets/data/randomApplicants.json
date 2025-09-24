@@ -3,57 +3,57 @@
     "id": 0,
     "name": "김민수",
     "position": "주니어 백엔드 개발자",
-    "productivity": 50,
+    "productivity": 500,
     "imageIndex": 0,
-    "salary": 50000
+    "salary": 500000
   },
   {
     "id": 1,
     "name": "박지은",
     "position": "프론트엔드 개발자",
-    "productivity": 62,
+    "productivity": 620,
     "imageIndex": 3,
-    "salary": 62000
+    "salary": 620000
   },
   {
     "id": 2,
     "name": "이도현",
     "position": "데이터 분석가",
-    "productivity": 120,
+    "productivity": 1200,
     "imageIndex": 0,
-    "salary": 120000
+    "salary": 1200000
   },
   {
     "id": 3,
     "name": "최서영",
     "position": "UX/UI 디자이너",
-    "productivity": 32,
+    "productivity": 320,
     "imageIndex": 3,
-    "salary": 32000
+    "salary": 320000
   },
   {
     "id": 4,
     "name": "정하준",
     "position": "모바일 앱 개발자",
-    "productivity": 98,
+    "productivity": 980,
     "imageIndex": 1,
-    "salary": 98000
+    "salary": 980000
   },
   {
     "id": 5,
     "name": "윤가영",
     "position": "디지털 마케터",
-    "productivity": 178,
+    "productivity": 1780,
     "imageIndex": 4,
-    "salary": 178000
+    "salary": 1780000
   },
   {
     "id": 6,
     "name": "한지훈",
     "position": "클라우드 엔지니어",
-    "productivity": 46,
+    "productivity": 460,
     "imageIndex": 1,
-    "salary": 46000
+    "salary": 460000
   },
   {
     "id": 7,
@@ -75,48 +75,48 @@
     "id": 9,
     "name": "김하린",
     "position": "콘텐츠 마케터",
-    "productivity": 173,
+    "productivity": 1730,
     "imageIndex": 4,
-    "salary": 173000
+    "salary": 1730000
   },
   {
     "id": 10,
     "name": "이승호",
     "position": "데이터 사이언티스트",
-    "productivity": 115,
+    "productivity": 1150,
     "imageIndex": 1,
-    "salary": 115000
+    "salary": 1150000
   },
   {
     "id": 11,
     "name": "배소연",
     "position": "그래픽 디자이너",
-    "productivity": 39,
+    "productivity": 390,
     "imageIndex": 3,
-    "salary": 39000
+    "salary": 390000
   },
   {
     "id": 12,
     "name": "최지후",
     "position": "보안 엔지니어",
-    "productivity": 68,
+    "productivity": 680,
     "imageIndex": 1,
-    "salary": 68000
+    "salary": 680000
   },
   {
     "id": 13,
     "name": "강민재",
     "position": "시니어 아키텍트",
-    "productivity": 211,
+    "productivity": 2110,
     "imageIndex": 2,
-    "salary": 211000
+    "salary": 2110000
   },
   {
     "id": 14,
     "name": "조은비",
     "position": "HR 매니저",
-    "productivity": 28,
+    "productivity": 2800,
     "imageIndex": 3,
-    "salary": 28000
+    "salary": 2800000
   }
 ]

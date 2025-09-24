@@ -5,9 +5,9 @@ import productivityIcon  from '../../assets/icons/productivity.png'
 import enterpriseIcon  from '../../assets/icons/enterprise.png'
 
 const gameDataList = [
-  { name: "기업가치", iconImage: enterpriseIcon, maxData: 1000, fillColor: "bg-[#45A14B]" },
-  { name: "생산성", iconImage: productivityIcon, maxData: 10000, fillColor: "bg-[#B374F3]" },
-  { name: "자본", iconImage: financeIcon, maxData: 10000000, fillColor: "bg-[#F8C545]" },
+  { name: "기업가치", iconImage: enterpriseIcon, maxData: 3000, fillColor: "bg-[#45A14B]" },
+  { name: "생산성", iconImage: productivityIcon, maxData: 30000, fillColor: "bg-[#B374F3]" },
+  { name: "자본", iconImage: financeIcon, maxData: 30000000, fillColor: "bg-[#F8C545]" },
 ]
 
 type GameDataInformationProps = {
@@ -18,6 +18,8 @@ type GameDataInformationProps = {
 function GameDataInformation({ MAX_TURN }: GameDataInformationProps) {
   const { enterpriseValue, productivity, finance, turn, currentProject } = useGameDataStore();
   
+  const productivityBonus = Math.floor(useGameDataStore(state => state.productivity) / 1000) / 10 + 1
+  
   return (
     <div className='w-full flex items-center'>
       <div className='flex items-center gap-6 mx-3'>
@@ -27,7 +29,7 @@ function GameDataInformation({ MAX_TURN }: GameDataInformationProps) {
         {/* 진행 프로젝트 표시 */}
         <div className='w-full flex flex-col'>
           <p className='text-nowrap'>진행 프로젝트: {currentProject.turn > 0 ? currentProject.name : "없음"}</p>
-          <p className='text-nowrap'>{currentProject.turn > 0 ? `보수: ${currentProject.reward} | ${currentProject.turn} 턴 남음` : ""}</p>
+          <p className='text-nowrap'>{currentProject.turn > 0 ? `보수: ${currentProject.reward.toLocaleString()} * ${productivityBonus} | ${currentProject.turn} 턴 남음` : ""}</p>
         </div>
       </div>
 
