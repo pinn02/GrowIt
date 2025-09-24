@@ -23,6 +23,7 @@ const MAX_TURN = 30  // 게임의 종료 턴
 type InformationBarProps = {
   onRandomEvent: () => void
   onStore: () => void
+  // onEventComplete?: () => void
 }
 
 // 정보 바
@@ -36,7 +37,16 @@ function InformationBar({ onRandomEvent, onStore }: InformationBarProps) {
   const [isTransitioning, setIsTransitioning] = useState(false)
   const [hasRandomEvent, setHasRandomEvent] = useState(false)
 
-
+  // 이벤트 완료 후 호출되는 함수
+  // const handleEventComplete = () => {
+  //   console.log('이벤트 완료 처리 시작')
+  //   setIsTransitioning(false)
+  //   setHasRandomEvent(false)
+  //   console.log('이벤트 완료 처리 완료 - isTransitioning: false, hasRandomEvent: false')
+  //   if (onEventComplete) {
+  //     onEventComplete()
+  //   }
+  // }
 
   // 턴 종료 버튼 누를 시 이벤트
   const handleTurnEnd = () => {
