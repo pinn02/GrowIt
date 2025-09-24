@@ -10,6 +10,7 @@ import DifficultyTemplate from "../components/templates_work/DifficultyTemplate"
 import CeoSelectTemplate from "../components/templates_work/CeoSelectTemplate"
 import loginPageBackgroundImage from "../assets/background_images/start_page_background_image.png"
 import { defaultSave } from "../stores/saveStore"
+import { getKakaoToken, getKakaoUserInfo } from "../config/kakaoConfig.js"
 
 // 시작 페이지
 function StartPage() {
@@ -20,7 +21,60 @@ function StartPage() {
   const saveStore = useSaveStore()
   const buttonStore = useButtonStore()
   const gameDataStore = useGameDataStore()
-  const { isLoggedIn: storeIsLoggedIn } = useUserStore()
+  const { isLoggedIn: storeIsLoggedIn, setUser, setToken, setIsLoggedIn: setStoreIsLoggedIn } = useUserStore()
+
+  // 카카오 로그인 콜백 처리 (프론트엔드에서 완전 처리)
+  useEffect(() => {
+    const handleKakaoCallback = async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const authCode = urlParams.get('code');
+      const error = urlParams.get('error');
+
+      // 카카오 로그인 에러 처리
+      if (error) {
+        console.error('카카오 로그인 에러:', error);
+        alert('카카오 로그인에 실패했습니다.');
+        return;
+      }
+
+      // Authorization code가 있으면 카카오 로그인 처리
+      if (authCode && !storeIsLoggedIn) {
+        try {
+          // 1. 카카오에서 액세스 토큰 받기
+          const tokenData = await getKakaoToken(authCode);
+
+          // 2. 액세스 토큰으로 사용자 정보 가져오기
+          const userInfo = await getKakaoUserInfo(tokenData.access_token);
+
+          // 3. 사용자 정보 저장
+          const userData = {
+            email: userInfo.kakao_account?.email || `kakao_${userInfo.id}`,
+            nickname: userInfo.properties?.nickname || '카카오 사용자'
+          };
+
+          // 4. Zustand store에 저장
+          setUser(userData);
+          setToken(tokenData.access_token);
+          setStoreIsLoggedIn(true);
+
+          // 5. URL에서 파라미터 제거
+          window.history.replaceState({}, document.title, window.location.pathname);
+
+          console.log('카카오 로그인 성공:', userData);
+          alert(`${userData.nickname}님, 환영합니다!`);
+
+        } catch (error) {
+          console.error('카카오 로그인 처리 실패:', error);
+          alert('로그인 처리 중 오류가 발생했습니다.');
+
+          // URL에서 파라미터 제거
+          window.history.replaceState({}, document.title, window.location.pathname);
+        }
+      }
+    };
+
+    handleKakaoCallback();
+  }, [storeIsLoggedIn, setUser, setToken, setStoreIsLoggedIn]);
 
   // OAuth2 로그인 상태를 감지
   useEffect(() => {
