@@ -111,7 +111,7 @@ const UPGRADE_INFO: Record<UpgradeType, UpgradeInfo> = {
     icons: [upgradedBuilding1, upgradedBuilding2, upgradedBuilding3],
     maxLevel: 3,
     costs: [100000, 200000, 300000],
-    enterpriseValueRequirements: [100, 300, 500], 
+    enterpriseValueRequirements: [100, 300, 500],
     enterpriseValueBonus: [10, 20, 30],
     description: '회사 건물 자체를 업그레이드합니다'
   }
@@ -128,10 +128,10 @@ type StoreModalProps = {
 function StoreModal({ onClose }: StoreModalProps) {
   const gameDataStore = useGameDataStore();
   const saveStore = useSaveStore();
-  
+
   const [, forceUpdate] = useState({});
   const [isUpgrading, setIsUpgrading] = useState(false);
-  
+
   const upgradeLevels: Record<UpgradeType, number> = {
     commuteBus: gameDataStore.commuteBusLevel,
     dormitory: gameDataStore.dormitoryLevel,
@@ -142,20 +142,20 @@ function StoreModal({ onClose }: StoreModalProps) {
     bookCafe: gameDataStore.bookCafeLevel,
     building: gameDataStore.buildingLevel
   };
-  
+
   const triggerRerender = () => {
     forceUpdate({});
   };
 
   const getCurrentUpgrade = (): UpgradeType | null => {
     const minLevel = Math.min(...Object.values(upgradeLevels));
-    
+
     for (const upgradeType of UPGRADE_ORDER) {
       if (upgradeLevels[upgradeType] === minLevel && upgradeLevels[upgradeType] < UPGRADE_INFO[upgradeType].maxLevel) {
         return upgradeType;
       }
     }
-    
+
     return null;
   };
 
@@ -163,24 +163,24 @@ function StoreModal({ onClose }: StoreModalProps) {
 
   const canUpgrade = (): boolean => {
     if (!currentUpgradeType) return false;
-    
+
     const currentLevel = upgradeLevels[currentUpgradeType];
     const upgradeInfo = UPGRADE_INFO[currentUpgradeType];
-    
+
     if (currentLevel >= upgradeInfo.maxLevel) return false;
-    
+
     if (currentUpgradeType === 'building' && hasBuildingRequirements(upgradeInfo)) {
-      const requiredValue = upgradeInfo.enterpriseValueRequirements[currentLevel - 1]; 
+      const requiredValue = upgradeInfo.enterpriseValueRequirements[currentLevel];
       if (gameDataStore.enterpriseValue < requiredValue) return false;
     }
-    
+
     return true;
   };
 
   const hasEnoughMoney = (): boolean => {
     if (!currentUpgradeType) return false;
     const currentLevel = upgradeLevels[currentUpgradeType];
-    const cost = UPGRADE_INFO[currentUpgradeType].costs[currentLevel - 1]; 
+    const cost = UPGRADE_INFO[currentUpgradeType].costs[currentLevel];
     return gameDataStore.finance >= cost;
   };
 
@@ -190,13 +190,13 @@ function StoreModal({ onClose }: StoreModalProps) {
     }
 
     const currentLevel = upgradeLevels[currentUpgradeType];
-    const cost = UPGRADE_INFO[currentUpgradeType].costs[currentLevel - 1]; 
+    const cost = UPGRADE_INFO[currentUpgradeType].costs[currentLevel];
 
     setIsUpgrading(true);
 
     setTimeout(() => {
       gameDataStore.setFinance(gameDataStore.finance - cost);
-      
+
       switch (currentUpgradeType) {
         case 'commuteBus':
           gameDataStore.setCommuteBusLevel(currentLevel + 1);
@@ -225,23 +225,23 @@ function StoreModal({ onClose }: StoreModalProps) {
           gameDataStore.setOfficeLevel(newBuildingLevel);
           break;
       }
-      
+
       const upgradeInfo = UPGRADE_INFO[currentUpgradeType];
       if (hasProductivityBonus(upgradeInfo)) {
-        const bonus = upgradeInfo.productivityBonus[currentLevel - 1];
+        const bonus = upgradeInfo.productivityBonus[currentLevel];
         gameDataStore.setProductivity(gameDataStore.productivity + bonus);
       }
       if (hasEnterpriseValueBonus(upgradeInfo) || hasBuildingRequirements(upgradeInfo)) {
-        const bonus = hasEnterpriseValueBonus(upgradeInfo) 
-          ? upgradeInfo.enterpriseValueBonus[currentLevel - 1]
-          : (upgradeInfo as BuildingUpgradeInfo).enterpriseValueBonus[currentLevel - 1];
+        const bonus = hasEnterpriseValueBonus(upgradeInfo)
+          ? upgradeInfo.enterpriseValueBonus[currentLevel]
+          : (upgradeInfo as BuildingUpgradeInfo).enterpriseValueBonus[currentLevel];
         gameDataStore.setEnterpriseValue(gameDataStore.enterpriseValue + bonus);
       }
 
       setTimeout(() => {
         setIsUpgrading(false);
         triggerRerender();
-        
+
         const currentSaveIdx = saveStore.currentSaveIdx;
         const currentSave = saveStore.saves[currentSaveIdx];
         const updatedSave = {
@@ -300,34 +300,31 @@ function StoreModal({ onClose }: StoreModalProps) {
             pointer-events-auto
             flex
             flex-col
-            justify-end
+            justify-center
             items-center
+            bg-white
+            rounded-xl
+            p-8
+            shadow-2xl
+            text-center
           "
           style={{
-            backgroundImage: `url(${storeBackgroundImage})`,
-            backgroundSize: 'contain',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
-            width: '600px',
-            height: '800px',
-            paddingTop: '120px',
-            paddingLeft: '80px',
-            paddingRight: '80px',
-            paddingBottom: '80px'
+            width: '500px',
+            height: '300px',
           }}
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="absolute top-16 right-16 z-50">
+          <div className="absolute top-4 right-4 z-50">
             <CloseButton
               onClick={onClose}
-              className="w-8 h-8 rounded-full bg-red-500 hover:bg-red-600 text-white transition-colors flex items-center justify-center font-bold text-lg shadow-xl border-2 border-white"
+              className="w-8 h-8 rounded-full bg-gray-500 hover:bg-gray-600 text-white transition-colors flex items-center justify-center font-bold text-lg shadow-xl"
             >
               ×
             </CloseButton>
           </div>
           <div className="w-full flex flex-col items-center z-10 p-4">
-            <h2 className="font-extrabold text-3xl text-center mb-4 text-white drop-shadow-lg stroke-black" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.8)' }}>🎉 축하합니다!</h2>
-            <p className="text-lg text-center text-white font-semibold drop-shadow-md" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.8)' }}>
+            <h2 className="font-extrabold text-3xl text-center mb-4 text-black">🎉 축하합니다!</h2>
+            <p className="text-lg text-center text-gray-600 font-semibold">
               모든 업그레이드를 완료했습니다!
             </p>
           </div>
@@ -338,16 +335,16 @@ function StoreModal({ onClose }: StoreModalProps) {
 
   const upgradeInfo = UPGRADE_INFO[currentUpgradeType];
   const currentLevel = upgradeLevels[currentUpgradeType];
-  const cost = upgradeInfo.costs[currentLevel - 1]; 
+  const cost = upgradeInfo.costs[currentLevel];
   const canUpgradeThis = canUpgrade();
   const hasMoneyFor = hasEnoughMoney();
 
   let statusText = "";
-  let buttonText = "레벨 " + (currentLevel + 1) + "로 업그레이드!";
+  let buttonText = `레벨 ${currentLevel + 1}로 업그레이드!`;
 
   if (!canUpgradeThis) {
     if (currentUpgradeType === 'building' && hasBuildingRequirements(upgradeInfo)) {
-      const requiredValue = upgradeInfo.enterpriseValueRequirements[currentLevel - 1]; 
+      const requiredValue = upgradeInfo.enterpriseValueRequirements[currentLevel];
       const shortage = requiredValue - gameDataStore.enterpriseValue;
       statusText = `기업가치가 ${shortage.toLocaleString()} 부족합니다`;
       buttonText = "업그레이드 불가";
@@ -358,16 +355,16 @@ function StoreModal({ onClose }: StoreModalProps) {
     buttonText = "자금 부족";
   }
 
-  const currentIcon = upgradeInfo.icons[currentLevel - 1]; 
-  
-  const isImageIcon = typeof currentIcon === 'string' && currentIcon.includes('.png'); 
+  const currentIcon = upgradeInfo.icons[currentLevel];
+
+  const isImageIcon = typeof currentIcon === 'string' && currentIcon.includes('.png');
 
   return (
     <>
       {isUpgrading && (
         <div className="fixed inset-0 flex justify-center items-center z-[100] pointer-events-none">
           <div className="upgrade-success-animation animate-popIn">
-            <p className="text-white text-4xl md:text-5xl font-extrabold animate-typewriter animate-flash animate-zoomIn">
+            <p className="text-black text-4xl md:text-5xl font-extrabold animate-typewriter animate-flash animate-zoomIn">
               업그레이드 성공! 🎉
             </p>
           </div>
@@ -416,10 +413,10 @@ function StoreModal({ onClose }: StoreModalProps) {
           }}
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="absolute top-16 right-16 z-50">
+          <div className="absolute top-30 right-16 z-50">
             <CloseButton
               onClick={onClose}
-              className="w-8 h-8 rounded-full bg-red-500 hover:bg-red-600 text-white transition-colors flex items-center justify-center font-bold text-lg shadow-xl border-2 border-white"
+              className="w-8 h-8 rounded-full bg-gray-500 hover:bg-gray-600 text-white transition-colors flex items-center justify-center font-bold text-lg shadow-xl border-2 border-white"
             >
               ×
             </CloseButton>
@@ -428,22 +425,24 @@ function StoreModal({ onClose }: StoreModalProps) {
             <div className="w-full h-full flex flex-col items-center justify-start">
               <div className="w-full max-w-[200px] h-[150px] flex items-center justify-center">
                 {isImageIcon ? (
-                  <img 
-                    src={currentIcon} 
+                  <img
+                    src={currentIcon}
                     alt={upgradeInfo.name}
                     className="w-32 h-28 object-contain animate-bounce-slow"
                   />
                 ) : (
-                  <div className="text-6xl animate-bounce-slow text-gray-800">
-                    {currentIcon}
+                  <div className="flex justify-center items-center w-32 h-28 rounded-xl bg-white animate-bounce-slow">
+                    <span className="text-6xl text-black">
+                      {currentIcon}
+                    </span>
                   </div>
                 )}
               </div>
-              <h2 className="font-extrabold text-xl text-center mb-2 text-white" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.8)' }}>
+              <h2 className="font-extrabold text-xl text-center mb-2 text-black">
                 {upgradeInfo.name}
               </h2>
-              <p className="text-sm text-white mb-3" style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>
-                현재 진행도: <span className="font-bold text-yellow-300">{currentLevel} / {upgradeInfo.maxLevel}</span>
+              <p className="text-sm text-black mb-3">
+                현재 진행도: <span className="font-bold text-[#FF8C00]">{currentLevel} / {upgradeInfo.maxLevel}</span>
               </p>
             </div>
 
@@ -451,10 +450,10 @@ function StoreModal({ onClose }: StoreModalProps) {
               {canUpgradeThis && hasMoneyFor ? (
                 <UpgradeButton
                   className="
-                    w-full
-                    bg-blue-500
-                    hover:bg-blue-600
-                    text-white
+                    w-2/3
+                    bg-orange-400
+                    hover:bg-orange-500
+                    text-black
                     px-1
                     py-3
                     my-3
@@ -473,7 +472,7 @@ function StoreModal({ onClose }: StoreModalProps) {
               ) : (
                 <button
                   className="
-                    w-full
+                    w-2/3
                     bg-gray-400
                     text-white
                     px-6
@@ -491,31 +490,31 @@ function StoreModal({ onClose }: StoreModalProps) {
                 </button>
               )}
               <div className="text-center w-full">
-                <p className="text-sm text-white mb-2" style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>
-                  자본: <span className="font-bold text-green-300">{cost.toLocaleString()}원</span>
+                <p className="text-sm text-black mb-2">
+                  자본: <span className="font-bold text-black">{cost.toLocaleString()}원</span>
                 </p>
-                
+
                 {currentUpgradeType === 'building' && hasBuildingRequirements(upgradeInfo) && (
-                  <p className="text-xs text-white mb-1" style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>
-                    필요 기업가치: <span className="font-bold text-yellow-300">{upgradeInfo.enterpriseValueRequirements[currentLevel - 1].toLocaleString()}</span>
+                  <p className="text-xs text-black mb-1">
+                    필요 기업가치: <span className="font-bold text-black">{upgradeInfo.enterpriseValueRequirements[currentLevel].toLocaleString()}</span>
                   </p>
                 )}
 
                 {hasProductivityBonus(upgradeInfo) && (
-                  <p className="text-xs text-blue-300" style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>
-                    생산성 +{upgradeInfo.productivityBonus[currentLevel - 1]}
+                  <p className="text-xs text-black">
+                    생산성 +{upgradeInfo.productivityBonus[currentLevel]}
                   </p>
                 )}
                 {(hasEnterpriseValueBonus(upgradeInfo) || hasBuildingRequirements(upgradeInfo)) && (
-                  <p className="text-xs text-purple-300" style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>
-                    기업가치 +{hasEnterpriseValueBonus(upgradeInfo) 
-                      ? upgradeInfo.enterpriseValueBonus[currentLevel - 1]
-                      : (upgradeInfo as BuildingUpgradeInfo).enterpriseValueBonus[currentLevel - 1]}
+                  <p className="text-xs text-black">
+                    기업가치 +{hasEnterpriseValueBonus(upgradeInfo)
+                      ? upgradeInfo.enterpriseValueBonus[currentLevel]
+                      : (upgradeInfo as BuildingUpgradeInfo).enterpriseValueBonus[currentLevel]}
                   </p>
                 )}
 
                 {statusText && (
-                  <p className={`text-xs text-red-300 mt-1 font-semibold`} style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>
+                  <p className={`text-xs text-red-600 mt-1 font-semibold`}>
                     {statusText}
                   </p>
                 )}
