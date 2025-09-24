@@ -71,7 +71,7 @@ export const getKakaoWithdrawUrl = () => {
  * @param {string} authCode 카카오에서 받은 authorization code
  * @returns {Promise<Object>} 토큰 정보 객체
  */
-export const getKakaoToken = async (authCode) => {
+export const getKakaoToken = async (authCode: string) => {
   const { REST_API_KEY, REDIRECT_URI } = KAKAO_CONFIG;
 
   const params = new URLSearchParams({
@@ -104,7 +104,7 @@ export const getKakaoToken = async (authCode) => {
  * @param {string} accessToken 카카오 액세스 토큰
  * @returns {Promise<Object>} 사용자 정보 객체
  */
-export const getKakaoUserInfo = async (accessToken) => {
+export const getKakaoUserInfo = async (accessToken: string) => {
   const response = await fetch('https://kapi.kakao.com/v2/user/me', {
     method: 'GET',
     headers: {

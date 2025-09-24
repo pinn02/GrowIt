@@ -10,7 +10,7 @@ import DifficultyTemplate from "../components/templates_work/DifficultyTemplate"
 import CeoSelectTemplate from "../components/templates_work/CeoSelectTemplate"
 import loginPageBackgroundImage from "../assets/background_images/start_page_background_image.png"
 import { defaultSave } from "../stores/saveStore"
-import { getKakaoToken, getKakaoUserInfo } from "../config/kakaoConfig.js"
+import { getKakaoToken, getKakaoUserInfo } from "../config/kakaoConfig"
 
 // 시작 페이지
 function StartPage() {
