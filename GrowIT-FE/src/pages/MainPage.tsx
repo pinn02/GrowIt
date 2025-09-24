@@ -17,7 +17,6 @@ function MainPage() {
   const [activeRandomEventModal, setActiveRandomEventModal] = useState(false)
   const [activeStoreModal, setActiveStoreModal] = useState(false)
   const [showTurnTransition, setShowTurnTransition] = useState(false)
-  // const gameDataStore = useGameDataStore()
   // const [activeReportModal, setActiveReportModal] = useState(false)
 
   // 액션 버튼 모달
