@@ -25,13 +25,11 @@ function MainPage() {
   const currentSaveIdx = saveStore.currentSaveIdx
   const gameDataStore = useGameDataStore()
 
-  // 스토리 모달 기능
+  // 스토리 모달 기능 - 세션 저장소 대신 게임 상태 기반으로 바꿈
   useEffect(() => {
+    // 첫 번째 턴에서 스토리 모달을 보여준다
     if (gameDataStore.turn === 1) {
-      const hasSeenStory = sessionStorage.getItem('hasSeenGameStory')
-      if (!hasSeenStory) {
-        setShowStoryModal(true)
-      }
+      setShowStoryModal(true)
     }
   }, [gameDataStore.turn])
 
@@ -43,21 +41,9 @@ function MainPage() {
     }
   }, [finance, navigate])
 
-  // 게임이 첫 턴이고 아직 스토리를 보지 않았다면 스토리 모달 표시
-  useEffect(() => {
-    if (gameDataStore.turn === 1) {
-      // 세션 스토리지를 사용해서 새로고침해도 다시 안 뜨게 함
-      const hasSeenStory = sessionStorage.getItem('hasSeenGameStory')
-      if (!hasSeenStory) {
-        setShowStoryModal(true)
-      }
-    }
-  }, [gameDataStore.turn])
-
-  // 스토리 모달 닫기
+  // 스토리 모달 닫기 - sessionStorage 사용 제거
   const handleStoryClose = () => {
     setShowStoryModal(false)
-    sessionStorage.setItem('hasSeenGameStory', 'true')
   }
 
   // 액션 버튼 모달
