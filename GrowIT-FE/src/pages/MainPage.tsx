@@ -94,7 +94,8 @@ function MainPage() {
         </div>
       )}
       
-      <InformationBar 
+      <InformationBar
+        onClose={() => setActiveModal(null)}
         onRandomEvent={handleRandomEventModal} 
         onStore={handleStoreModal}
         // onEventComplete={() => setShowTurnTransition(false)}
