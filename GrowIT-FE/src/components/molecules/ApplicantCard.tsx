@@ -40,7 +40,7 @@ function ApplicantCard({ applicant }: ApplicantCardProps) {
   const setHiringButton = useButtonStore((state) => state.setHiringButton)
 
   const currentCost = applicant.salary * gameDataStore.hiringInput
-  const currentReward = applicant.productivity * gameDataStore.hiringOutput
+  const currentReward = Math.round(applicant.productivity * gameDataStore.hiringOutput)
 
   // 버튼 클릭 시 고용 관련 동작
   const hiringSelected = () => {
@@ -64,7 +64,7 @@ function ApplicantCard({ applicant }: ApplicantCardProps) {
       
       <div className="absolute left-[10%] top-[58%] w-[80%]">
         <p className="font-bold text-clamp-title text-center">{applicant.name}</p>
-        <p className="text-clamp-base">{applicant.position}</p>
+        <p className="text-clamp-base truncate">{applicant.position}</p>
         <p className="text-clamp-base">생산성: {currentReward}</p>
         <p className="text-clamp-base">급여: {currentCost.toLocaleString()}G</p>
         <div className="flex justify-center">
