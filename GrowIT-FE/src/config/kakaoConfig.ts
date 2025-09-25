@@ -7,7 +7,8 @@
  */
 
 // 카카오 개발자 콘솔에서 발급받은 REST API 키
-const KAKAO_REST_API_KEY = '95683382f8db993c719b307fccff03fd';
+// 배포 환경에서는 환경변수 사용, 로컬에서는 기본값 사용
+const KAKAO_REST_API_KEY = import.meta.env.VITE_KAKAO_REST_API_KEY || 'tU4HQpvdU1P46vcnZ2J0lbe2b8cIYbyp';
 
 // 카카오 OAuth 관련 설정
 export const KAKAO_CONFIG = {
