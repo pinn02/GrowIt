@@ -1,5 +1,3 @@
-import financeIcon from '../../assets/icons/coin.png'
-
 type FinanceModalProps = {
   isOpen: boolean
   onClose: () => void

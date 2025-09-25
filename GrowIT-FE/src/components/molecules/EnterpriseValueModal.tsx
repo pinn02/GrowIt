@@ -1,6 +1,3 @@
-import { useGameDataStore } from '../../stores/gameDataStore'
-import enterpriseIcon from '../../assets/icons/enterprise.png'
-
 type EnterpriseValueModalProps = {
   isOpen: boolean
   onClose: () => void
@@ -28,8 +25,7 @@ function EnterpriseValueModal({ isOpen, onClose }: EnterpriseValueModalProps) {
           <p className="text-gray-800">• 엔딩에서 기업의 규모를 정합니다</p>
         </div>
       </div>
-      
-      {/* 투명한 배경 클릭 영역 */}
+      ss
       <div 
         className="fixed inset-0 -z-10" 
         onClick={onClose}

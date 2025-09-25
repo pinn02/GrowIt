@@ -1,5 +1,3 @@
-import productivityIcon from '../../assets/icons/productivity.png'
-
 type ProductivityModalProps = {
   isOpen: boolean
   onClose: () => void
