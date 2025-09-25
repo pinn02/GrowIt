@@ -1,7 +1,11 @@
+<<<<<<< HEAD
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useGameDataStore } from "../stores/gameDataStore"
 import { defaultSave, useSaveStore } from "../stores/saveStore"
+=======
+import { useState, useEffect } from "react"
+>>>>>>> frontend
 import InformationBar from "../components/organisms/InformationBar"
 import HiringModal from "../components/organisms/HiringModal"
 import MarketingModal from "../components/organisms/MarketingModal"
@@ -10,7 +14,14 @@ import ProjectModal from "../components/organisms/ProjectModal"
 import RandomEventModal from "../components/organisms/RandomEventModal"
 import StoreModal from "../components/organisms/StoreModal"
 import StoryModal from "../components/organisms/StoryModal"
+<<<<<<< HEAD
 import MainTemplate from "../components/templates_work/MainTemplate"
+=======
+// import ReportModal from "../components/organisms/ReportModal"
+import MainTemplate from "../components/templates_work/MainTemplate"
+import { useGameDataStore } from "../stores/gameDataStore"
+// import hintIcon from "../assets/icons/hint.png"
+>>>>>>> frontend
 
 function MainPage() {
   const [activeModal, setActiveModal] = useState<number | null>(null);
@@ -49,6 +60,25 @@ function MainPage() {
       navigate("/bankruptcy")
     }
   }, [finance, navigate])
+
+  const gameDataStore = useGameDataStore()
+
+  // 게임이 첫 턴이고 아직 스토리를 보지 않았다면 스토리 모달 표시
+  useEffect(() => {
+    if (gameDataStore.turn === 1) {
+      // 세션 스토리지를 사용해서 새로고침해도 다시 안 뜨게 함
+      const hasSeenStory = sessionStorage.getItem('hasSeenGameStory')
+      if (!hasSeenStory) {
+        setShowStoryModal(true)
+      }
+    }
+  }, [gameDataStore.turn])
+
+  // 스토리 모달 닫기
+  const handleStoryClose = () => {
+    setShowStoryModal(false)
+    sessionStorage.setItem('hasSeenGameStory', 'true')
+  }
 
   // 액션 버튼 모달
   const toggleModal = (index: number) => {
