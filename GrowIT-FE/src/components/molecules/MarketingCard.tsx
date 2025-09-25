@@ -43,9 +43,12 @@ function MarketingCard({ marketing }: MarketingCardProps) {
           <div className="w-1/2 flex justify-center">
             <img src={marketing.image} alt={`${marketing.name} 아이콘`} className="w-full h-auto object-contain block" />
           </div>
-          <div className="w-full flex flex-col items-center text-center">
-            <p className="text-sm text-clamp-base leading-relaxed text-center px-3 font-medium text-gray-700 h-12 flex items-center justify-center">
+          <div className="w-[70%] flex flex-col items-center text-center">
+            <p className="truncate text-sm text-clamp-base leading-relaxed text-center px-3 font-medium text-gray-700 h-12 flex items-center justify-center">
               {marketing.action}
+            </p>
+            <p className="text-clamp-base mb-1">
+              기업가치: {currentReward.toLocaleString()}
             </p>
             <p className="text-clamp-base mb-1">
               비용: {currentCost.toLocaleString()}G

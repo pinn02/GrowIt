@@ -24,7 +24,7 @@ function ProjectCard({ project }: ProjectCardProps) {
   const setProjectButton = useButtonStore((state) => state.setProjectButton)
   const hiringCount = useGameDataStore((state) => state.hiredPerson.length)
   const currentTurn = project.turn - hiringCount > 0 ? project.turn - hiringCount : 0
-  const currentReward = project.reward * gameDataStore.projectOutput
+  const currentReward = Math.round(project.reward * gameDataStore.projectOutput)
 
   // 프로젝트 선택 시 이벤트
   const projectSelected = (pName: string, pTurn: number, pReward: number) => {
