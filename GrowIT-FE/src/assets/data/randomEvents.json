@@ -1,0 +1,178 @@
+[
+  {
+    "title": "SNS 챌린지 성공",
+    "content": "바이럴 마케팅 확산",
+    "finance": 300000,
+    "enterpriseValue": 30,
+    "productivity": 100,
+    "image": "random_events/positive.gif"
+  },
+  {
+    "title": "정부 지원금 획득",
+    "content": "지원금 수령",
+    "finance": 500000,
+    "enterpriseValue": 0,
+    "productivity": 100,
+    "image": "random_events/positive.gif"
+  },
+  {
+    "title": "특허 등록 성공",
+    "content": "특허 사업화",
+    "finance": 100000,
+    "enterpriseValue": 50,
+    "productivity": 0,
+    "image": "random_events/positive.gif"
+  },
+  {
+    "title": "대기업 협업",
+    "content": "파트너십 체결",
+    "finance": 300000,
+    "enterpriseValue": 30,
+    "productivity": 100,
+    "image": "random_events/positive.gif"
+  },
+  {
+    "title": "리스크 투자",
+    "content": "투자 성공",
+    "finance": 500000,
+    "enterpriseValue": 30,
+    "productivity": 100,
+    "image": "random_events/positive.gif"
+  },
+  {
+    "title": "세계적 수상",
+    "content": "글로벌 진출",
+    "finance": 500000,
+    "enterpriseValue": 30,
+    "productivity": 100,
+    "image": "random_events/positive.gif"
+  },
+  {
+    "title": "노동법 개정",
+    "content": "직원 만족도 상승",
+    "finance": 0,
+    "enterpriseValue": 50,
+    "productivity": 100,
+    "image": "random_events/positive.gif"
+  },
+  {
+    "title": "재택 근무 정착",
+    "content": "재택 근무 시스템 정착으로 업무 효율화",
+    "finance": 0,
+    "enterpriseValue": 0,
+    "productivity": 200,
+    "image": "random_events/positive.gif"
+  },
+  {
+    "title": "신기술 발표 성공",
+    "content": "자사의 기술 발표가 시장의 큰 주목을 받음",
+    "finance": 0,
+    "enterpriseValue": 20,
+    "productivity": 0,
+    "image": "random_events/positive.gif"
+  },
+  {
+    "title": "지역 사회 공헌 활동",
+    "content": "사회적 기업 이미지 강화",
+    "finance": 0,
+    "enterpriseValue": 10,
+    "productivity": 0,
+    "image": "random_events/positive.gif"
+  },
+  {
+    "title": "벤처 투자 유치 성공",
+    "content": "벤처캐피탈 대규모 투자 유치",
+    "finance": 0,
+    "enterpriseValue": 30,
+    "productivity": 0,
+    "image": "random_events/positive.gif"
+  },
+  {
+    "title": "세무조사",
+    "content": "세무조사 비용 지불",
+    "finance": -300000,
+    "enterpriseValue": 0,
+    "productivity": 0,
+    "image": "random_events/negative.gif"
+  },
+  {
+    "title": "데이터 유출 사고",
+    "content": "보안 강화 조치",
+    "finance": -300000,
+    "enterpriseValue": 0,
+    "productivity": -100,
+    "image": "random_events/negative.gif"
+  },
+  {
+    "title": "핵심 인력 이탈",
+    "content": "대체 인력 채용",
+    "finance": -100000,
+    "enterpriseValue": 0,
+    "productivity": -300,
+    "image": "random_events/negative.gif"
+  },
+  {
+    "title": "노조 파업",
+    "content": "노조 파업으로 인한 임금 인상",
+    "finance": -300000,
+    "enterpriseValue": 0,
+    "productivity": 300,
+    "image": "random_events/negative.gif"
+  },
+  {
+    "title": "리스크 투자",
+    "content": "투자 실패",
+    "finance": -300000,
+    "enterpriseValue": 0,
+    "productivity": -100,
+    "image": "random_events/negative.gif"
+  },
+  {
+    "title": "자연재해/펜데믹",
+    "content": "비상 대응",
+    "finance": -300000,
+    "enterpriseValue": 0,
+    "productivity": -500,
+    "image": "random_events/negative.gif"
+  },
+  {
+    "title": "전염병 확산",
+    "content": "재택 근무 전환",
+    "finance": -100000,
+    "enterpriseValue": -10,
+    "productivity": -150,
+    "image": "random_events/negative.gif"
+  },
+  {
+    "title": "제품 이슈 언론 보도",
+    "content": "제품 문제로 브랜드 신뢰 하락",
+    "finance": -200000,
+    "enterpriseValue": -20,
+    "productivity": 0,
+    "image": "random_events/negative.gif"
+  },
+  {
+    "title": "기업 간 집단 소송",
+    "content": "법적 분쟁 발생",
+    "finance": -300000,
+    "enterpriseValue": -15,
+    "productivity": 0,
+    "image": "random_events/negative.gif"
+  },
+  {
+    "title": "IT 시스템 마비",
+    "content": "서버 다운 등 기술 장애 발생",
+    "finance": -300000,
+    "enterpriseValue": 0,
+    "productivity": -200,
+    "image": "random_events/negative.gif"
+  },
+  {
+    "title": "디도스 공격",
+    "content": "외부 공격으로 온라인 서비스 중단",
+    "finance": -100000,
+    "enterpriseValue": -10,
+    "productivity": -100,
+    "image": "random_events/negative.gif"
+  }
+]
