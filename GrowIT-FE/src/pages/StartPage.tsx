@@ -11,7 +11,7 @@ import CeoSelectTemplate from "../components/templates_work/CeoSelectTemplate"
 import loginPageBackgroundImage from "../assets/background_images/start_page_background_image.png"
 import { defaultSave } from "../stores/saveStore"
 import { getKakaoToken, getKakaoUserInfo } from "../config/kakaoConfig"
-import { trackKakaoLogin, trackPageView } from "../config/ga4Config"
+// import { trackKakaoLogin, trackPageView } from "../config/ga4Config"
 
 // 시작 페이지
 function StartPage() {
