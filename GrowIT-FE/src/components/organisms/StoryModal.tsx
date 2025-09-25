@@ -22,7 +22,7 @@ function StoryModal({ onClose }: StoryModalProps) {
     if (showAnimation) {
       const buttonTimer = setTimeout(() => {
         setShowButton(true);
-      }, 12000); 
+      }, 9000); 
       
       return () => clearTimeout(buttonTimer);
     }

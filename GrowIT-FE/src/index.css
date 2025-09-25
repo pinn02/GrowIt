@@ -242,7 +242,7 @@ body {
 
 @keyframes modal-scroll {
   0% {
-    transform: translateY(100%);
+    transform: translateY(70%);
   }
   100% {
     transform: translateY(-100%);
