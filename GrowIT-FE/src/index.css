@@ -179,3 +179,76 @@ body {
 .fade-out {
   animation: fadeOut 0.01s ease-out forwards;
 }
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes credits-scroll {
+  0% {
+    transform: translateX(-50%) translateY(100vh);
+  }
+  100% {
+    transform: translateX(-50%) translateY(-100%);
+  }
+}
+
+.animate-credits-scroll {
+  animation: credits-scroll 25s linear forwards;
+}
+
+@keyframes simple-scroll {
+  0% {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+}
+
+.animate-simple-scroll {
+  animation: simple-scroll 18s ease-in-out forwards;
+}
+
+@keyframes fast-scroll {
+  0% {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  92% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+}
+
+.animate-fast-scroll {
+  animation: fast-scroll 1s ease-in-out forwards;
+}
+
+@keyframes modal-scroll {
+  0% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: translateY(-100%);
+  }
+}
+
+.animate-modal-scroll {
+  animation: modal-scroll 15s linear forwards;
+}
