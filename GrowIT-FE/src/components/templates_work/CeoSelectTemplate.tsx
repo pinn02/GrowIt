@@ -6,16 +6,26 @@ import PageIndicator from "../molecules/PageIndicator"
 import SliderButton from "../atoms/SliderButton"
 
 // CEO 이미지 import
-import steveJobsImg from "../../assets/ceos/SteveJobs.png"
 import BillGatesImg from "../../assets/ceos/BillGates.png"
 import elonMuskImg from "../../assets/ceos/ElonMusk.png"
 import markZuckerbergImg from "../../assets/ceos/MarkZuckerberg.png"
 import donaldTrumpImg from "../../assets/ceos/DonaldTrump.png"
 import jensenHuangImg from "../../assets/ceos/JensenHuang.png"
 import jeffreyBezosImg from "../../assets/ceos/JeffreyBezos.png"
-import { useSaveStore } from "../../stores/saveStore"
+import steveJobsImg from "../../assets/ceos/SteveJobs.png"
 
+import { useSaveStore } from "../../stores/saveStore"
 import { defaultSave } from "../../stores/saveStore"
+
+export const CeoNames = [
+  "빌 게이츠",
+  "일론 머스크",
+  "마크 주커버그",
+  "도날드 트럼프",
+  "젠슨 황",
+  "제프 베이조스",
+  "스티브 잡스"
+]
 
 // CEO 정보 타입 정의
 type CeoInfo = {
@@ -75,22 +85,7 @@ function CeoSelectTemplate({ onCeoSelect }: CeoSelectTemplateProps) {
   // CEO 목록
   const ceoList: CeoInfo[] = [
     {
-      name: "스티브 잡스",
-      image: steveJobsImg,
-      description: ["혁신적인 마케팅과 프로젝트 실행력의 대명사"],
-      effects: {
-        positive: ["마케팅 보상 1.5배"],
-        negative: ["생산성 증가 0.8배"]
-      },
-      ceoEffectData: {
-        ...defaultCeoEffectData,
-        marketingOutput: 1.5,
-        hiringOutput: 0.8,
-        goodRandomEventProductivity: 0.8,
-      }
-    },
-    {
-      name: "빌 게이츠",
+      name: CeoNames[0],
       image: BillGatesImg,
       description: ["기술 혁신과 전략적 특허 투자의 선구자"],
       effects: {
@@ -108,7 +103,7 @@ function CeoSelectTemplate({ onCeoSelect }: CeoSelectTemplateProps) {
       }
     },
     {
-      name: "일론 머스크",
+      name: CeoNames[1],
       image: elonMuskImg,
       description: ["압도적인 생산성과 위험한 도전 정신의 소유자"],
       effects: {
@@ -125,7 +120,7 @@ function CeoSelectTemplate({ onCeoSelect }: CeoSelectTemplateProps) {
       }
     },
     {
-      name: "마크 주커버그",
+      name: CeoNames[2],
       image: markZuckerbergImg,
       description: ["소셜 미디어와 마케팅 전략의 천재"],
       effects: {
@@ -140,7 +135,7 @@ function CeoSelectTemplate({ onCeoSelect }: CeoSelectTemplateProps) {
       }
     },
     {
-      name: "도날드 트럼프",
+      name: CeoNames[3],
       image: donaldTrumpImg,
       description: ["화제성과 미디어 활용의 달인, 자본력 보유"],
       effects: {
@@ -158,7 +153,7 @@ function CeoSelectTemplate({ onCeoSelect }: CeoSelectTemplateProps) {
       }
     },
     {
-      name: "젠슨 황",
+      name: CeoNames[4],
       image: jensenHuangImg,
       description: ["AI와 GPU 기술 혁신의 선두주자"],
       effects: {
@@ -172,7 +167,7 @@ function CeoSelectTemplate({ onCeoSelect }: CeoSelectTemplateProps) {
       }
     },
     {
-      name: "제프 베이조스",
+      name: CeoNames[5],
       image: jeffreyBezosImg,
       description: ["글로벌 확장과 효율적인 마케팅의 대가"],
       effects: {
@@ -184,9 +179,24 @@ function CeoSelectTemplate({ onCeoSelect }: CeoSelectTemplateProps) {
         projectOutput: 1.5,
         marketingInput: 1.2
       }
-    }
+    },
+    {
+      name: CeoNames[6],
+      image: steveJobsImg,
+      description: ["혁신적인 마케팅과 프로젝트 실행력의 대명사"],
+      effects: {
+        positive: ["마케팅 보상 1.5배"],
+        negative: ["생산성 증가 0.8배"]
+      },
+      ceoEffectData: {
+        ...defaultCeoEffectData,
+        marketingOutput: 1.5,
+        hiringOutput: 0.8,
+        goodRandomEventProductivity: 0.8,
+      }
+    },
   ]
-
+  
   const itemsPerPage = 3
   const totalPages = Math.ceil(ceoList.length / itemsPerPage)
 
