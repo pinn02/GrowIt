@@ -22,11 +22,11 @@ const MAX_TURN = 30  // 게임의 종료 턴
 type InformationBarProps = {
   onRandomEvent: () => void
   onStore: () => void
-  onClose: () => void
+  onCloseAllModals?: () => void  // 모든 모달을 닫는 함수
 }
 
 // 정보 바
-function InformationBar({ onRandomEvent, onStore, onClose }: InformationBarProps) {
+function InformationBar({ onRandomEvent, onStore, onCloseAllModals }: InformationBarProps) {
   const navigate = useNavigate()
   const saveStore = useSaveStore()
   const buttonStore = useButtonStore()
@@ -41,7 +41,10 @@ function InformationBar({ onRandomEvent, onStore, onClose }: InformationBarProps
 
   // 턴 종료 버튼 누를 시 이벤트
   const handleTurnEnd = () => {
-    onClose()
+    // 모든 모달 닫기
+    if (onCloseAllModals) {
+      onCloseAllModals()
+    }
     
     // 턴 전환 애니메이션 시작
     setIsTransitioning(true)
