@@ -9,6 +9,7 @@ import InvestmentModal from "../components/organisms/InvestmentModal"
 import ProjectModal from "../components/organisms/ProjectModal"
 import RandomEventModal from "../components/organisms/RandomEventModal"
 import StoreModal from "../components/organisms/StoreModal"
+import StoryModal from "../components/organisms/StoryModal"
 import MainTemplate from "../components/templates_work/MainTemplate"
 
 function MainPage() {
@@ -16,11 +17,30 @@ function MainPage() {
   const [activeRandomEventModal, setActiveRandomEventModal] = useState(false)
   const [activeStoreModal, setActiveStoreModal] = useState(false)
   const [showTurnTransition, setShowTurnTransition] = useState(false)
+  const [showStoryModal, setShowStoryModal] = useState(false)
 
   const navigate = useNavigate()
   const saveStore = useSaveStore()
   const finance = useGameDataStore(state => state.finance)
   const currentSaveIdx = saveStore.currentSaveIdx
+
+  const gameDataStore = useGameDataStore()
+
+  // 스토리 모달 기능
+  useEffect(() => {
+    if (gameDataStore.turn === 1) {
+      const hasSeenStory = sessionStorage.getItem('hasSeenGameStory')
+      if (!hasSeenStory) {
+        setShowStoryModal(true)
+      }
+    }
+  }, [gameDataStore.turn])
+
+  const handleStoryClose = () => {
+    setShowStoryModal(false)
+    sessionStorage.setItem('hasSeenGameStory', 'true')
+  }
+
 
   // 파산 기능
   useEffect(() => {
@@ -93,6 +113,7 @@ function MainPage() {
 
       {activeRandomEventModal && <RandomEventModal onClose={handleEventComplete} />}
       {activeStoreModal && <StoreModal onClose={() => setActiveStoreModal(false)} />}
+      {showStoryModal && <StoryModal onClose={handleStoryClose} />}
     </>
   )
 }
