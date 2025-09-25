@@ -76,6 +76,7 @@ function InformationBar({ onRandomEvent, onStore }: InformationBarProps) {
     gameDataStore.setMarketingArray(getRandomUniqueArray(3, 0, 4))
     gameDataStore.setInvestmentArray(getRandomUniqueArray(2, 0, 14))
     gameDataStore.setProjectArray(getRandomUniqueArray(3, 0, 7))
+    
 
     // gameDataStore 갱신
     const latestData = {
