@@ -8,6 +8,7 @@ import newspaperImage from "../../assets/icons/newspaper.png";
 import snsImage from "../../assets/icons/sns.png";
 import tvImage from "../../assets/icons/tv.png";
 import marketingData from "../../assets/data/randomMarketing.json";
+import help2Icon from "../../assets/icons/help.png";
 
 const channelImages = [
   newspaperImage,
@@ -29,6 +30,7 @@ type MarketingModalProps = {
 // 마케팅 모달
 function MarketingModal({ onClose }: MarketingModalProps) {
   const [marketings, setMarketings] = useState<Marketing[]>([]);
+  const [showHelpModal, setShowHelpModal] = useState(false);
   const marketingArray = useGameDataStore(state => state.marketingArray)
   const currentSaveIdx = useSaveStore(state => state.currentSaveIdx)
 
@@ -66,13 +68,32 @@ function MarketingModal({ onClose }: MarketingModalProps) {
         <h2 className="absolute top-14 left-1/2 -translate-x-1/2 text-center text-4xl font-extrabold text-white drop-shadow-lg">
           마케팅
         </h2>
-        {/* 닫기 버튼 */}
-        <CloseButton
-          className="absolute top-12 right-15 text-white w-8 h-8 rounded-full flex items-center justify-center text-xl hover:text-gray-900 transition-colors"
-          onClick={onClose}
-        >
-          X
-        </CloseButton>
+        
+        {/* 버튼들 */}
+        <div className="absolute top-12 right-15 flex items-center gap-2">
+          {/* 도움말 버튼 */}
+          <button
+            className="
+              hover:bg-blue-100
+              transition-colors
+              p-2
+              rounded
+              inline-flex
+              items-center
+              justify-center
+            "
+            onClick={() => setShowHelpModal(true)}
+          >
+            <img src={help2Icon} alt="도움말" className="w-7 h-7" />
+          </button>
+          {/* 닫기 버튼 */}
+          <CloseButton
+            className="text-white w-8 h-8 rounded-full flex items-center justify-center text-xl hover:text-gray-900 transition-colors"
+            onClick={onClose}
+          >
+            X
+          </CloseButton>
+        </div>
         
         {/* 데이터 */}
         <div className="flex flex-col md:flex-row justify-center items-center gap-6 p-4">
@@ -80,6 +101,37 @@ function MarketingModal({ onClose }: MarketingModalProps) {
             <MarketingCard key={idx} marketing={marketing} />
           ))}
         </div>
+        
+        {/* 도움말 모달 */}
+        {showHelpModal && (
+          <div className="absolute top-16 right-20 z-50">
+            <div className="bg-white rounded-lg p-4 w-80 shadow-lg border border-gray-300 relative">
+              <div className="flex justify-between items-center mb-3">
+                <h3 className="text-lg font-bold text-black">마케팅 시스템 도움말</h3>
+                <button
+                  className="
+                    hover:bg-red-100
+                    text-black
+                    px-2
+                    py-1
+                    rounded
+                    transition-colors
+                    text-sm
+                  "
+                  onClick={() => setShowHelpModal(false)}
+                >
+                  X
+                </button>
+              </div>
+              <div className="text-black space-y-2">
+                <div className="space-y-1 text-xs">
+                  <p>• 1턴 당 1개의 마케팅 방식을 선택할 수 있습니다</p>
+                  <p>• 마케팅 시 기업가치가 상승합니다</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
