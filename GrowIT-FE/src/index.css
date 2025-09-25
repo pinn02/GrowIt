@@ -130,6 +130,15 @@
     50% { opacity: 0.8; }
   }
 
+  @keyframes spin-slow {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  .animate-spin-slow {
+    animation: spin-slow 6s linear infinite;
+  }
+
   .animate-fadeIn { animation: fadeIn 0.5s ease-out forwards; }
   .animate-popIn { animation: popIn 0.5s ease-out forwards; }
   .animate-bounce-slow { animation: bounce-slow 4s infinite; }
@@ -178,4 +187,77 @@ body {
 
 .fade-out {
   animation: fadeOut 0.01s ease-out forwards;
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes credits-scroll {
+  0% {
+    transform: translateX(-50%) translateY(100vh);
+  }
+  100% {
+    transform: translateX(-50%) translateY(-100%);
+  }
+}
+
+.animate-credits-scroll {
+  animation: credits-scroll 25s linear forwards;
+}
+
+@keyframes simple-scroll {
+  0% {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+}
+
+.animate-simple-scroll {
+  animation: simple-scroll 18s ease-in-out forwards;
+}
+
+@keyframes fast-scroll {
+  0% {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  92% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+}
+
+.animate-fast-scroll {
+  animation: fast-scroll 1s ease-in-out forwards;
+}
+
+@keyframes modal-scroll {
+  0% {
+    transform: translateY(70%);
+  }
+  100% {
+    transform: translateY(-100%);
+  }
+}
+
+.animate-modal-scroll {
+  animation: modal-scroll 15s linear forwards;
 }
