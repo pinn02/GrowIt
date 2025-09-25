@@ -56,13 +56,20 @@ function MainPage() {
     setActiveRandomEventModal(true)
   }
 
-  // 이벤트 완료 후 턴 전환 애니메이션 표시
+  // 모든 모달을 닫는 함수 (턴 종료 시 사용)
+  const handleCloseAllModals = () => {
+    // 모든 모달 상태를 false로 설정
+    setActiveModal(null)
+    setActiveRandomEventModal(false)
+    setActiveStoreModal(false)
+    setShowStoryModal(false)
+    console.log('턴 종료에 의해 모든 모달 자동 닫힘')
+  }
+
+  // 이벤트 완료 후 로딩창 없이 바로 종료
   const handleEventComplete = () => {
     setActiveRandomEventModal(false)
-    setShowTurnTransition(true)
-    setTimeout(() => {
-      setShowTurnTransition(false)
-    }, 1500)
+    // 로딩창 제거 - 기사 확인 완료 후에는 로딩 화면 안보이게
   }
 
   // 스토어 모달
@@ -94,10 +101,10 @@ function MainPage() {
         </div>
       )}
       
-      <InformationBar
-        onClose={() => setActiveModal(null)}
+      <InformationBar 
         onRandomEvent={handleRandomEventModal} 
         onStore={handleStoreModal}
+        onCloseAllModals={handleCloseAllModals}
         // onEventComplete={() => setShowTurnTransition(false)}
       />
       <MainTemplate openModal={toggleModal} />
