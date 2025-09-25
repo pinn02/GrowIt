@@ -17,7 +17,7 @@ function MainPage() {
   const [activeModal, setActiveModal] = useState<number | null>(null);
   const [activeRandomEventModal, setActiveRandomEventModal] = useState(false)
   const [activeStoreModal, setActiveStoreModal] = useState(false)
-  const [showTurnTransition, setShowTurnTransition] = useState(false)
+  const [showTurnTransition] = useState(false)
   const [showStoryModal, setShowStoryModal] = useState(false)
 
   const navigate = useNavigate()
