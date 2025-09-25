@@ -25,7 +25,6 @@ function EnterpriseValueModal({ isOpen, onClose }: EnterpriseValueModalProps) {
           <p className="text-gray-800">• 엔딩에서 기업의 규모를 정합니다</p>
         </div>
       </div>
-      ss
       <div 
         className="fixed inset-0 -z-10" 
         onClick={onClose}
