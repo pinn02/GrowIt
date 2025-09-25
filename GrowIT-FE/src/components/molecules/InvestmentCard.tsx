@@ -34,7 +34,7 @@ function InvestmentCard({ investment }: InvestmentCardProps) {
   }
 
   return (
-    <div className="relative w-[30%] aspect-[5/6] mx-3 mt-10 mb-30">
+    <div className="relative w-[40%] aspect-[1/1] mx-3 mt-10 mb-30">
       {/* 카드 배경 이미지 */}
       <img src={investmentCardImage} alt="투자 카드" className="w-full h-full object-fill" />
       
@@ -47,8 +47,11 @@ function InvestmentCard({ investment }: InvestmentCardProps) {
       
       {/* 투자 데이터 */}
       <div className="absolute left-[15%] top-[45%] w-[70%] h-[25%] flex flex-col justify-start">
-        <p className="text-clamp-base mb-2 leading-relaxed text-center px-1 font-medium text-gray-700">
+        <p className="truncate text-clamp-base mb-2 leading-relaxed text-center px-1 font-medium text-gray-700">
           {investment.content}
+        </p>
+        <p className="text-clamp-base text-center">
+          생산성: {currentReward.toLocaleString()}
         </p>
         <p className="text-clamp-base text-center">
           비용: {currentCost.toLocaleString()}G

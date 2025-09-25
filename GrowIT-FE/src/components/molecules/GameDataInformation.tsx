@@ -30,7 +30,7 @@ function GameDataInformation({ MAX_TURN }: GameDataInformationProps) {
         </p>
 
         {/* 진행 프로젝트 표시 */}
-        <div className='w-full flex flex-col'>
+        {/* <div className='w-full flex flex-col'>
           <p className='text-nowrap'>
             진행 프로젝트: {currentProject.turn > 0 ? currentProject.name : "없음"}
           </p>
@@ -40,7 +40,30 @@ function GameDataInformation({ MAX_TURN }: GameDataInformationProps) {
               : ""}
             {currentProject.turn > 0 && <AnimatedNumber value={currentProject.turn} />} 턴 남음
           </p>
+        </div> */}
+        
+        <div className="relative w-full flex flex-col rounded-xl p-[2px] overflow-hidden">
+          {/* 회전하는 그라데이션 테두리 */}
+          {currentProject.turn > 0 && (
+            <div className="absolute inset-0 rounded-xl p-[15px] animate-spin-slow bg-[conic-gradient(from_0deg,theme(colors.green.400),theme(colors.green.500),theme(colors.green.600),theme(colors.green.400))]"></div>
+          )}
+          <div className="relative flex flex-col w-full h-full rounded-lg bg-zinc-300 px-3 py-1">
+            <p className="text-nowrap">
+              진행 프로젝트: {currentProject.turn > 0 ? currentProject.name : "없음"}
+            </p>
+            <p className="text-nowrap">
+              {currentProject.turn > 0 ? (
+                <>
+                  보수: {currentProject.reward.toLocaleString()} x <span className='font-bold text-blue-700'>{productivityBonus}</span>
+                  <span> |{" "}</span>
+                  <AnimatedNumber value={currentProject.turn} /> 턴 남음
+                </>
+              ) : null}
+            </p>
+          </div>
         </div>
+
+
       </div>
 
       {/* 게임 데이터 표시 */}
