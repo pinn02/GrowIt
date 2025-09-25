@@ -5,11 +5,17 @@ import { useGameDataStore } from "../../stores/gameDataStore";
 import  { defaultSave } from "../../stores/saveStore"
 import type { SaveData } from "../../stores/saveStore"
 import SaveButton from "../atoms/Button";
+import logoImage from "../../assets/images/logo.png";
 
 const saveButtonSize = 800; // 세이브 버튼 최대 사이즈
 
 type SelectSaveTemplateProps = {
   onIsNewGame: (idx: number) => void
+}
+
+// 숫자에 쉼표 추가하는 함수
+const formatNumber = (num: number): string => {
+  return num.toLocaleString();
 }
 
 // 세이브 선택 템플릿
@@ -24,8 +30,18 @@ function SelectSaveTemplate({ onIsNewGame }: SelectSaveTemplateProps) {
   }
 
   return (
-    <div className="flex items-center justify-center w-full h-full relative z-10 px-16">
+    <div className="flex flex-col items-center justify-center w-full h-full relative z-10 px-16">
+      {/* 타이틀 영역 */}
+      <div className="mb-8">
+        <img 
+          src={logoImage} 
+          alt="GrowIT Logo" 
+          className="h-20 mx-auto mb-4"
+        />
+      </div>
+      
       <div className="text-center w-1/2">
+        <h1 className="text-xl font-bold text-white">원하는 세이브 파일을 골라 게임을 시작해보세요.</h1>
         {saveStore.saves.map((save, idx) => (
           <SaveButton
             key={idx}
@@ -102,7 +118,7 @@ function SelectSaveTemplate({ onIsNewGame }: SelectSaveTemplateProps) {
               ? (
                 <div className="w-full flex items-center justify-center">
                   <p className="text-center w-full truncate">
-                    {save.turn}턴 | 기업가치: {save.enterpriseValue} | 생산성: {save.productivity} | 자금: {save.finance} | {save.updatedAt}
+                    {save.updatedAt} | {save.turn}턴 | 기업가치: {formatNumber(save.enterpriseValue)} | 생산성: {formatNumber(save.productivity)} | 자본: {formatNumber(save.finance)}
                   </p>
                   <div className="flex items-center justify-end">
                     <div
