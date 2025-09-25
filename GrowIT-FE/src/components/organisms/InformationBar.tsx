@@ -11,7 +11,6 @@ import Logo from "../atoms/Logo"
 import GameDataInformation from "../molecules/GameDataInformation"
 import Button from "../atoms/Button"
 
-
 const logoHeight = 48;  // 로고 이미지 세로 사이즈
 const storeButtonSize = 100;  // 스토어 버튼 최대 사이즈
 const turnEndButtonSize = 100;  // 턴 종료 버튼 최대 사이즈
@@ -23,7 +22,6 @@ const MAX_TURN = 30  // 게임의 종료 턴
 type InformationBarProps = {
   onRandomEvent: () => void
   onStore: () => void
-  // onEventComplete?: () => void
 }
 
 // 정보 바
@@ -37,6 +35,7 @@ function InformationBar({ onRandomEvent, onStore }: InformationBarProps) {
   const [isTransitioning, setIsTransitioning] = useState(false)
   const [hasRandomEvent, setHasRandomEvent] = useState(false)
 
+  const productivityBonus = Math.floor(useGameDataStore(state => state.productivity) / 500) / 10 + 1
 
 
   // 턴 종료 버튼 누를 시 이벤트
@@ -50,7 +49,7 @@ function InformationBar({ onRandomEvent, onStore }: InformationBarProps) {
 
     // 프로젝트 완료 시
     if (projectNextTurn <= 0) {
-      gameDataStore.setFinance(gameDataStore.finance + (gameDataStore.currentProject.reward * gameDataStore.projectOutput))
+      gameDataStore.setFinance(gameDataStore.finance + gameDataStore.currentProject.reward * productivityBonus)
       const newProject = {
         name: "",
         turn: 0,
