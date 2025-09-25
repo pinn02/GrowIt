@@ -1,10 +1,10 @@
 import Bankruptcy from "../../assets/images/bankruptcy.png"
 
 const BankruptTemplate = () => {
-    return (
+  return (
     <div>
-        <img src={Bankruptcy} alt="파산 이미지" />
+      <img src={Bankruptcy} alt="파산 이미지" />
     </div>
-    )
+  )
 }
 export default BankruptTemplate
