@@ -1,4 +1,7 @@
 import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { useGameDataStore } from "../stores/gameDataStore"
+import { defaultSave, useSaveStore } from "../stores/saveStore"
 import InformationBar from "../components/organisms/InformationBar"
 import HiringModal from "../components/organisms/HiringModal"
 import MarketingModal from "../components/organisms/MarketingModal"
@@ -7,9 +10,6 @@ import ProjectModal from "../components/organisms/ProjectModal"
 import RandomEventModal from "../components/organisms/RandomEventModal"
 import StoreModal from "../components/organisms/StoreModal"
 import MainTemplate from "../components/templates_work/MainTemplate"
-import { useNavigate } from "react-router-dom"
-import { useGameDataStore } from "../stores/gameDataStore"
-import { defaultSave, useSaveStore } from "../stores/saveStore"
 
 function MainPage() {
   const [activeModal, setActiveModal] = useState<number | null>(null);
@@ -22,6 +22,7 @@ function MainPage() {
   const finance = useGameDataStore(state => state.finance)
   const currentSaveIdx = saveStore.currentSaveIdx
 
+  // 파산 기능
   useEffect(() => {
     if (finance < 0) {
       saveStore.setSave(currentSaveIdx, defaultSave)
