@@ -23,10 +23,8 @@ function ProjectCard({ project }: ProjectCardProps) {
   const projectButton = useButtonStore((state) => state.projectButton)
   const setProjectButton = useButtonStore((state) => state.setProjectButton)
   const hiringCount = useGameDataStore((state) => state.hiredPerson.length)
-
-  // const hiringCount = gameDataStore.hiredPerson.length
   const currentTurn = project.turn - hiringCount > 0 ? project.turn - hiringCount : 0
-  const currentReward = project.reward * gameDataStore.projectOutput
+  const currentReward = Math.round(project.reward * gameDataStore.projectOutput)
 
   // 프로젝트 선택 시 이벤트
   const projectSelected = (pName: string, pTurn: number, pReward: number) => {
@@ -40,20 +38,14 @@ function ProjectCard({ project }: ProjectCardProps) {
 
   return (
     <div className="relative w-[30%] h-auto mx-3 my-3">
-      {/* 배경 이미지 */}
       <img src={projectCardImage} alt="프로젝트 카드" className="w-full h-auto" />
-
-      {/* 프로젝트 데이터 */}
       <div className="absolute inset-0 flex flex-col items-center justify-between p-4 h-[90%]">
-        {/* 프로젝트 이름 */}
         <p className="font-bold text-2xl text-clamp-title text-center w-[80%] ps-8">
           {project.name}
         </p>
-        {/* 프로젝트 이미지 */}
         <div className="w-1/2 flex justify-center">
           <img src={project.image} alt={`${project.name} 아이콘`} className="w-full h-auto object-contain" />
         </div>
-        {/* 프로젝트 데이터 */}
         <div className="w-full flex flex-col items-center text-center">
           <p className="text-xs text-clamp-base leading-relaxed text-center px-1 font-medium text-gray-700 flex items-center justify-center">
             {project.action}

@@ -1,24 +1,40 @@
-import Board from '../assets/background_images/board_page_background_image.png'
-import BankruptcyText from '../components/molecules/BankruptcyText'
-import BankruptcyButton from '../components/atoms/BankruptcyButton'
-import BankruptcyTemplate from '../components/templates_work/BankruptcyTemplate'
+import { useGameDataStore } from "../stores/gameDataStore"
+import MainPageButton from "../components/atoms/Button"
+import bankruptcyPageBackgroundImage from "../assets/images/bankruptcy.png"
 
-const BankruptcyPage = () => {
-    return (
-    <div className="relative incline-block">
-        <BankruptcyButton />
-        <img src={Board} alt="보드 이미지" className="w-full h-full object-contain" />
-        <div className="absolute inset-0 flex flex-col justify-center items-center p-8">
-            <div className="w-full flex justify-center">
-                <BankruptcyTemplate />
-            </div>
+const mainPageButtonSize = 400  // 메인 화면으로 돌아가는 버튼 사이즈
 
-            <div className="w-full flex justify-center">
-                <BankruptcyText />
+// 엔딩 페이지
+function BankruptcyPage() {
+  const gameDataStore = useGameDataStore()
+
+  return (
+    <div className="relative w-screen h-screen">
+      {/* 파산 배경 */}
+      <img src={bankruptcyPageBackgroundImage} alt="파산 페이지" className="absolute z-0 w-screen object-cover overflow-hidden h-[100%]" />
+      <div className="flex items-center justify-center relative h-full z-10">
+        <div className="w-[50%] h-[50%] bg-white rounded-3xl text-center p-5">
+          <p className="text-3xl font-bold">파 산</p>
+          <div className="w-full h-[100%] flex items-center justify-center">
+            {/* 기업 데이터 */}
+            <div className="gap-3 mb-3">
+              <p className="text-xl font-bold mb-5">최종 점수</p>
+              <p>기업 가치: {gameDataStore.enterpriseValue.toLocaleString()}</p>
+              <p>생산성: {gameDataStore.productivity.toLocaleString()}</p>
+              <p>자금: {gameDataStore.finance.toLocaleString()}G</p>
+              <MainPageButton
+                maxSize={mainPageButtonSize}
+                className="border-2 border-white text-white bg-green-600 px-4 py-2 my-2 rounded-lg font-semibold hover:bg-green-700 transition-colors"
+                to="/"
+              >
+                메인 페이지로 이동
+              </MainPageButton>
             </div>
+          </div>
         </div>
+      </div>
     </div>
-
-    )
+  )
 }
+
 export default BankruptcyPage
