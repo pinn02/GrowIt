@@ -5,6 +5,7 @@ import CloseButton from "../atoms/Button"
 import ApplicantCard from "../molecules/ApplicantCard"
 import hiringModalBackgroundImage from "../../assets/modals/hiring_modal_background.png"
 import applicantData from "../../assets/data/randomApplicants.json"
+import help2Icon from "../../assets/icons/help2.png"
 
 type HiringModalProps = {
   onClose: () => void
@@ -14,6 +15,7 @@ type HiringModalProps = {
 function HiringModal({ onClose }: HiringModalProps) {
   const gameDataStore = useGameDataStore()
   const [applicants, setApplicants] = useState<any[]>([])
+  const [showHelpModal, setShowHelpModal] = useState(false)
   const currentSaveIdx = useSaveStore(state => state.currentSaveIdx)
   const hiringArray = useGameDataStore(state => state.hiringArray)
   
@@ -51,29 +53,47 @@ function HiringModal({ onClose }: HiringModalProps) {
           backgroundPosition: "center"
         }}
       >
-        {/* 모달 이름과 닫기 버튼 */}
+        {/* 모달 이름과 버튼들 */}
         <div className="flex justify-between items-center">
           <div>
             <p className="font-bold text-3xl mx-3">고용</p>
             <p className="text-xl mx-3">현재 직원 수: {hiringCount}</p>
           </div>
-          <CloseButton
-            className="
-              bg-red-400
-              text-black
-              px-3
-              py-0
-              rounded
-              hover:bg-red-500
-              transition-colors
-              mx-2
-              text-clamp-title
-              inline-flex
-            "
-            onClick={onClose}
-          >
-            X
-          </CloseButton>
+          <div className="flex items-center gap-2">
+            {/* 도움말 버튼 */}
+            <button
+              className="
+                hover:bg-blue-100
+                transition-colors
+                p-2
+                rounded
+                inline-flex
+                items-center
+                justify-center
+              "
+              onClick={() => setShowHelpModal(true)}
+            >
+              <img src={help2Icon} alt="도움말" className="w-6 h-6" />
+            </button>
+            {/* 닫기 버튼 */}
+            <CloseButton
+              className="
+                bg-red-400
+                text-black
+                px-3
+                py-0
+                rounded
+                hover:bg-red-500
+                transition-colors
+                mx-2
+                text-clamp-title
+                inline-flex
+              "
+              onClick={onClose}
+            >
+              X
+            </CloseButton>
+          </div>
         </div>
         {/* 모달 카드 */}
         <div className="flex justify-center items-center p-0">
@@ -81,6 +101,39 @@ function HiringModal({ onClose }: HiringModalProps) {
               <ApplicantCard key={idx} applicant={applicant} />
             ))}
         </div>
+        
+        {/* 도움말 모달 */}
+        {showHelpModal && (
+          <div className="absolute top-16 right-20 z-50">
+            <div className="bg-white rounded-lg p-4 w-80 shadow-lg border border-gray-300 relative">
+              <div className="flex justify-between items-center mb-3">
+                <h3 className="text-lg font-bold text-black">고용 시스템 도움말</h3>
+                <button
+                  className="
+                    hover:bg-gray-100
+                    text-black
+                    px-2
+                    py-1
+                    rounded
+                    transition-colors
+                    text-sm
+                  "
+                  onClick={() => setShowHelpModal(false)}
+                >
+                  X
+                </button>
+              </div>
+              <div className="text-black space-y-2">
+                <div className="space-y-1 text-xs">
+                  <p>• 각 지원자의 직책, 생산성, 급여를 확인하세요</p>
+                  <p>• 1턴 당 3명의 지원자 중 1명만 선택할 수 있습니다</p>
+                  <p>• 생산성 500 당 프로젝트 보상이 10% 상승합니다</p>
+                  <p>• 직원 수 1명 당 프로젝트 기간이 1턴 단축됩니다</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )
