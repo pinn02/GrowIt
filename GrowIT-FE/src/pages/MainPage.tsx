@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import InformationBar from "../components/organisms/InformationBar"
 import HiringModal from "../components/organisms/HiringModal"
 import MarketingModal from "../components/organisms/MarketingModal"
@@ -7,9 +7,10 @@ import ProjectModal from "../components/organisms/ProjectModal"
 import MypageModal from "../components/organisms/MypageModal"
 import RandomEventModal from "../components/organisms/RandomEventModal"
 import StoreModal from "../components/organisms/StoreModal"
+import StoryModal from "../components/organisms/StoryModal"
 // import ReportModal from "../components/organisms/ReportModal"
 import MainTemplate from "../components/templates_work/MainTemplate"
-// import { useGameDataStore } from "../stores/gameDataStore"
+import { useGameDataStore } from "../stores/gameDataStore"
 // import hintIcon from "../assets/icons/hint.png"
 
 function MainPage() {
@@ -17,7 +18,27 @@ function MainPage() {
   const [activeRandomEventModal, setActiveRandomEventModal] = useState(false)
   const [activeStoreModal, setActiveStoreModal] = useState(false)
   const [showTurnTransition, setShowTurnTransition] = useState(false)
+  const [showStoryModal, setShowStoryModal] = useState(false)
   // const [activeReportModal, setActiveReportModal] = useState(false)
+
+  const gameDataStore = useGameDataStore()
+
+  // 게임이 첫 턴이고 아직 스토리를 보지 않았다면 스토리 모달 표시
+  useEffect(() => {
+    if (gameDataStore.turn === 1) {
+      // 세션 스토리지를 사용해서 새로고침해도 다시 안 뜨게 함
+      const hasSeenStory = sessionStorage.getItem('hasSeenGameStory')
+      if (!hasSeenStory) {
+        setShowStoryModal(true)
+      }
+    }
+  }, [gameDataStore.turn])
+
+  // 스토리 모달 닫기
+  const handleStoryClose = () => {
+    setShowStoryModal(false)
+    sessionStorage.setItem('hasSeenGameStory', 'true')
+  }
 
   // 액션 버튼 모달
   const toggleModal = (index: number) => {
@@ -88,6 +109,7 @@ function MainPage() {
 
       {activeRandomEventModal && <RandomEventModal onClose={handleEventComplete} />}
       {activeStoreModal && <StoreModal onClose={() => setActiveStoreModal(false)} />}
+      {showStoryModal && <StoryModal onClose={handleStoryClose} />}
       {/* {activeReportModal && <ReportModal onClose={() => setActiveReportModal(false)} />} */}
 
       {/* 우측 하단 리포트 버튼 */}
