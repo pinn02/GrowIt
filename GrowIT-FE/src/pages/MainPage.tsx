@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import InformationBar from "../components/organisms/InformationBar"
 import HiringModal from "../components/organisms/HiringModal"
 import MarketingModal from "../components/organisms/MarketingModal"
@@ -6,17 +6,28 @@ import InvestmentModal from "../components/organisms/InvestmentModal"
 import ProjectModal from "../components/organisms/ProjectModal"
 import RandomEventModal from "../components/organisms/RandomEventModal"
 import StoreModal from "../components/organisms/StoreModal"
-// import ReportModal from "../components/organisms/ReportModal"
 import MainTemplate from "../components/templates_work/MainTemplate"
-// import { useGameDataStore } from "../stores/gameDataStore"
-// import hintIcon from "../assets/icons/hint.png"
+import { useNavigate } from "react-router-dom"
+import { useGameDataStore } from "../stores/gameDataStore"
+import { defaultSave, useSaveStore } from "../stores/saveStore"
 
 function MainPage() {
   const [activeModal, setActiveModal] = useState<number | null>(null);
   const [activeRandomEventModal, setActiveRandomEventModal] = useState(false)
   const [activeStoreModal, setActiveStoreModal] = useState(false)
   const [showTurnTransition, setShowTurnTransition] = useState(false)
-  // const [activeReportModal, setActiveReportModal] = useState(false)
+
+  const navigate = useNavigate()
+  const saveStore = useSaveStore()
+  const finance = useGameDataStore(state => state.finance)
+  const currentSaveIdx = saveStore.currentSaveIdx
+
+  useEffect(() => {
+    if (finance < 0) {
+      saveStore.setSave(currentSaveIdx, defaultSave)
+      navigate("/bankruptcy")
+    }
+  }, [finance, navigate])
 
   // 액션 버튼 모달
   const toggleModal = (index: number) => {
@@ -41,11 +52,6 @@ function MainPage() {
   const handleStoreModal = () => {
     setActiveStoreModal(true)
   }
-
-  // 리포트 모달
-  // const handleReportModal = () => {
-  //   setActiveReportModal(true)
-  // }
 
   return (
     <>
@@ -86,20 +92,6 @@ function MainPage() {
 
       {activeRandomEventModal && <RandomEventModal onClose={handleEventComplete} />}
       {activeStoreModal && <StoreModal onClose={() => setActiveStoreModal(false)} />}
-      {/* {activeReportModal && <ReportModal onClose={() => setActiveReportModal(false)} />} */}
-
-      {/* 우측 하단 리포트 버튼 */}
-      {/* <button
-        onClick={handleReportModal}
-        className="fixed bottom-6 right-6 w-32 h-32 transition-all duration-200 hover:scale-110 z-40 flex items-center justify-center"
-        title="경제 리포트 보기"
-      >
-        <img 
-          src={hintIcon} 
-          alt="리포트" 
-          className="w-28 h-28"
-        />
-      </button> */}
     </>
   )
 }
