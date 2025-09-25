@@ -1,5 +1,9 @@
+import { useState } from 'react'
 import { useGameDataStore } from '../../stores/gameDataStore'
 import GameData from '../atoms/GameData'
+import EnterpriseValueModal from './EnterpriseValueModal'
+import ProductivityModal from './ProductivityModal'
+import FinanceModal from './FinanceModal'
 import financeIcon  from '../../assets/icons/coin.png'
 import productivityIcon  from '../../assets/icons/productivity.png'
 import enterpriseIcon  from '../../assets/icons/enterprise.png'
@@ -18,10 +22,14 @@ type GameDataInformationProps = {
 // 게임 정보를 표시해주는 번들
 function GameDataInformation({ MAX_TURN }: GameDataInformationProps) {
   const { enterpriseValue, productivity, finance, turn, currentProject } = useGameDataStore();
+  const [isEnterpriseModalOpen, setIsEnterpriseModalOpen] = useState(false)
+  const [isProductivityModalOpen, setIsProductivityModalOpen] = useState(false)
+  const [isFinanceModalOpen, setIsFinanceModalOpen] = useState(false)
   
   const productivityBonus = Math.floor(useGameDataStore(state => state.productivity) / 500) / 10 + 1
   
   return (
+    <>
     <div className='w-full flex items-center'>
       <div className='flex items-center gap-6 mx-3'>
         {/* 턴 표시 */}
@@ -55,18 +63,81 @@ function GameDataInformation({ MAX_TURN }: GameDataInformationProps) {
 
       {/* 게임 데이터 표시 */}
       <div className='flex items-center h-full'>
-        {gameDataList.map((data, idx) => (
-          <GameData
-            key={idx}
-            dataName={data.name}
-            icon={data.iconImage}
-            dataValue={data.name === "기업가치" ? enterpriseValue : (data.name === "생산성" ? productivity : finance)}
-            dataMax={data.maxData}
-            fillColor={data.fillColor}
-          />
-        ))}
+        {gameDataList.map((data, idx) => {
+          const isEnterpriseValue = data.name === "기업가치"
+          const isProductivity = data.name === "생산성"
+          const isFinance = data.name === "자본"
+          const needsModal = isEnterpriseValue || isProductivity || isFinance
+          
+          return (
+            <div key={idx} className={needsModal ? 'relative' : ''}>
+              <GameData
+                dataName={data.name}
+                icon={data.iconImage}
+                dataValue={data.name === "기업가치" ? enterpriseValue : (data.name === "생산성" ? productivity : finance)}
+                dataMax={data.maxData}
+                fillColor={data.fillColor}
+                onClick={
+                  isEnterpriseValue ? () => {
+                    setIsEnterpriseModalOpen(true)
+                    setIsProductivityModalOpen(false)
+                    setIsFinanceModalOpen(false)
+                  } :
+                  isProductivity ? () => {
+                    setIsProductivityModalOpen(true)
+                    setIsEnterpriseModalOpen(false)
+                    setIsFinanceModalOpen(false)
+                  } :
+                  isFinance ? () => {
+                    setIsFinanceModalOpen(true)
+                    setIsEnterpriseModalOpen(false)
+                    setIsProductivityModalOpen(false)
+                  } :
+                  undefined
+                }
+              />
+              
+              {/* 기업 가치 모달 */}
+              {isEnterpriseValue && (
+                <EnterpriseValueModal
+                  isOpen={isEnterpriseModalOpen}
+                  onClose={() => {
+                    setIsEnterpriseModalOpen(false)
+                    setIsProductivityModalOpen(false)
+                    setIsFinanceModalOpen(false)
+                  }}
+                />
+              )}
+              
+              {/* 생산성 모달 */}
+              {isProductivity && (
+                <ProductivityModal
+                  isOpen={isProductivityModalOpen}
+                  onClose={() => {
+                    setIsProductivityModalOpen(false)
+                    setIsEnterpriseModalOpen(false)
+                    setIsFinanceModalOpen(false)
+                  }}
+                />
+              )}
+              
+              {/* 자본 모달 */}
+              {isFinance && (
+                <FinanceModal
+                  isOpen={isFinanceModalOpen}
+                  onClose={() => {
+                    setIsFinanceModalOpen(false)
+                    setIsEnterpriseModalOpen(false)
+                    setIsProductivityModalOpen(false)
+                  }}
+                />
+              )}
+            </div>
+          )
+        })}
       </div>
     </div>
+    </>
   )
 }
 
