@@ -1,7 +1,6 @@
 import CloseButton from "../atoms/Button";
 import UpgradeButton from "../atoms/Button";
 import { useGameDataStore } from "../../stores/gameDataStore";
-import { useSaveStore } from "../../stores/saveStore";
 import { useState } from "react";
 
 import upgradedBus1 from "../../assets/upgrades/upgraded_bus1.png";
@@ -127,7 +126,6 @@ type StoreModalProps = {
 
 function StoreModal({ onClose }: StoreModalProps) {
   const gameDataStore = useGameDataStore();
-  const saveStore = useSaveStore();
 
   const [, forceUpdate] = useState({});
   const [isUpgrading, setIsUpgrading] = useState(false);
@@ -241,34 +239,9 @@ function StoreModal({ onClose }: StoreModalProps) {
       setTimeout(() => {
         setIsUpgrading(false);
         triggerRerender();
-
-        const currentSaveIdx = saveStore.currentSaveIdx;
-        const currentSave = saveStore.saves[currentSaveIdx];
-        const updatedSave = {
-          ...currentSave,
-          enterpriseValue: gameDataStore.enterpriseValue,
-          productivity: gameDataStore.productivity,
-          finance: gameDataStore.finance,
-          employeeCount: gameDataStore.employeeCount,
-          turn: gameDataStore.turn,
-          currentProject: gameDataStore.currentProject,
-          officeLevel: gameDataStore.officeLevel,
-          commuteBusLevel: gameDataStore.commuteBusLevel,
-          dormitoryLevel: gameDataStore.dormitoryLevel,
-          gymLevel: gameDataStore.gymLevel,
-          cafeteriaLevel: gameDataStore.cafeteriaLevel,
-          hospitalLevel: gameDataStore.hospitalLevel,
-          daycareLevel: gameDataStore.daycareLevel,
-          bookCafeLevel: gameDataStore.bookCafeLevel,
-          buildingLevel: gameDataStore.buildingLevel,
-          hiringArray: gameDataStore.hiringArray,
-          marketingArray: gameDataStore.marketingArray,
-          investmentArray: gameDataStore.investmentArray,
-          projectArray: gameDataStore.projectArray,
-          hiredPerson: gameDataStore.hiredPerson,
-          updatedAt: new Date().toISOString().split("T")[0]
-        };
-        saveStore.setSave(currentSaveIdx, updatedSave);
+        
+        // 자동 세이브는 MainPage에서 처리하므로 여기서는 제거
+        console.log('업그레이드 완료 - 자동 세이브는 MainPage에서 처리됨');
       }, 200);
     }, 200);
   };
@@ -351,8 +324,8 @@ function StoreModal({ onClose }: StoreModalProps) {
     }
   } else if (!hasMoneyFor) {
     const shortage = cost - gameDataStore.finance;
-    statusText = `자금이 ${shortage.toLocaleString()}원 부족합니다`;
-    buttonText = "자금 부족";
+    statusText = `자본이 ${shortage.toLocaleString()}원 부족합니다`;
+    buttonText = "자본 부족";
   }
 
   const currentIcon = upgradeInfo.icons[currentLevel];
