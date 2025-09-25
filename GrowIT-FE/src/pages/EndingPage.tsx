@@ -17,7 +17,7 @@ const enterpriseImage = [
 ]
 
 const enterpriseBackgroundColor = [
-  "text-white",
+  "text-black",
   "text-amber-200",
   "text-emerald-400",
   "text-purple-400"
