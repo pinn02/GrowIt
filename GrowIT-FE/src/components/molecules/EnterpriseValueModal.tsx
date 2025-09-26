@@ -1,3 +1,6 @@
+import { useEffect } from "react"
+import { trackModalOpen, trackModalClose } from "../../config/ga4Config"
+
 type EnterpriseValueModalProps = {
   isOpen: boolean
   onClose: () => void
@@ -5,6 +8,16 @@ type EnterpriseValueModalProps = {
 
 // 기업 가치 모달 컴포넌트
 function EnterpriseValueModal({ isOpen, onClose }: EnterpriseValueModalProps) {
+  useEffect(() => {
+    if (isOpen) {
+      trackModalOpen('enterprise_value');
+    }
+  }, [isOpen]);
+
+  const handleClose = () => {
+    trackModalClose('enterprise_value');
+    onClose();
+  };
   if (!isOpen) return null
 
   return (
@@ -13,7 +26,7 @@ function EnterpriseValueModal({ isOpen, onClose }: EnterpriseValueModalProps) {
       <div className="bg-white rounded-lg shadow-lg p-3 border border-gray-300 text-sm whitespace-nowrap relative">
         {/* X 버튼 */}
         <button
-          onClick={onClose}
+          onClick={handleClose}
           className="absolute -top-1 -right-1 w-5 h-5 bg-gray-500 hover:bg-gray-600 text-white rounded-full flex items-center justify-center text-xs font-bold"
         >
           ×
@@ -25,9 +38,9 @@ function EnterpriseValueModal({ isOpen, onClose }: EnterpriseValueModalProps) {
           <p className="text-gray-800">• 엔딩에서 기업의 규모를 정합니다</p>
         </div>
       </div>
-      <div 
-        className="fixed inset-0 -z-10" 
-        onClick={onClose}
+      <div
+        className="fixed inset-0 -z-10"
+        onClick={handleClose}
       />
     </div>
   )

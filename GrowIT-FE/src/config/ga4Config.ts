@@ -73,3 +73,41 @@ export const trackGameStart = (difficulty: string, ceoType: string) => {
     ceo_type: ceoType,
   });
 };
+
+/**
+ * 모달 열기 추적
+ */
+export const trackModalOpen = (modalType: string) => {
+  trackEvent('modal_open', {
+    modal_type: modalType,
+  });
+};
+
+/**
+ * 모달 닫기 추적
+ */
+export const trackModalClose = (modalType: string) => {
+  trackEvent('modal_close', {
+    modal_type: modalType,
+  });
+};
+
+/**
+ * 버튼 클릭 추적
+ */
+export const trackButtonClick = (buttonType: string, action?: string) => {
+  trackEvent('button_click', {
+    button_type: buttonType,
+    action: action,
+  });
+};
+
+/**
+ * 게임 액션 추적
+ */
+export const trackGameAction = (actionType: string, details?: Record<string, any>) => {
+  trackEvent('game_action', {
+    action_type: actionType,
+    ...details,
+  });
+};

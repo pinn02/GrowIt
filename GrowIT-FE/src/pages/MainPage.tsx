@@ -12,6 +12,7 @@ import RandomEventModal from "../components/organisms/RandomEventModal"
 import StoreModal from "../components/organisms/StoreModal"
 import StoryModal from "../components/organisms/StoryModal"
 import MainTemplate from "../components/templates_work/MainTemplate"
+import { trackButtonClick } from "../config/ga4Config"
 
 function MainPage() {
   const [activeModal, setActiveModal] = useState<number | null>(null);
@@ -130,6 +131,8 @@ function MainPage() {
 
   // 액션 버튼 모달
   const toggleModal = (index: number) => {
+    const modalNames = ['hiring', 'marketing', 'investment', 'project'];
+    trackButtonClick(`${modalNames[index]}_button`, 'open_modal');
     setActiveModal(prev => (prev === index ? null : index));
   }
 

@@ -1,3 +1,6 @@
+import { useEffect } from "react"
+import { trackModalOpen, trackModalClose } from "../../config/ga4Config"
+
 type FinanceModalProps = {
   isOpen: boolean
   onClose: () => void
@@ -5,6 +8,16 @@ type FinanceModalProps = {
 
 // 자본 모달 컴포넌트
 function FinanceModal({ isOpen, onClose }: FinanceModalProps) {
+  useEffect(() => {
+    if (isOpen) {
+      trackModalOpen('finance');
+    }
+  }, [isOpen]);
+
+  const handleClose = () => {
+    trackModalClose('finance');
+    onClose();
+  };
   if (!isOpen) return null
 
   return (
@@ -13,7 +26,7 @@ function FinanceModal({ isOpen, onClose }: FinanceModalProps) {
       <div className="bg-white rounded-lg shadow-lg p-3 border border-gray-300 text-sm whitespace-nowrap relative">
         {/* X 버튼 */}
         <button
-          onClick={onClose}
+          onClick={handleClose}
           className="absolute -top-1 -right-1 w-5 h-5 bg-gray-500 hover:bg-gray-600 text-white rounded-full flex items-center justify-center text-xs font-bold"
         >
           ×
@@ -27,9 +40,9 @@ function FinanceModal({ isOpen, onClose }: FinanceModalProps) {
       </div>
       
       {/* 투명한 배경 클릭 영역 */}
-      <div 
-        className="fixed inset-0 -z-10" 
-        onClick={onClose}
+      <div
+        className="fixed inset-0 -z-10"
+        onClick={handleClose}
       />
     </div>
   )
