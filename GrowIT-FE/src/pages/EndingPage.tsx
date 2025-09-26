@@ -37,11 +37,11 @@ function EndingPage() {
   const [enterpriseIdx, setEnterpriseIdx] = useState(0)
 
   useEffect(() => {
-    if (enterpriseValue > 4000) {
+    if (enterpriseValue > 6000) {
       setEnterpriseIdx(3)
-    } else if (enterpriseValue > 2500) {
+    } else if (enterpriseValue > 4000) {
       setEnterpriseIdx(2)
-    } else if (enterpriseValue > 1000) {
+    } else if (enterpriseValue > 2000) {
       setEnterpriseIdx(1)
     }
   }, [enterpriseValue, enterpriseIdx])
