@@ -23,7 +23,11 @@ function HiringModal({ onClose }: HiringModalProps) {
   const hiringCount = useGameDataStore(state => state.hiredPerson.length)
 
   useEffect(() => {
-    trackModalOpen('hiring');
+    trackModalOpen('hiring', {
+      game_turn: gameDataStore.turn,
+      current_employees: hiringCount,
+      game_finance: gameDataStore.finance,
+    });
   }, []);
 
   const handleClose = () => {

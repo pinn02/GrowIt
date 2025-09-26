@@ -75,11 +75,15 @@ export const trackGameStart = (difficulty: string, ceoType: string) => {
 };
 
 /**
- * 모달 열기 추적
+ * 모달 열기 추적 (개선 버전)
  */
-export const trackModalOpen = (modalType: string) => {
+export const trackModalOpen = (
+  modalType: string,
+  additionalData?: Record<string, any>
+) => {
   trackEvent('modal_open', {
     modal_type: modalType,
+    ...additionalData,
   });
 };
 
@@ -109,5 +113,34 @@ export const trackGameAction = (actionType: string, details?: Record<string, any
   trackEvent('game_action', {
     action_type: actionType,
     ...details,
+  });
+};
+
+/**
+ * 고용 완료 추적
+ */
+export const trackHiringComplete = (
+  employeeData: {
+    id: number;
+    name: string;
+    position: string;
+    productivity: number;
+    salary: number;
+  },
+  gameState: {
+    turn: number;
+    finance: number;
+    employeeCount: number;
+  }
+) => {
+  trackEvent('hiring_complete', {
+    employee_id: employeeData.id,
+    employee_name: employeeData.name,
+    employee_position: employeeData.position,
+    employee_productivity: employeeData.productivity,
+    employee_salary: employeeData.salary,
+    game_turn: gameState.turn,
+    game_finance: gameState.finance,
+    total_employees: gameState.employeeCount,
   });
 };

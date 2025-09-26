@@ -36,8 +36,14 @@ function MarketingModal({ onClose }: MarketingModalProps) {
   const currentSaveIdx = useSaveStore(state => state.currentSaveIdx)
 
   // GA4 tracking
+  const gameDataStore = useGameDataStore();
+  
   useEffect(() => {
-    trackModalOpen('marketing');
+    trackModalOpen('marketing', {
+      game_turn: gameDataStore.turn,
+      game_finance: gameDataStore.finance,
+      enterprise_value: gameDataStore.enterpriseValue,
+    });
   }, []);
 
   const handleClose = () => {
