@@ -18,13 +18,13 @@ import { useSaveStore } from "../../stores/saveStore"
 import { defaultSave } from "../../stores/saveStore"
 
 export const CeoNames = [
-  "빌 게이츠",
-  "일론 머스크",
-  "마크 주커버그",
-  "도날드 트럼프",
-  "젠슨 황",
-  "제프 베이조스",
-  "스티브 잡스"
+  "밀 게이츠",
+  "멜론 머스크",
+  "마크 주커버거",
+  "도날드 트럼펫",
+  "젤리 황",
+  "제프 베이주스",
+  "스티브 잡아스"
 ]
 
 // CEO 정보 타입 정의
