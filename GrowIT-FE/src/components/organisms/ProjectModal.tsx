@@ -36,8 +36,14 @@ function ProjectModal({ onClose }: ProjectModalProps) {
   const [showHelpModal, setShowHelpModal] = useState(false);
 
   // GA4 tracking
+  const gameDataStore = useGameDataStore();
+  
   useEffect(() => {
-    trackModalOpen('project');
+    trackModalOpen('project', {
+      game_turn: gameDataStore.turn,
+      current_project: gameDataStore.currentProject.name,
+      productivity: gameDataStore.productivity,
+    });
   }, []);
 
   const handleClose = () => {
