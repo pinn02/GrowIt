@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-import { trackModalOpen, trackModalClose } from "../../config/ga4Config"
+import { trackModalOpen } from "../../config/ga4Config"
 
 type FinanceModalProps = {
   isOpen: boolean
@@ -7,17 +7,12 @@ type FinanceModalProps = {
 }
 
 // 자본 모달 컴포넌트
-function FinanceModal({ isOpen, onClose }: FinanceModalProps) {
+function FinanceModal({ isOpen }: FinanceModalProps) {
   useEffect(() => {
     if (isOpen) {
       trackModalOpen('finance');
     }
   }, [isOpen]);
-
-  const handleClose = () => {
-    trackModalClose('finance');
-    onClose();
-  };
   
   if (!isOpen) return null
 

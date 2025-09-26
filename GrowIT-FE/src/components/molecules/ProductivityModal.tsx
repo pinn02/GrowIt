@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-import { trackModalOpen, trackModalClose } from "../../config/ga4Config"
+import { trackModalOpen } from "../../config/ga4Config"
 
 type ProductivityModalProps = {
   isOpen: boolean
@@ -7,17 +7,12 @@ type ProductivityModalProps = {
 }
 
 // 생산성 모달 컴포넌트
-function ProductivityModal({ isOpen, onClose }: ProductivityModalProps) {
+function ProductivityModal({ isOpen }: ProductivityModalProps) {
   useEffect(() => {
     if (isOpen) {
       trackModalOpen('productivity');
     }
   }, [isOpen]);
-
-  const handleClose = () => {
-    trackModalClose('productivity');
-    onClose();
-  };
   
   if (!isOpen) return null
 

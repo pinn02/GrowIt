@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-import { trackModalOpen, trackModalClose } from "../../config/ga4Config"
+import { trackModalOpen } from "../../config/ga4Config"
 
 type EnterpriseValueModalProps = {
   isOpen: boolean
@@ -7,17 +7,12 @@ type EnterpriseValueModalProps = {
 }
 
 // 기업 가치 모달 컴포넌트
-function EnterpriseValueModal({ isOpen, onClose }: EnterpriseValueModalProps) {
+function EnterpriseValueModal({ isOpen }: EnterpriseValueModalProps) {
   useEffect(() => {
     if (isOpen) {
       trackModalOpen('enterprise_value');
     }
   }, [isOpen]);
-
-  const handleClose = () => {
-    trackModalClose('enterprise_value');
-    onClose();
-  };
   
   if (!isOpen) return null
 
