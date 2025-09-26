@@ -6,19 +6,21 @@ type GameDataProps = {
   dataMax: number;
   fillColor?: string;
 	icon?: string;
-  onClick?: () => void;
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
 };
 
 // 게임에 사용하는 데이터 컴포넌트
-function GameData({ dataName, dataValue, dataMax, fillColor = "bg-gray-700", icon, onClick }: GameDataProps) {
+function GameData({ dataName, dataValue, dataMax, fillColor = "bg-gray-700", icon, onMouseEnter, onMouseLeave }: GameDataProps) {
   const percentage = Math.min((dataValue / dataMax) * 100, 100);  // 게이지 표시용 퍼센테이지
 
   return (
     <div 
       className={`relative inline-flex items-center gap-2 px-4 rounded-full border-2 border-white overflow-hidden mx-2 shadow-md ${
-        onClick ? 'cursor-pointer hover:shadow-lg transition-shadow duration-200' : ''
+        (onMouseEnter || onMouseLeave) ? 'cursor-pointer hover:shadow-lg transition-shadow duration-200' : ''
       }`}
-      onClick={onClick}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
     >
       {/* 퍼센테이지만큼 색상이 차오르는 효과 */}
       <div

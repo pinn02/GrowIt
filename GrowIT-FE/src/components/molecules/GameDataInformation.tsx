@@ -77,7 +77,7 @@ function GameDataInformation({ MAX_TURN }: GameDataInformationProps) {
                 dataValue={data.name === "기업가치" ? enterpriseValue : (data.name === "생산성" ? productivity : finance)}
                 dataMax={data.maxData}
                 fillColor={data.fillColor}
-                onClick={
+                onMouseEnter={
                   isEnterpriseValue ? () => {
                     setIsEnterpriseModalOpen(true)
                     setIsProductivityModalOpen(false)
@@ -94,6 +94,13 @@ function GameDataInformation({ MAX_TURN }: GameDataInformationProps) {
                     setIsProductivityModalOpen(false)
                   } :
                   undefined
+                }
+                onMouseLeave={
+                  needsModal ? () => {
+                    setIsEnterpriseModalOpen(false)
+                    setIsProductivityModalOpen(false)
+                    setIsFinanceModalOpen(false)
+                  } : undefined
                 }
               />
               

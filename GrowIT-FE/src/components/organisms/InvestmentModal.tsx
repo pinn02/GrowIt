@@ -75,8 +75,10 @@ function InvestmentModal({ onClose }: InvestmentModalProps) {
                 inline-flex
                 items-center
                 justify-center
+                cursor-pointer
               "
-              onClick={() => setShowHelpModal(true)}
+              onMouseEnter={() => setShowHelpModal(true)}
+              onMouseLeave={() => setShowHelpModal(false)}
             >
               <img src={help2Icon} alt="도움말" className="w-6 h-6" />
             </button>
@@ -98,24 +100,14 @@ function InvestmentModal({ onClose }: InvestmentModalProps) {
         
         {/* 도움말 모달 */}
         {showHelpModal && (
-          <div className="absolute top-16 right-20 z-50">
+          <div 
+            className="absolute top-16 right-20 z-50 pointer-events-none"
+            onMouseEnter={() => setShowHelpModal(true)}
+            onMouseLeave={() => setShowHelpModal(false)}
+          >
             <div className="bg-white rounded-lg p-4 w-90 shadow-lg border border-gray-300 relative">
               <div className="flex justify-between items-center mb-3">
                 <h3 className="text-lg font-bold text-black">투자 시스템 도움말</h3>
-                <button
-                  className="
-                    hover:bg-red-100
-                    text-black
-                    px-2
-                    py-1
-                    rounded
-                    transition-colors
-                    text-sm
-                  "
-                  onClick={() => setShowHelpModal(false)}
-                >
-                  X
-                </button>
               </div>
               <div className="text-black space-y-2">
                 <div className="space-y-1 text-xs">
