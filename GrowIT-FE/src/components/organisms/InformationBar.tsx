@@ -43,6 +43,7 @@ function InformationBar({ onRandomEvent, onStore, onCloseAllModals }: Informatio
   // CEO 정보 가져오기
   const selectedCeoIndex = gameDataStore.selectedCeo
   const CeoNames = [
+    "재 드래곤",
     "밀 게이츠",
     "멜론 머스크",
     "마크 주커버거",
@@ -53,6 +54,10 @@ function InformationBar({ onRandomEvent, onStore, onCloseAllModals }: Informatio
   ]
   
   const CeoEffects = [
+    {
+      positive: ["투자 보상 1.1배", "마케팅 보상 1.1배", "프로젝트 보상 1.1배"],
+      negative: ["랜덤 이벤트 부정적 효과 1.1배"]
+    },
     {
       positive: ["투자 보상 1.2배", "생산성 증가 1.2배"],
       negative: ["랜덤 이벤트 부정적 효과 1.2배"]
