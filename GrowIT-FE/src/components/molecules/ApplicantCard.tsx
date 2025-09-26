@@ -8,6 +8,7 @@ import wmImage from "../../assets/applicants/a_wm.png"
 import woImage from "../../assets/applicants/a_wo.png"
 import { useButtonStore } from "../../stores/buttonStore"
 import { useGameDataStore } from "../../stores/gameDataStore"
+import { trackHiringComplete } from "../../config/ga4Config"
 
 const applicantImages = [
   myImage,
@@ -48,6 +49,22 @@ function ApplicantCard({ applicant }: ApplicantCardProps) {
     gameDataStore.setProductivity(gameDataStore.productivity + currentReward)
     gameDataStore.setHiredPerson([...gameDataStore.hiredPerson, applicant.id])
     setHiringButton(false)
+
+    // GA4 고용 완료 추적
+    trackHiringComplete(
+      {
+        id: applicant.id,
+        name: applicant.name,
+        position: applicant.position,
+        productivity: currentReward,
+        salary: currentCost,
+      },
+      {
+        turn: gameDataStore.turn,
+        finance: gameDataStore.finance - currentCost,
+        employeeCount: gameDataStore.hiredPerson.length + 1,
+      }
+    );
   }
 
   return (

@@ -20,8 +20,13 @@ function InvestmentModal({ onClose }: InvestmentModalProps) {
   const investmentArray = useGameDataStore(state => state.investmentArray)
 
   // GA4 tracking
+  const gameDataStore = useGameDataStore();
+  
   useEffect(() => {
-    trackModalOpen('investment');
+    trackModalOpen('investment', {
+      game_turn: gameDataStore.turn,
+      game_finance: gameDataStore.finance,
+    });
   }, []);
 
   const handleClose = () => {
