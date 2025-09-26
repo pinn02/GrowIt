@@ -1,7 +1,6 @@
 import CloseButton from "../atoms/Button";
 import UpgradeButton from "../atoms/Button";
 import { useGameDataStore } from "../../stores/gameDataStore";
-import { useSaveStore } from "../../stores/saveStore";
 import { useState } from "react";
 
 import upgradedBus1 from "../../assets/upgrades/upgraded_bus1.png";
@@ -54,47 +53,47 @@ const UPGRADE_INFO: Record<UpgradeType, UpgradeInfo> = {
     name: '통근버스',
     icons: [upgradedBus1, upgradedBus2, upgradedBus3],
     maxLevel: 3,
-    costs: [10000, 20000, 30000],
-    productivityBonus: [10, 20, 30],
+    costs: [100000, 200000, 300000],
+    productivityBonus: [100, 200, 300],
     description: '직원들의 통근 편의성을 향상시킵니다'
   },
   dormitory: {
     name: '기숙사',
     icons: ['🏠', '🏘️', '🏢'],
     maxLevel: 3,
-    costs: [50000, 100000, 150000],
-    enterpriseValueBonus: [50, 100, 150],
+    costs: [100000, 200000, 300000],
+    enterpriseValueBonus: [10, 20, 30],
     description: '직원들의 주거 환경을 개선합니다'
   },
   gym: {
     name: '사내 헬스장',
     icons: ['💪', '🏃', '🏋️'],
     maxLevel: 3,
-    costs: [15000, 30000, 45000],
-    productivityBonus: [15, 30, 45],
+    costs: [150000, 300000, 450000],
+    productivityBonus: [150, 300, 450],
     description: '직원들의 건강과 업무 효율을 높입니다'
   },
   cafeteria: {
     name: '카페테리아',
     icons: ['🍽️', '🍜', '🍱'],
     maxLevel: 3,
-    costs: [30000, 60000, 90000],
-    enterpriseValueBonus: [30, 60, 90],
+    costs: [300000, 400000, 500000],
+    enterpriseValueBonus: [30, 40, 50],
     description: '직원들의 식사 환경을 개선합니다'
   },
   hospital: {
     name: '병원',
     icons: ['🏥', '⛑️', '🚑'],
     maxLevel: 3,
-    costs: [20000, 40000, 60000],
-    productivityBonus: [20, 40, 60],
+    costs: [200000, 400000, 600000],
+    productivityBonus: [200, 400, 600],
     description: '직원들의 의료 서비스를 제공합니다'
   },
   daycare: {
     name: '어린이집',
     icons: ['👶', '🧸', '🎠'],
     maxLevel: 3,
-    costs: [40000, 80000, 120000],
+    costs: [400000, 800000, 1200000],
     enterpriseValueBonus: [40, 80, 120],
     description: '직원들의 육아 부담을 덜어줍니다'
   },
@@ -102,17 +101,17 @@ const UPGRADE_INFO: Record<UpgradeType, UpgradeInfo> = {
     name: '북카페',
     icons: ['📚', '☕', '📖'],
     maxLevel: 3,
-    costs: [12000, 25000, 40000],
-    productivityBonus: [12, 25, 40],
+    costs: [120000, 250000, 400000],
+    productivityBonus: [120, 250, 400],
     description: '직원들의 휴식과 자기계발을 돕습니다'
   },
   building: {
     name: '건물 업그레이드',
     icons: [upgradedBuilding1, upgradedBuilding2, upgradedBuilding3],
     maxLevel: 3,
-    costs: [100000, 200000, 300000],
-    enterpriseValueRequirements: [100, 300, 500],
-    enterpriseValueBonus: [10, 20, 30],
+    costs: [1000000, 3000000, 5000000],
+    enterpriseValueRequirements: [500, 1500, 2500],
+    enterpriseValueBonus: [100, 300, 500],
     description: '회사 건물 자체를 업그레이드합니다'
   }
 };
@@ -127,7 +126,6 @@ type StoreModalProps = {
 
 function StoreModal({ onClose }: StoreModalProps) {
   const gameDataStore = useGameDataStore();
-  const saveStore = useSaveStore();
 
   const [, forceUpdate] = useState({});
   const [isUpgrading, setIsUpgrading] = useState(false);
@@ -241,34 +239,9 @@ function StoreModal({ onClose }: StoreModalProps) {
       setTimeout(() => {
         setIsUpgrading(false);
         triggerRerender();
-
-        const currentSaveIdx = saveStore.currentSaveIdx;
-        const currentSave = saveStore.saves[currentSaveIdx];
-        const updatedSave = {
-          ...currentSave,
-          enterpriseValue: gameDataStore.enterpriseValue,
-          productivity: gameDataStore.productivity,
-          finance: gameDataStore.finance,
-          employeeCount: gameDataStore.employeeCount,
-          turn: gameDataStore.turn,
-          currentProject: gameDataStore.currentProject,
-          officeLevel: gameDataStore.officeLevel,
-          commuteBusLevel: gameDataStore.commuteBusLevel,
-          dormitoryLevel: gameDataStore.dormitoryLevel,
-          gymLevel: gameDataStore.gymLevel,
-          cafeteriaLevel: gameDataStore.cafeteriaLevel,
-          hospitalLevel: gameDataStore.hospitalLevel,
-          daycareLevel: gameDataStore.daycareLevel,
-          bookCafeLevel: gameDataStore.bookCafeLevel,
-          buildingLevel: gameDataStore.buildingLevel,
-          hiringArray: gameDataStore.hiringArray,
-          marketingArray: gameDataStore.marketingArray,
-          investmentArray: gameDataStore.investmentArray,
-          projectArray: gameDataStore.projectArray,
-          hiredPerson: gameDataStore.hiredPerson,
-          updatedAt: new Date().toISOString().split("T")[0]
-        };
-        saveStore.setSave(currentSaveIdx, updatedSave);
+        
+        // 자동 세이브는 MainPage에서 처리하므로 여기서는 제거
+        console.log('업그레이드 완료 - 자동 세이브는 MainPage에서 처리됨');
       }, 200);
     }, 200);
   };
@@ -351,8 +324,8 @@ function StoreModal({ onClose }: StoreModalProps) {
     }
   } else if (!hasMoneyFor) {
     const shortage = cost - gameDataStore.finance;
-    statusText = `자금이 ${shortage.toLocaleString()}원 부족합니다`;
-    buttonText = "자금 부족";
+    statusText = `자본이 ${shortage.toLocaleString()}원 부족합니다`;
+    buttonText = "자본 부족";
   }
 
   const currentIcon = upgradeInfo.icons[currentLevel];
