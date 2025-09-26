@@ -159,6 +159,10 @@ function MainPage() {
 
   // 스토어 모달
   const handleStoreModal = () => {
+    // 다른 모달들 먼저 닫기
+    setActiveModal(null)
+    setActiveRandomEventModal(false)
+    // 스토어 모달 열기
     setActiveStoreModal(true)
   }
 
