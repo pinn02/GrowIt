@@ -6,6 +6,7 @@ import ApplicantCard from "../molecules/ApplicantCard"
 import hiringModalBackgroundImage from "../../assets/modals/hiring_modal_background.png"
 import applicantData from "../../assets/data/randomApplicants.json"
 import help2Icon from "../../assets/icons/help2.png"
+import { trackModalOpen, trackModalClose } from "../../config/ga4Config"
 
 type HiringModalProps = {
   onClose: () => void
@@ -18,8 +19,17 @@ function HiringModal({ onClose }: HiringModalProps) {
   const [showHelpModal, setShowHelpModal] = useState(false)
   const currentSaveIdx = useSaveStore(state => state.currentSaveIdx)
   const hiringArray = useGameDataStore(state => state.hiringArray)
-  
+
   const hiringCount = useGameDataStore(state => state.hiredPerson.length)
+
+  useEffect(() => {
+    trackModalOpen('hiring');
+  }, []);
+
+  const handleClose = () => {
+    trackModalClose('hiring');
+    onClose();
+  };
 
   // 모달 실행 시 직원 데이터 가져오는 로직
   useEffect(() => {
@@ -89,7 +99,7 @@ function HiringModal({ onClose }: HiringModalProps) {
                 text-clamp-title
                 inline-flex
               "
-              onClick={onClose}
+              onClick={handleClose}
             >
               X
             </CloseButton>
