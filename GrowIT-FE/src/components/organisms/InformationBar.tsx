@@ -6,24 +6,24 @@ import { useSaveStore } from '../../stores/saveStore'
 import { useButtonStore } from '../../stores/buttonStore'
 import { useGameDataStore } from '../../stores/gameDataStore'
 import { defaultSave } from '../../stores/saveStore'
-import { getRandomHiringArray, getRandomUniqueArray } from '../../hooks/CreateRandomArray'  // 랜덤 배열 함수
+import { getRandomHiringArray, getRandomUniqueArray } from '../../hooks/CreateRandomArray' // 랜덤 배열 함수
 import Logo from "../atoms/Logo"
 import GameDataInformation from "../molecules/GameDataInformation"
 import Button from "../atoms/Button"
 import hintIcon from "../../assets/icons/help.png"
 
-const logoHeight = 48;  // 로고 이미지 세로 사이즈
-const storeButtonSize = 100;  // 스토어 버튼 최대 사이즈
-const turnEndButtonSize = 100;  // 턴 종료 버튼 최대 사이즈
+const logoHeight = 48; // 로고 이미지 세로 사이즈
+const storeButtonSize = 100; // 스토어 버튼 최대 사이즈
+const turnEndButtonSize = 100; // 턴 종료 버튼 최대 사이즈
 const logoutButtonSize = 100; // 로그아웃 버튼 사이즈
 
 const RANDOM_EVENT_PROBABILITY = 0.25 // 랜덤 이벤트 확률
-const MAX_TURN = 30  // 게임의 종료 턴
+const MAX_TURN = 30 // 게임의 종료 턴
 
 type InformationBarProps = {
   onRandomEvent: () => void
   onStore: () => void
-  onCloseAllModals?: () => void  // 모든 모달을 닫는 함수
+  onCloseAllModals?: () => void // 모든 모달을 닫는 함수
 }
 
 // 정보 바
@@ -274,11 +274,11 @@ function InformationBar({ onRandomEvent, onStore, onCloseAllModals }: Informatio
           {/* 배경 오버레이 */}
           <div className="absolute inset-0 bg-black bg-opacity-80 animate-pulse" />
           
-           {/* 턴 전환 텍스트 */}
+            {/* 턴 전환 텍스트 */}
           <div className="relative z-10 text-center animate-turnTransition">
-             <div className="text-4xl font-bold text-white mb-4 animate-pulse">
-              GrowIT
-            </div>
+              <div className="text-4xl font-bold text-white mb-4 animate-pulse">
+               GrowIT
+             </div>
             
             {/* ... 장식 효과 */}
             <div className="mt-8 flex justify-center space-x-4">
@@ -383,7 +383,7 @@ function InformationBar({ onRandomEvent, onStore, onCloseAllModals }: Informatio
             
             {/* 컨텐츠 */}
             <div className="space-y-3 text-[#3a2f23]">
-              {/* CEO 정보 - 가장 먼저 */}
+              {/* CEO 정보*/}
               <div className="bg-[#fff9e6] bg-opacity-80 p-3 rounded border-l-4 border-[#d4a574]">
                 <p className="font-bold text-base mb-2 text-[#8b7355]">선택한 CEO</p>
                 <p className="text-sm ml-3 font-semibold text-[#5c4a3a] mb-2">{currentCeoName}</p>
