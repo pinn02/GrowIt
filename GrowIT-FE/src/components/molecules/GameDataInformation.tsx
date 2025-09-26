@@ -10,9 +10,9 @@ import enterpriseIcon  from '../../assets/icons/enterprise.png'
 import AnimatedNumber from '../../hooks/AnimatedNumber'
 
 const gameDataList = [
-  { name: "기업가치", iconImage: enterpriseIcon, maxData: 3000, fillColor: "bg-[#45A14B]" },
-  { name: "생산성", iconImage: productivityIcon, maxData: 30000, fillColor: "bg-[#B374F3]" },
-  { name: "자본", iconImage: financeIcon, maxData: 30000000, fillColor: "bg-[#F8C545]" },
+  { name: "기업가치", iconImage: enterpriseIcon, maxData: 12000, fillColor: "bg-[#45A14B]" },
+  { name: "생산성", iconImage: productivityIcon, maxData: 50000, fillColor: "bg-[#B374F3]" },
+  { name: "자본", iconImage: financeIcon, maxData: 200000000, fillColor: "bg-[#F8C545]" },
 ]
 
 type GameDataInformationProps = {
