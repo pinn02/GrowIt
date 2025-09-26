@@ -53,10 +53,10 @@ function HiringModal({ onClose }: HiringModalProps) {
   }, [hiringArray, currentSaveIdx]);
 
   return (
-    <div className="fixed inset-0 flex justify-center items-start z-50 pointer-events-none overflow-hidden">
+    <div className="fixed inset-0 flex justify-center items-center z-50 pointer-events-none overflow-hidden">
       {/* 모달 배경 이미지 */}
       <div
-        className="mt-16 px-8 pt-6 pb-6 w-7/12 h-auto max-w-5xl relative pointer-events-auto"
+        className="px-8 pt-6 pb-6 w-7/12 h-auto max-w-5xl relative pointer-events-auto"
         style={{
           backgroundImage: `url(${hiringModalBackgroundImage})`,
           backgroundSize: "100% 100%",
