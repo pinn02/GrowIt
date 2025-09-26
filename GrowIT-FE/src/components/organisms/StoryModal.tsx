@@ -13,69 +13,113 @@ function StoryModal({ onClose }: StoryModalProps) {
   }, []);
 
   return (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70">
-      {/* 모달 박스 */}
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 p-2">
       <div
-        className="relative shadow-2xl w-11/12 sm:w-4/5 md:w-3/5 lg:w-1/2 xl:max-w-3xl aspect-[3/2] mx-4 text-center overflow-hidden flex flex-col justify-between p-2 sm:p-4"
+        className="relative w-full max-w-xl mx-auto rounded-md shadow-2xl flex flex-col overflow-hidden"
         style={{
           backgroundImage: `url(${backgroundImage})`,
-          backgroundSize: "contain",
+          backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
+          backgroundColor: "#f9f6f2",
+          backgroundBlendMode: "multiply",
+          border: "1px solid #ccc",
+          maxHeight: "80vh", 
         }}
       >
-        {/* 텍스트 영역 */}
-        <div className="flex-1 overflow-y-auto custom-scrollbar">
-          <div className="mt-13 text-gray-800 leading-snug space-y-1 text-[8px] sm:text-[10px] md:text-xs lg:text-sm">
-            <p>지난 30년, 세상은 별별 일이 다 있었다.</p>
-            <p>IMF, 닷컴버블, 스타트업붐, AI열풍...</p>
-            <p>그 모든 흔적이 데이터로 남았다.</p>
+        {/* 헤더 */}
+        <div className="bg-black/80 text-white text-center py-2 border-b border-gray-700">
+          <h1
+            className="text-base sm:text-lg font-bold"
+            style={{ fontFamily: "Times New Roman, serif" }}
+          >
+            GrowIT 이용 가이드
+          </h1>
+        </div>
 
-            <div className="py-0.5"></div>
+        {/* 본문 */}
+        <div className="flex-1 overflow-y-auto px-4 py-3 space-y-2 text-gray-900 text-xs sm:text-sm leading-snug">
+          <h2 className="text-center text-blue-900 font-bold text-sm sm:text-base mb-2">
+            " 30턴 동안 회사를 성장시켜라 "
+          </h2>
 
-            <p>우리는 30년치 데이터를 재구성했다.</p>
-            <p>이제 당신이 그 데이터 위에서</p>
-            <p>회사를 키워나가야 한다.</p>
-
-            <div className="py-0.5"></div>
-
-            <p>
-              처음에는 자본도 적고 직원도 없지만, 매달 턴 리포트와 랜덤이벤트가
+          {/* 게임 목표 */}
+          <section className="bg-white/80 border border-gray-300 rounded p-2 shadow-sm">
+            <p className="text-[10px] font-press-start bg-gray-200 border px-1.5 py-0.5 rounded-sm inline-block mb-1">
+              게임 목표
             </p>
-            <p>매달 경제리포트와 랜덤이벤트가</p>
-            <p>당신의 선택을 시험할 것이다.</p>
+            <ul className="list-disc list-inside">
+              <li>30턴 동안 회사를 성장시키세요</li>
+              <p className="text-red-500">* 자본이 0G 되면 파산 (게임 오버)</p>
+            </ul>
+          </section>
 
-            <div className="py-1"></div>
-
-            <p className="text-[10px] sm:text-xs md:text-sm lg:text-base font-semibold text-blue-600">
-              30턴, 30년의 여정.
+          {/* 핵심 지표 */}
+          <section className="bg-white/80 border border-gray-300 rounded p-2 shadow-sm">
+            <p className="text-[10px] font-press-start bg-gray-200 border px-1.5 py-0.5 rounded-sm inline-block mb-1">
+              핵심 지표
             </p>
-            <p className="text-[10px] sm:text-xs md:text-sm lg:text-base font-semibold text-blue-600">
-              당신의 선택에 달려있다.
-            </p>
+            <ul className="list-disc list-inside">
+              <li><b>자산</b>: 회사 현금</li>
+              <li><b>기업 가치</b>: 소비자 신뢰도</li>
+              <li><b>생산성</b>: 직원 업무 효율</li>
+            </ul>
+            <p className="text-red-500">* 각 지표는 클릭하면 상세 설명을 볼 수 있습니다</p>
+            <p className="text-red-500">* 세 지표의 결과에 따라 <b>엔딩이 달라집니다</b></p>
+          </section>
 
-            <div className="py-1"></div>
-
-            <p className="text-xs sm:text-sm md:text-base lg:text-lg font-bold text-gray-900">
-              자, 이제 시작해보자!
+          {/* 매 턴 행동 */}
+          <section className="bg-white/80 border border-gray-300 rounded p-2 shadow-sm">
+            <p className="text-[10px] font-press-start bg-gray-200 border px-1.5 py-0.5 rounded-sm inline-block mb-1">
+              매 턴 행동
             </p>
-          </div>
+            <ul className="list-disc list-inside">
+              <li><b>생산성 ↑</b> : 고용, 투자</li>
+              <li><b>기업 가치 ↑</b> : 마케팅, 프로젝트</li>
+              <li><b>자본 ↑</b> : 프로젝트가 자본을 획득하는 핵심 수단입니다</li>
+            </ul>
+          </section>
+
+          {/* 랜덤 이벤트 */}
+          <section className="bg-white/80 border border-gray-300 rounded p-2 shadow-sm">
+            <p className="text-[10px] font-press-start bg-gray-200 border px-1.5 py-0.5 rounded-sm inline-block mb-1">
+              랜덤 이벤트
+            </p>
+            <p>턴 종료 시 예기치 못한 이벤트가 발생합니다</p>
+          </section>
+
+          {/* 스토어 */}
+          <section className="bg-white/80 border border-gray-300 rounded p-2 shadow-sm">
+            <p className="text-[10px] font-press-start bg-gray-200 border px-1.5 py-0.5 rounded-sm inline-block mb-1">
+              스토어
+            </p>
+            <p>회사의 복지 시설을 단계별로 업그레이드할 수 있습니다</p>
+            <p>업그레이드 순서:</p>
+            <ul className="list-disc list-inside">
+              <li>
+                통근버스 → 기숙사 → 헬스장 → 카페테리아 → 병원 → 어린이집 → 북카페 → 본사 건물
+              </li>
+            </ul>
+            <p>각 시설은 기업 가치와 생산성 향상에 기여합니다</p>
+            <p className="text-red-500"> * Lv3까지 업그레이드 가능, <b>본사 건물 단계에서만 UI가 변경</b>됩니다</p>
+          </section>
+
+          <p className="text-center font-bold mt-2">
+            준비되셨나요? 지금 바로 회사를 키워보세요!
+          </p>
         </div>
 
         {/* 버튼 */}
         {showButton && (
-        <div className="flex justify-center animate-fadeIn">
-          <button
-            onClick={onClose}
-            className="mb-11 px-2 py-1 sm:px-3 sm:py-1.5 md:px-3 md:py-2 lg:px-4 lg:py-2 
-                      bg-orange-500 text-white font-bold 
-                      text-[10px] sm:text-xs md:text-sm lg:text-base 
-                      rounded-md hover:bg-orange-600 transition-colors shadow-md"
-          >
-            게임 시작!
-          </button>
-        </div>
-      )}
+          <div className="text-center py-2 border-t border-gray-300">
+            <button
+              onClick={onClose}
+              className="px-4 py-1.5 font-press-start text-xs bg-blue-600 text-white border-2 border-blue-800 rounded shadow hover:bg-blue-700 transition-colors"
+            >
+              게임 시작
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
