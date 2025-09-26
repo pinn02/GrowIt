@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import backgroundImage from "../../assets/background_images/board_page_background_image.png";
+import backgroundImage from "../../assets/background_images/story_page_background_image.png";
 
 interface StoryModalProps {
   onClose: () => void;
@@ -13,7 +13,7 @@ function StoryModal({ onClose }: StoryModalProps) {
   }, []);
 
   return (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-90">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70">
       {/* 모달 박스 */}
       <div
         className="relative shadow-2xl w-11/12 sm:w-4/5 md:w-3/5 lg:w-1/2 xl:max-w-3xl aspect-[3/2] mx-4 text-center overflow-hidden flex flex-col justify-between p-2 sm:p-4"
@@ -26,7 +26,7 @@ function StoryModal({ onClose }: StoryModalProps) {
       >
         {/* 텍스트 영역 */}
         <div className="flex-1 overflow-y-auto custom-scrollbar">
-          <div className="mt-12 text-gray-800 leading-snug space-y-1 text-[8px] sm:text-[10px] md:text-xs lg:text-sm">
+          <div className="mt-13 text-gray-800 leading-snug space-y-1 text-[8px] sm:text-[10px] md:text-xs lg:text-sm">
             <p>지난 30년, 세상은 별별 일이 다 있었다.</p>
             <p>IMF, 닷컴버블, 스타트업붐, AI열풍...</p>
             <p>그 모든 흔적이 데이터로 남았다.</p>
