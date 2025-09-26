@@ -10,6 +10,7 @@ import { getRandomHiringArray, getRandomUniqueArray } from '../../hooks/CreateRa
 import Logo from "../atoms/Logo"
 import GameDataInformation from "../molecules/GameDataInformation"
 import Button from "../atoms/Button"
+import hintIcon from "../../assets/icons/help.png"
 
 const logoHeight = 48;  // 로고 이미지 세로 사이즈
 const storeButtonSize = 100;  // 스토어 버튼 최대 사이즈
@@ -35,8 +36,55 @@ function InformationBar({ onRandomEvent, onStore, onCloseAllModals }: Informatio
   const currentSaveIdx = saveStore.currentSaveIdx
   const [isTransitioning, setIsTransitioning] = useState(false)
   const [hasRandomEvent, setHasRandomEvent] = useState(false)
+  const [showHintModal, setShowHintModal] = useState(false)
 
   const productivityBonus = Math.floor(useGameDataStore(state => state.productivity) / 500) / 10 + 1
+  
+  // CEO 정보 가져오기
+  const selectedCeoIndex = gameDataStore.selectedCeo
+  const CeoNames = [
+    "밀 게이츠",
+    "멜론 머스크",
+    "마크 주커버거",
+    "도널드 트럼펫",
+    "젤리 황",
+    "제프 베이주스",
+    "스티브 잡아스"
+  ]
+  
+  const CeoEffects = [
+    {
+      positive: ["투자 보상 1.2배", "생산성 증가 1.2배"],
+      negative: ["랜덤 이벤트 부정적 효과 1.2배"]
+    },
+    {
+      positive: ["생산성 보상 1.5배"],
+      negative: ["랜덤 이벤트 부정적 효과 2배"]
+    },
+    {
+      positive: ["마케팅 비용 0.8배", "마케팅 보상 1.3배"],
+      negative: ["고용 비용 1.2배"]
+    },
+    {
+      positive: ["마케팅 보상 1.3배", "고용, 마케팅, 투자, 프로젝트 비용 0.8배"],
+      negative: ["생산성 보상 0.5배"]
+    },
+    {
+      positive: ["투자 보상 1.5배"],
+      negative: ["프로젝트 보상 0.8배"]
+    },
+    {
+      positive: ["프로젝트 보상 1.5배"],
+      negative: ["마케팅 비용 1.2배"]
+    },
+    {
+      positive: ["마케팅 보상 1.5배"],
+      negative: ["생산성 증가 0.8배"]
+    }
+  ]
+  
+  const currentCeoName = selectedCeoIndex !== null ? CeoNames[selectedCeoIndex] : "미선택"
+  const currentCeoEffects = selectedCeoIndex !== null ? CeoEffects[selectedCeoIndex] : { positive: [], negative: [] }
 
 
   // 턴 종료 버튼 누를 시 이벤트
@@ -244,7 +292,17 @@ function InformationBar({ onRandomEvent, onStore, onCloseAllModals }: Informatio
       
       <header className="h-16 flex items-center justify-between px-4 bg-cover bg-center bg-zinc-300">
         {/* 로고 이미지 */}
-        <Logo height={logoHeight} />
+        <div className="flex items-center gap-3">
+          <Logo height={logoHeight} />
+          {/* Hint 아이콘 */}
+          <button
+            className="hover:bg-blue-100 transition-colors p-2 rounded inline-flex items-center justify-center cursor-pointer"
+            onMouseEnter={() => setShowHintModal(true)}
+            onMouseLeave={() => setShowHintModal(false)}
+          >
+            <img src={hintIcon} alt="도움말" className="w-8 h-8" />
+          </button>
+        </div>
 
         <div className="flex items-center space-x-4">
           {/* 게임 데이터 표시 */}
@@ -294,6 +352,93 @@ function InformationBar({ onRandomEvent, onStore, onCloseAllModals }: Informatio
           </div>
         </div>
       </header>
+      
+      {/* Hint 모달 */}
+      {showHintModal && (
+        <div 
+          className="absolute top-10 left-4 z-50 w-96 max-h-[80vh] overflow-y-auto"
+          style={{
+            background: 'linear-gradient(to bottom, #f4e4c1, #e8d7b5)',
+            border: '3px solid #8b7355',
+            borderRadius: '8px',
+            boxShadow: '0 8px 16px rgba(0,0,0,0.3), inset 0 0 60px rgba(139,115,85,0.1)',
+          }}
+          onMouseEnter={() => setShowHintModal(true)}
+          onMouseLeave={() => setShowHintModal(false)}
+        >
+          {/* 양피지 텍스처 효과 */}
+          <div className="absolute inset-0 opacity-10 pointer-events-none"
+            style={{
+              backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(139,115,85,0.3) 2px, rgba(139,115,85,0.3) 4px)',
+            }}
+          />
+          
+          <div className="relative p-6 space-y-4">
+            {/* 제목 */}
+            <div className="text-center border-b-2 border-[#8b7355] pb-3 mb-4">
+              <h2 className="text-2xl font-bold text-[#5c4a3a]" style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.1)' }}>
+                GrowIT 게임 가이드
+              </h2>
+            </div>
+            
+            {/* 컨텐츠 */}
+            <div className="space-y-3 text-[#3a2f23]">
+              {/* CEO 정보 - 가장 먼저 */}
+              <div className="bg-[#fff9e6] bg-opacity-80 p-3 rounded border-l-4 border-[#d4a574]">
+                <p className="font-bold text-base mb-2 text-[#8b7355]">선택한 CEO</p>
+                <p className="text-sm ml-3 font-semibold text-[#5c4a3a] mb-2">{currentCeoName}</p>
+                
+                {currentCeoEffects.positive.length > 0 && (
+                  <div className="ml-3 mb-1">
+                    <p className="text-xs font-semibold text-green-700">보너스:</p>
+                    {currentCeoEffects.positive.map((effect, idx) => (
+                      <p key={idx} className="text-xs ml-2 text-green-600">• {effect}</p>
+                    ))}
+                  </div>
+                )}
+                
+                {currentCeoEffects.negative.length > 0 && (
+                  <div className="ml-3">
+                    <p className="text-xs font-semibold text-red-700">리스크:</p>
+                    {currentCeoEffects.negative.map((effect, idx) => (
+                      <p key={idx} className="text-xs ml-2 text-red-600">• {effect}</p>
+                    ))}
+                  </div>
+                )}
+              </div>
+              
+              <div className="bg-[#fff9e6] bg-opacity-60 p-3 rounded border-l-4 border-[#8b7355]">
+                <p className="font-bold text-base mb-1">게임 목표</p>
+                <p className="text-sm ml-3">• 30턴 동안 회사를 성장시키세요</p>
+                <p className="text-sm ml-3 text-red-700 font-semibold">• 자산 0원 = 파산!</p>
+              </div>
+
+              <div className="bg-[#fff9e6] bg-opacity-60 p-3 rounded border-l-4 border-[#8b7355]">
+                <p className="font-bold text-base mb-1">핵심 지표</p>
+                <p className="text-sm ml-3">자산 / 기업가치 / 생산성</p>
+              </div>
+
+              <div className="bg-[#fff9e6] bg-opacity-60 p-3 rounded border-l-4 border-[#8b7355]">
+                <p className="font-bold text-base mb-1">매 턴 행동</p>
+                <p className="text-sm ml-3"><span className="text-green-700 font-semibold">생산성 ↑</span> : 고용, 투자</p>
+                <p className="text-sm ml-3"><span className="text-blue-700 font-semibold">기업가치 ↑</span> : 마케팅, 프로젝트</p>
+              </div>
+
+              <div className="bg-[#fff9e6] bg-opacity-60 p-3 rounded border-l-4 border-[#8b7355]">
+                <p className="font-bold text-base mb-1">랜덤 이벤트</p>
+                <p className="text-sm ml-3">턴 종료마다 특별 이벤트 발생 가능</p>
+              </div>
+
+              <div className="bg-[#fff9e6] bg-opacity-60 p-3 rounded border-l-4 border-[#8b7355]">
+                <p className="font-bold text-base mb-1">스토어</p>
+                <p className="text-sm ml-3">• 복지시설 업그레이드</p>
+                <p className="text-sm ml-3">• 통근버스 → 건물 (Lv1~3)</p>
+                <p className="text-sm ml-3 text-orange-700 font-semibold">• 건물 업그레이드 시 UI 변경!</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   )
 }
