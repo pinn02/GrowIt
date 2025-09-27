@@ -5,6 +5,26 @@
     <link rel="icon" type="image/png" href="/logo.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>GrowIT - IT 회사 경영 시뮬레이션</title>
+
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=%VITE_GA4_MEASUREMENT_ID%"></script>
+    <script>
+      // GA4 초기화는 React에서 처리
+      window.dataLayer = window.dataLayer || [];
+    </script>
+
+    <!-- Hotjar Tracking Code -->
+    <script>
+      (function (c, s, q, u, a, r, e) {
+          c.hj=c.hj||function(){(c.hj.q=c.hj.q||[]).push(arguments)};
+          c._hjSettings = { hjid: %VITE_HOTJAR_ID% };
+          r = s.getElementsByTagName('head')[0];
+          e = s.createElement('script');
+          e.async = true;
+          e.src = q + c._hjSettings.hjid + u;
+          r.appendChild(e);
+      })(window, document, 'https://static.hj.contentsquare.net/c/csq-', '.js', %VITE_HOTJAR_ID%);
+    </script>
   </head>
   <body>
     <div id="root"></div>
