@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import backgroundImage from "../../assets/background_images/story_page_background_image.png";
+import backgroundImage from "../../assets/background_images/store_page_background_image7.png";
 
 interface StoryModalProps {
   onClose: () => void;
@@ -18,12 +18,10 @@ function StoryModal({ onClose }: StoryModalProps) {
         className="relative w-full max-w-xl mx-auto rounded-md shadow-2xl flex flex-col overflow-hidden"
         style={{
           backgroundImage: `url(${backgroundImage})`,
-          backgroundSize: "cover",
+          backgroundSize: "200%",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
           backgroundColor: "#f9f6f2",
-          backgroundBlendMode: "multiply",
-          border: "1px solid #ccc",
           maxHeight: "80vh", 
         }}
       >
@@ -31,14 +29,19 @@ function StoryModal({ onClose }: StoryModalProps) {
         <div className="bg-black/80 text-white text-center py-2 border-b border-gray-700">
           <h1
             className="text-base sm:text-lg font-bold"
-            style={{ fontFamily: "Times New Roman, serif" }}
           >
             GrowIT 이용 가이드
           </h1>
         </div>
 
         {/* 본문 */}
-        <div className="flex-1 overflow-y-auto px-4 py-3 space-y-2 text-gray-900 text-xs sm:text-sm leading-snug">
+        <div className="flex-1 overflow-y-auto px-4 py-3 space-y-2 text-gray-900 text-xs sm:text-sm leading-snug
+          [&::-webkit-scrollbar]:w-1.5
+          [&::-webkit-scrollbar-track]:bg-transparent
+          [&::-webkit-scrollbar-thumb]:bg-gray-300
+          [&::-webkit-scrollbar-thumb]:rounded-full
+          [&::-webkit-scrollbar-thumb]:hover:bg-gray-200
+        ">
           <h2 className="text-center text-blue-900 font-bold text-sm sm:text-base mb-2">
             " 30턴 동안 회사를 성장시켜라 "
           </h2>
@@ -111,7 +114,7 @@ function StoryModal({ onClose }: StoryModalProps) {
 
         {/* 버튼 */}
         {showButton && (
-          <div className="text-center py-2 border-t border-gray-300">
+          <div className="text-center py-2">
             <button
               onClick={onClose}
               className="px-4 py-1.5 font-press-start text-xs bg-blue-600 text-white border-2 border-blue-800 rounded shadow hover:bg-blue-700 transition-colors"
