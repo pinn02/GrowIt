@@ -12,12 +12,13 @@ import RandomEventModal from "../components/organisms/RandomEventModal"
 import StoreModal from "../components/organisms/StoreModal"
 import StoryModal from "../components/organisms/StoryModal"
 import MainTemplate from "../components/templates_work/MainTemplate"
+import { trackButtonClick } from "../config/ga4Config"
 
 function MainPage() {
   const [activeModal, setActiveModal] = useState<number | null>(null);
   const [activeRandomEventModal, setActiveRandomEventModal] = useState(false)
   const [activeStoreModal, setActiveStoreModal] = useState(false)
-  const [showTurnTransition, setShowTurnTransition] = useState(false)
+  const [showTurnTransition] = useState(false)
   const [showStoryModal, setShowStoryModal] = useState(false)
 
   const navigate = useNavigate()
@@ -130,6 +131,8 @@ function MainPage() {
 
   // 액션 버튼 모달
   const toggleModal = (index: number) => {
+    const modalNames = ['hiring', 'marketing', 'investment', 'project'];
+    trackButtonClick(`${modalNames[index]}_button`, 'open_modal');
     setActiveModal(prev => (prev === index ? null : index));
   }
 
@@ -138,17 +141,28 @@ function MainPage() {
     setActiveRandomEventModal(true)
   }
 
-  // 이벤트 완료 후 턴 전환 애니메이션 표시
+  // 모든 모달을 닫는 함수 (턴 종료 시 사용)
+  const handleCloseAllModals = () => {
+    // 모든 모달 상태를 false로 설정
+    setActiveModal(null)
+    setActiveRandomEventModal(false)
+    setActiveStoreModal(false)
+    setShowStoryModal(false)
+    console.log('턴 종료에 의해 모든 모달 자동 닫힘')
+  }
+
+  // 이벤트 완료 후 로딩창 없이 바로 종료
   const handleEventComplete = () => {
     setActiveRandomEventModal(false)
-    setShowTurnTransition(true)
-    setTimeout(() => {
-      setShowTurnTransition(false)
-    }, 1500)
+    // 로딩창 제거 - 기사 확인 완료 후에는 로딩 화면 안보이게
   }
 
   // 스토어 모달
   const handleStoreModal = () => {
+    // 다른 모달들 먼저 닫기
+    setActiveModal(null)
+    setActiveRandomEventModal(false)
+    // 스토어 모달 열기
     setActiveStoreModal(true)
   }
 
@@ -179,6 +193,7 @@ function MainPage() {
       <InformationBar 
         onRandomEvent={handleRandomEventModal} 
         onStore={handleStoreModal}
+        onCloseAllModals={handleCloseAllModals}
         // onEventComplete={() => setShowTurnTransition(false)}
       />
       <MainTemplate openModal={toggleModal} />

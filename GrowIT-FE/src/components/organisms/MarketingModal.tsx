@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useSaveStore } from "../../stores/saveStore";
 import { useGameDataStore } from "../../stores/gameDataStore";
 import CloseButton from "../atoms/Button";
+import { trackModalOpen, trackModalClose } from "../../config/ga4Config";
 import marketingModalBackgroundImage from "../../assets/background_images/board_page_background_image2.png";
 import MarketingCard from "../molecules/MarketingCard";
 import newspaperImage from "../../assets/icons/newspaper.png";
@@ -34,6 +35,22 @@ function MarketingModal({ onClose }: MarketingModalProps) {
   const marketingArray = useGameDataStore(state => state.marketingArray)
   const currentSaveIdx = useSaveStore(state => state.currentSaveIdx)
 
+  // GA4 tracking
+  const gameDataStore = useGameDataStore();
+  
+  useEffect(() => {
+    trackModalOpen('marketing', {
+      game_turn: gameDataStore.turn,
+      game_finance: gameDataStore.finance,
+      enterprise_value: gameDataStore.enterpriseValue,
+    });
+  }, []);
+
+  const handleClose = () => {
+    trackModalClose('marketing');
+    onClose();
+  };
+
   // 마케팅 모달 실행 시 마케팅 데이터 지정
   useEffect(() => {
     if (!marketingArray) return
@@ -52,7 +69,7 @@ function MarketingModal({ onClose }: MarketingModalProps) {
   }, [marketingArray, currentSaveIdx])
 
   return (
-    <div className="fixed inset-0 flex justify-center items-center z-50 pointer-events-none" onClick={onClose}>
+    <div className="fixed inset-0 flex justify-center items-center z-50 pointer-events-none" onClick={handleClose}>
       {/* 마케팅 모달 배경 이미지 */}
       <div
         className="w-11/12 md:w-8/12 max-w-5xl relative rounded-xl pointer-events-auto"
@@ -81,15 +98,17 @@ function MarketingModal({ onClose }: MarketingModalProps) {
               inline-flex
               items-center
               justify-center
+              cursor-pointer
             "
-            onClick={() => setShowHelpModal(true)}
+            onMouseEnter={() => setShowHelpModal(true)}
+            onMouseLeave={() => setShowHelpModal(false)}
           >
             <img src={help2Icon} alt="도움말" className="w-7 h-7" />
           </button>
           {/* 닫기 버튼 */}
           <CloseButton
             className="text-white w-8 h-8 rounded-full flex items-center justify-center text-xl hover:text-gray-900 transition-colors"
-            onClick={onClose}
+            onClick={handleClose}
           >
             X
           </CloseButton>
@@ -104,24 +123,14 @@ function MarketingModal({ onClose }: MarketingModalProps) {
         
         {/* 도움말 모달 */}
         {showHelpModal && (
-          <div className="absolute top-16 right-20 z-50">
+          <div 
+            className="absolute top-16 right-20 z-50 pointer-events-none"
+            onMouseEnter={() => setShowHelpModal(true)}
+            onMouseLeave={() => setShowHelpModal(false)}
+          >
             <div className="bg-white rounded-lg p-4 w-80 shadow-lg border border-gray-300 relative">
               <div className="flex justify-between items-center mb-3">
                 <h3 className="text-lg font-bold text-black">마케팅 시스템 도움말</h3>
-                <button
-                  className="
-                    hover:bg-red-100
-                    text-black
-                    px-2
-                    py-1
-                    rounded
-                    transition-colors
-                    text-sm
-                  "
-                  onClick={() => setShowHelpModal(false)}
-                >
-                  X
-                </button>
               </div>
               <div className="text-black space-y-2">
                 <div className="space-y-1 text-xs">

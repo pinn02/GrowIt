@@ -6,6 +6,7 @@ import ApplicantCard from "../molecules/ApplicantCard"
 import hiringModalBackgroundImage from "../../assets/modals/hiring_modal_background.png"
 import applicantData from "../../assets/data/randomApplicants.json"
 import help2Icon from "../../assets/icons/help2.png"
+import { trackModalOpen, trackModalClose } from "../../config/ga4Config"
 
 type HiringModalProps = {
   onClose: () => void
@@ -18,8 +19,21 @@ function HiringModal({ onClose }: HiringModalProps) {
   const [showHelpModal, setShowHelpModal] = useState(false)
   const currentSaveIdx = useSaveStore(state => state.currentSaveIdx)
   const hiringArray = useGameDataStore(state => state.hiringArray)
-  
+
   const hiringCount = useGameDataStore(state => state.hiredPerson.length)
+
+  useEffect(() => {
+    trackModalOpen('hiring', {
+      game_turn: gameDataStore.turn,
+      current_employees: hiringCount,
+      game_finance: gameDataStore.finance,
+    });
+  }, []);
+
+  const handleClose = () => {
+    trackModalClose('hiring');
+    onClose();
+  };
 
   // 모달 실행 시 직원 데이터 가져오는 로직
   useEffect(() => {
@@ -43,10 +57,10 @@ function HiringModal({ onClose }: HiringModalProps) {
   }, [hiringArray, currentSaveIdx]);
 
   return (
-    <div className="fixed inset-0 flex justify-center items-start z-50 pointer-events-none overflow-hidden">
+    <div className="fixed inset-0 flex justify-center items-center z-50 pointer-events-none overflow-hidden">
       {/* 모달 배경 이미지 */}
       <div
-        className="mt-16 px-8 pt-6 pb-6 w-7/12 h-auto max-w-5xl relative pointer-events-auto"
+        className="px-8 pt-6 pb-6 w-7/12 h-auto max-w-5xl relative pointer-events-auto"
         style={{
           backgroundImage: `url(${hiringModalBackgroundImage})`,
           backgroundSize: "100% 100%",
@@ -70,8 +84,10 @@ function HiringModal({ onClose }: HiringModalProps) {
                 inline-flex
                 items-center
                 justify-center
+                cursor-pointer
               "
-              onClick={() => setShowHelpModal(true)}
+              onMouseEnter={() => setShowHelpModal(true)}
+              onMouseLeave={() => setShowHelpModal(false)}
             >
               <img src={help2Icon} alt="도움말" className="w-6 h-6" />
             </button>
@@ -89,7 +105,7 @@ function HiringModal({ onClose }: HiringModalProps) {
                 text-clamp-title
                 inline-flex
               "
-              onClick={onClose}
+              onClick={handleClose}
             >
               X
             </CloseButton>
@@ -104,24 +120,14 @@ function HiringModal({ onClose }: HiringModalProps) {
         
         {/* 도움말 모달 */}
         {showHelpModal && (
-          <div className="absolute top-16 right-20 z-50">
+          <div 
+            className="absolute top-16 right-20 z-50 pointer-events-none"
+            onMouseEnter={() => setShowHelpModal(true)}
+            onMouseLeave={() => setShowHelpModal(false)}
+          >
             <div className="bg-white rounded-lg p-4 w-80 shadow-lg border border-gray-300 relative">
               <div className="flex justify-between items-center mb-3">
                 <h3 className="text-lg font-bold text-black">고용 시스템 도움말</h3>
-                <button
-                  className="
-                    hover:bg-gray-100
-                    text-black
-                    px-2
-                    py-1
-                    rounded
-                    transition-colors
-                    text-sm
-                  "
-                  onClick={() => setShowHelpModal(false)}
-                >
-                  X
-                </button>
               </div>
               <div className="text-black space-y-2">
                 <div className="space-y-1 text-xs">
