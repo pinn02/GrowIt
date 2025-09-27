@@ -104,7 +104,7 @@ function StoryModal({ onClose }: StoryModalProps) {
               </li>
             </ul>
             <p>각 시설은 기업 가치와 생산성 향상에 기여합니다</p>
-            <p className="text-red-500"> * Lv3까지 업그레이드 가능, <b>본사 건물 단계에서만 UI가 변경</b>됩니다</p>
+            <p className="text-red-500"> * Lv3까지 업그레이드 가능, <b>본사 건물 업그레이드 시 UI가 변경</b>됩니다</p>
           </section>
 
           <p className="text-center font-bold mt-2">
